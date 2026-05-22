@@ -15,7 +15,7 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     <div class="hero-inner">
       <div class="hero-tag">Economic Intelligence — Pakistan</div>
       <h1>Know what&rsquo;s coming <em>before</em> Monday</h1>
-      <p class="hero-sub">Independent analysis of Pakistan&rsquo;s economy, markets, and supply chains — what moved last week, what&rsquo;s developing now, and what to prepare for. One brief. Every Sunday. For the people who make decisions with money.</p>
+      <p class="hero-sub">Independent analysis of Pakistan&rsquo;s economy and markets — what moved last week, what&rsquo;s developing now, and what to prepare for. One brief. Every Sunday. For the people who make decisions with money.</p>
       <form class="hero-form" id="subscribe" onsubmit="return false;">
         <input type="email" placeholder="Your work email" required />
         <button type="submit">Subscribe — It&rsquo;s Free</button>
@@ -51,7 +51,7 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
   </section>
 
   <style>
-    .hero { background: var(--ink); color: var(--paper); padding: 100px 40px 70px; position: relative; overflow: hidden; }
+    .hero { background: var(--ink); color: var(--paper); padding: 140px 40px 70px; position: relative; overflow: hidden; }
     .hero::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background:
@@ -81,7 +81,7 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     .mini-title { font-family: var(--font-serif); font-size: 17px; line-height: 1.3; }
     .mini:hover .mini-title { color: var(--accent); }
     @media (max-width: 768px) {
-      .hero { padding: 80px 24px 56px; }
+      .hero { padding: 110px 24px 56px; }
       .hero h1 { font-size: 36px; }
       .hero-form { flex-direction: column; }
       .home-grid { grid-template-columns: 1fr; gap: 36px; }
