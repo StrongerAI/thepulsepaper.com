@@ -1,0 +1,67 @@
+---
+import { glossary } from '../data/glossary';
+
+export interface Props { k: string; }
+const { k } = Astro.props;
+const entry = glossary[k as keyof typeof glossary];
+// If the key is unknown, just render the word plainly (fail-safe, never breaks the page).
+const def = entry ? entry.def : '';
+const label = entry ? entry.label : '';
+---
+{entry ? (
+  <span class="term" tabindex="0">
+    <slot />
+    <span class="term-pop" role="tooltip">
+      <strong>{label}</strong>
+      {def}
+    </span>
+  </span>
+) : (
+  <slot />
+)}
+
+<style>
+  .term {
+    position: relative;
+    border-bottom: 1px dotted var(--accent);
+    cursor: help;
+    outline: none;
+  }
+  .term-pop {
+    position: absolute;
+    bottom: 130%;
+    left: 0;
+    width: 280px;
+    max-width: 80vw;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.55;
+    text-transform: none;
+    letter-spacing: normal;
+    padding: 12px 14px;
+    border-radius: 2px;
+    border-top: 2px solid var(--accent);
+    z-index: 60;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s;
+    pointer-events: none;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  }
+  .term-pop strong {
+    display: block;
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .term:hover .term-pop,
+  .term:focus .term-pop { opacity: 1; visibility: visible; }
+  @media (max-width: 600px) {
+    .term-pop { left: 50%; transform: translateX(-50%); }
+  }
+</style>

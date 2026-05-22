@@ -6,11 +6,33 @@ const editions = (await getCollection('editions', ({ data }) => !data.draft))
   .sort((a, b) => b.data.number - a.data.number).slice(0, 3);
 const articles = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+
+// Section spine shown in the "what's inside" grid.
+const sections = [
+  'PKR & Macro', 'Oil & Energy', 'Economic Watchout', 'Commodities', 'Logistics & Ports',
+  'Regulatory', 'Weather & Agri', 'Political Risk', 'Global Signals', 'Action Items',
+];
+
+// "Glimpse inside" — real figures from a recent edition (No. 02). Framed as a sample,
+// not live data, so it never looks stale or wrong.
+const sample = [
+  { label: 'Brent Crude', value: '$109.26', delta: 'up 8.1% WoW', tone: 'red' },
+  { label: 'REER Index', value: '105.17', delta: '7.5-year high', tone: 'red' },
+  { label: 'USD / PKR', value: '279.07', delta: 'flat WoW', tone: 'neutral' },
+  { label: 'KSE-100', value: '166,298', delta: 'down 3.8%', tone: 'green' },
+];
+
+// Who it reads for — broadened beyond supply chain to the full decision-maker audience.
+const audience = [
+  'CFOs & Finance', 'Investors & Analysts', 'Business Owners', 'Treasury & Risk',
+  'Supply Chain & Procurement', 'Country Managers', 'Operations Leaders', 'Policy & Advisory',
+];
 ---
 <Base
   title="The Pulse Paper — Independent economic intelligence for Pakistan"
-  description="Independent analysis of Pakistan's economy, markets, and supply chains. What moved, what's developing, and what to do — for the people who make decisions with money."
+  description="Independent analysis of Pakistan's economy and markets — what moved last week, what's developing now, and what to do. One brief, every Sunday, for the people who make decisions with money."
 >
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-tag">Economic Intelligence — Pakistan</div>
@@ -24,6 +46,94 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     </div>
   </section>
 
+  <!-- THREE PILLARS -->
+  <section class="wrap block">
+    <div class="block-head">
+      <h2>The intelligence gap, closed</h2>
+      <p class="muted">The forces moving Pakistan&rsquo;s economy are scattered across dozens of sources. The Pulse Paper brings them into one focused brief, every week — structured around three questions.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <h3>What Moved</h3>
+        <p>PKR, oil benchmarks, fuel prices, commodities, KSE-100, inflation, ports — the numbers that changed last week, and what they mean for your costs and decisions.</p>
+      </div>
+      <div class="pillar">
+        <h3>What&rsquo;s Developing</h3>
+        <p>Geopolitical risk, regulatory shifts, weather, diplomatic signals, disruption threats — the forces building now that will land on your business next.</p>
+      </div>
+      <div class="pillar">
+        <h3>What To Do</h3>
+        <p>Prioritised action items with specific dates, thresholds, and recommendations. Not &ldquo;monitor the situation&rdquo; — real decisions with deadlines.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLIMPSE INSIDE -->
+  <section class="block-dark">
+    <div class="wrap">
+      <div class="block-head center">
+        <h2 class="on-dark">A glimpse inside</h2>
+        <p class="muted-dark">Real figures from a recent edition.</p>
+      </div>
+      <div class="sample-grid">
+        {sample.map((s) => (
+          <div class={`data-card ${s.tone}`}>
+            <div class="data-label">{s.label}</div>
+            <div class="data-value">{s.value}</div>
+            <div class={`data-delta ${s.tone === 'green' ? 'delta-down' : s.tone === 'red' ? 'delta-up' : 'delta-flat'}`}>{s.delta}</div>
+          </div>
+        ))}
+      </div>
+      <div class="center" style="margin-top: 28px;">
+        <a href="/editions" class="ghost-btn">Read a full edition →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEN SECTIONS -->
+  <section class="wrap block">
+    <div class="block-head">
+      <h2>Ten sections. One read.</h2>
+      <p class="muted">Every edition covers the full landscape — from macro and markets to logistics and political risk.</p>
+    </div>
+    <div class="sections-grid">
+      {sections.map((s, i) => (
+        <div class="section-chip"><span class="chip-num mono">{String(i + 1).padStart(2, '0')}</span>{s}</div>
+      ))}
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR + social proof -->
+  <section class="block-paper">
+    <div class="wrap">
+      <div class="block-head center">
+        <h2>Built for the people who make decisions with money</h2>
+        <p class="muted">Read across Pakistan by the people who act on what moves.</p>
+      </div>
+      <div class="audience">
+        {audience.map((a) => <span class="aud-tag">{a}</span>)}
+      </div>
+      <!-- Replace this line with a real, attributed quote once you have one cleared for use. -->
+      <p class="proofline">Read each week by analysts, CFOs, investors, and business owners across Pakistan.</p>
+    </div>
+  </section>
+
+  <!-- RHYTHM -->
+  <section class="wrap block">
+    <div class="block-head"><h2>Your intelligence rhythm</h2></div>
+    <div class="rhythm">
+      <div class="rhythm-card">
+        <div class="rhythm-when mono">The Weekly &middot; Every Sunday evening</div>
+        <p>The full brief — data cards, commodity tables, a disruption calendar, oil charts, scenario analysis, and prioritised action items.</p>
+      </div>
+      <div class="rhythm-card">
+        <div class="rhythm-when mono">The Monthly &middot; Last Sunday of the month</div>
+        <p>A 30-day trend analysis with a macro risk scorecard, longer-horizon outlook, and strategy recommendations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST + FINAL CTA -->
   <section class="wrap home-grid">
     <div class="col">
       <div class="col-head"><h2>Latest editions</h2><a href="/editions" class="more">All editions →</a></div>
@@ -50,8 +160,17 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     </div>
   </section>
 
+  <section class="final-cta">
+    <div class="wrap-narrow center">
+      <h2>Start every week informed</h2>
+      <p class="muted">Join the readers who walk into Monday already knowing what moved.</p>
+      <a href="#subscribe" class="cta-btn">Subscribe — it&rsquo;s free</a>
+    </div>
+  </section>
+
   <style>
-    .hero { background: var(--ink); color: var(--paper); padding: 140px 40px 70px; position: relative; overflow: hidden; }
+    /* HERO */
+    .hero { background: var(--ink); color: var(--paper); padding: 140px 40px 80px; position: relative; overflow: hidden; }
     .hero::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background:
@@ -71,7 +190,47 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     .hero-form button:hover { background: var(--accent-dark); }
     .hero-note { margin-top: 14px; font-size: 12px; color: rgba(245,241,235,0.3); font-weight: 500; }
 
-    .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 64px; }
+    /* shared block scaffolding */
+    .block { padding: 64px 40px; }
+    .block-head { max-width: 640px; margin-bottom: 36px; }
+    .block-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+    .block-head h2 { font-family: var(--font-serif); font-size: 30px; font-weight: 400; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .block-head p { font-size: 16px; }
+    .center { text-align: center; }
+
+    /* three pillars */
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .pillar { background: var(--card-bg); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 24px; }
+    .pillar h3 { font-family: var(--font-sans); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+    .pillar p { font-size: 14.5px; line-height: 1.6; }
+
+    /* glimpse inside (dark band) */
+    .block-dark { background: var(--ink); color: var(--paper); padding: 64px 0; }
+    .on-dark { color: var(--paper); }
+    .muted-dark { color: rgba(245,241,235,0.5); }
+    .sample-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .ghost-btn { display: inline-block; border: 1px solid rgba(245,241,235,0.3); color: var(--paper); padding: 10px 22px; border-radius: 2px; font-size: 14px; font-weight: 500; transition: all 0.2s; }
+    .ghost-btn:hover { background: var(--paper); color: var(--ink); }
+
+    /* ten sections */
+    .sections-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .section-chip { background: var(--card-bg); border: 1px solid var(--border); padding: 14px 12px; font-size: 13px; font-weight: 500; display: flex; flex-direction: column; gap: 6px; }
+    .chip-num { font-size: 11px; color: var(--accent); font-weight: 600; }
+
+    /* who it's for */
+    .block-paper { background: var(--cream); padding: 64px 40px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .audience { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 760px; margin: 0 auto; }
+    .aud-tag { background: var(--card-bg); border: 1px solid var(--border); padding: 9px 16px; font-size: 13.5px; font-weight: 500; border-radius: 2px; }
+    .proofline { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 18px; color: var(--muted); margin-top: 32px; }
+
+    /* rhythm */
+    .rhythm { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .rhythm-card { border: 1px solid var(--border); border-left: 3px solid var(--gold); background: var(--card-bg); padding: 22px 24px; }
+    .rhythm-when { font-size: 12px; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; font-weight: 600; }
+    .rhythm-card p { font-size: 14.5px; line-height: 1.6; }
+
+    /* latest grid */
+    .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding-top: 56px; padding-bottom: 8px; }
     .col-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 8px; }
     .col-head h2 { font-family: var(--font-serif); font-size: 20px; margin: 0; }
     .more { font-size: 13px; color: var(--accent); font-weight: 600; }
@@ -80,10 +239,22 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     .mini-num { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
     .mini-title { font-family: var(--font-serif); font-size: 17px; line-height: 1.3; }
     .mini:hover .mini-title { color: var(--accent); }
+
+    /* final cta */
+    .final-cta { padding: 72px 40px 24px; }
+    .final-cta h2 { font-family: var(--font-serif); font-size: 30px; font-weight: 400; margin-bottom: 12px; }
+    .cta-btn { display: inline-block; background: var(--accent); color: #fff; font-weight: 600; padding: 13px 30px; border-radius: 2px; font-size: 15px; margin-top: 20px; }
+    .cta-btn:hover { background: var(--accent-dark); }
+
     @media (max-width: 768px) {
       .hero { padding: 110px 24px 56px; }
       .hero h1 { font-size: 36px; }
       .hero-form { flex-direction: column; }
+      .block, .block-paper, .final-cta { padding-left: 20px; padding-right: 20px; }
+      .pillars { grid-template-columns: 1fr; }
+      .sample-grid { grid-template-columns: 1fr 1fr; }
+      .sections-grid { grid-template-columns: 1fr 1fr; }
+      .rhythm { grid-template-columns: 1fr; }
       .home-grid { grid-template-columns: 1fr; gap: 36px; }
     }
   </style>

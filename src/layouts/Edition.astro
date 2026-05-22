@@ -101,9 +101,7 @@ const jsonLd = {
       (function () {
         const body = document.querySelector('.ed-content');
         if (!body) return;
-        const walker = document.createTreeWalker(body, NodeFilter.SHOW_COMMENT, null);
-        let marker = null;
-        while (walker.nextNode()) { if (walker.currentNode.nodeValue.trim() === 'more') { marker = walker.currentNode; break; } }
+        const marker = body.querySelector('.preview-end');
         if (!marker) return;
         let node = marker; while (node.parentNode !== body) node = node.parentNode;
         let sib = node.nextSibling;
