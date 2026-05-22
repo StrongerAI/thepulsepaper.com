@@ -1,26 +1,46 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
-const editions = (await getCollection('editions', ({ data }) => !data.draft)).sort((a, b) => b.data.number - a.data.number);
+
+// EDITIONS LIST — your real editions, served as standalone HTML from /public/editions/.
+// To publish a new edition each week:
+//   1. Drop your exported HTML file into  public/editions/  (e.g. 2026-05-24.html)
+//   2. Add one entry to the top of this list (newest first).
+const editions = [
+  {
+    no: '02',
+    date: '17 May 2026',
+    href: '/editions/2026-05-17.html',
+    access: 'free',
+    title: 'The Week Ahead: What decision-makers need to know before Monday',
+    summary: "The rupee looks stable at 279, but Pakistan's REER has hit a 7.5-year high of 105.17. Brent rose 8.1% to $109.26 as the escalation scenario from Edition 01 materialised, and the IEA warns the market stays undersupplied through October.",
+  },
+  {
+    no: '01',
+    date: '10 May 2026',
+    href: '/editions/2026-05-10.html',
+    access: 'free',
+    title: 'The Week Ahead: What decision-makers need to know before Monday',
+    summary: 'Pakistan enters the week facing three concurrent disruptions — the Strait of Hormuz closure entering week 11, a fourth fuel-price hike since March, and an SBP rate at 11.5% after a 100bps move. Brent swung $19 intra-week.',
+  },
+];
 ---
-<Base title="Editions | The Pulse Paper" description="Every edition of The Pulse Paper — independent weekly economic intelligence for Pakistan. Archived and searchable.">
+<Base
+  title="Editions | The Pulse Paper"
+  description="Every edition of The Pulse Paper — independent weekly economic intelligence for Pakistan. Archived and searchable."
+>
   <section class="wrap idx">
     <header class="idx-head"><h1>Editions</h1><p class="muted">The weekly brief, archived. Every issue, searchable.</p></header>
     <div class="list">
-      {editions.map((e) => {
-        const n = String(e.data.number).padStart(2, '0');
-        const d = e.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
-        return (
-          <a class="row" href={`/editions/${e.slug}`}>
-            <div class="row-top">
-              <span class="mono row-meta">No. {n} · {d}{e.data.kind === 'special' ? ' · Special' : ''}</span>
-              <span class={`badge ${e.data.access}`}>{e.data.access === 'free' ? 'Free' : 'Subscribers'}</span>
-            </div>
-            <div class="row-title">{e.data.title}</div>
-            <div class="row-sum muted">{e.data.summary}</div>
-          </a>
-        );
-      })}
+      {editions.map((e) => (
+        <a class="row" href={e.href}>
+          <div class="row-top">
+            <span class="mono row-meta">No. {e.no} · {e.date}</span>
+            <span class={`badge ${e.access}`}>{e.access === 'free' ? 'Free' : 'Subscribers'}</span>
+          </div>
+          <div class="row-title">{e.title}</div>
+          <div class="row-sum muted">{e.summary}</div>
+        </a>
+      ))}
       {editions.length === 0 && <p class="muted">No editions published yet.</p>}
     </div>
   </section>
@@ -28,7 +48,6 @@ const editions = (await getCollection('editions', ({ data }) => !data.draft)).so
     .idx { padding-top: 56px; max-width: 860px; }
     .idx-head { margin-bottom: 28px; }
     .idx-head h1 { font-size: 36px; margin-bottom: 6px; }
-    .list { display: flex; flex-direction: column; gap: 0; }
     .row { display: block; padding: 22px 0; border-bottom: 1px solid var(--border); transition: background 0.15s; }
     .row:first-child { border-top: 2px solid var(--ink); }
     .row:hover { background: var(--cream); }
