@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base title="Articles | The Pulse Paper" description="Free standalone analysis of Pakistan's economy and markets — open to read and share.">
+  <section class="wrap idx">
+    <header class="idx-head"><h1>Articles</h1><p class="muted">Free, standalone analysis. The pieces we share and Google indexes.</p></header>
+    <div class="list">
+      {articles.map((a) => {
+        const d = a.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+        return (
+          <a class="row" href={`/articles/${a.slug}`}>
+            <div class="mono row-meta">{d}{a.data.tags.length ? ` · ${a.data.tags.join(' · ')}` : ''}</div>
+            <div class="row-title">{a.data.title}</div>
+            <div class="row-sum muted">{a.data.summary}</div>
+          </a>
+        );
+      })}
+      {articles.length === 0 && <p class="muted">No articles published yet.</p>}
+    </div>
+  </section>
+  <style>
+    .idx { padding-top: 56px; max-width: 860px; }
+    .idx-head { margin-bottom: 28px; }
+    .idx-head h1 { font-size: 36px; margin-bottom: 6px; }
+    .row { display: block; padding: 22px 0; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    .row:first-child { border-top: 2px solid var(--ink); }
+    .row:hover { background: var(--cream); }
+    .row-meta { font-size: 11px; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; font-weight: 500; }
+    .row-title { font-family: var(--font-serif); font-size: 21px; margin: 8px 0 6px; line-height: 1.25; }
+    .row:hover .row-title { color: var(--accent); }
+    .row-sum { font-size: 14px; line-height: 1.6; }
+  </style>
+</Base>

@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const editions = (await getCollection('editions', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.number - a.data.number).slice(0, 3);
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+---
+<Base
+  title="The Pulse Paper — Independent economic intelligence for Pakistan"
+  description="Independent analysis of Pakistan's economy, markets, and supply chains. What moved, what's developing, and what to do — for the people who make decisions with money."
+>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Economic Intelligence — Pakistan</div>
+      <h1>Know what&rsquo;s coming <em>before</em> Monday</h1>
+      <p class="hero-sub">Independent analysis of Pakistan&rsquo;s economy, markets, and supply chains — what moved last week, what&rsquo;s developing now, and what to prepare for. One brief. Every Sunday. For the people who make decisions with money.</p>
+      <form class="hero-form" id="subscribe" onsubmit="return false;">
+        <input type="email" placeholder="Your work email" required />
+        <button type="submit">Subscribe — It&rsquo;s Free</button>
+      </form>
+      <p class="hero-note">Free weekly edition. No spam. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <section class="wrap home-grid">
+    <div class="col">
+      <div class="col-head"><h2>Latest editions</h2><a href="/editions" class="more">All editions →</a></div>
+      {editions.map((e) => {
+        const n = String(e.data.number).padStart(2, '0');
+        return (
+          <a class="mini" href={`/editions/${e.slug}`}>
+            <span class="mono mini-num">No. {n} · {e.data.access === 'free' ? 'Free' : 'Subscribers'}</span>
+            <span class="mini-title">{e.data.title}</span>
+          </a>
+        );
+      })}
+      {editions.length === 0 && <p class="muted">First edition coming soon.</p>}
+    </div>
+    <div class="col">
+      <div class="col-head"><h2>Free articles</h2><a href="/articles" class="more">All articles →</a></div>
+      {articles.map((a) => (
+        <a class="mini" href={`/articles/${a.slug}`}>
+          <span class="mono mini-num">Free · {a.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short' })}</span>
+          <span class="mini-title">{a.data.title}</span>
+        </a>
+      ))}
+      {articles.length === 0 && <p class="muted">First article coming soon.</p>}
+    </div>
+  </section>
+
+  <style>
+    .hero { background: var(--ink); color: var(--paper); padding: 100px 40px 70px; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.02) 79px, rgba(255,255,255,0.02) 80px),
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,255,255,0.02) 79px, rgba(255,255,255,0.02) 80px);
+    }
+    .hero-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-tag { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+    .hero h1 { font-family: var(--font-serif); font-size: 54px; font-weight: 400; line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px; }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 19px; line-height: 1.7; color: rgba(245,241,235,0.65); max-width: 580px; margin-bottom: 40px; }
+    .hero-form { display: flex; gap: 10px; max-width: 480px; }
+    .hero-form input { flex: 1; padding: 14px 18px; border: 1px solid rgba(245,241,235,0.15); background: rgba(245,241,235,0.06); color: var(--paper); font-family: var(--font-sans); font-size: 14px; border-radius: 2px; outline: none; }
+    .hero-form input::placeholder { color: rgba(245,241,235,0.3); }
+    .hero-form input:focus { border-color: var(--accent); }
+    .hero-form button { background: var(--accent); color: #fff; border: none; padding: 14px 28px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; border-radius: 2px; cursor: pointer; white-space: nowrap; }
+    .hero-form button:hover { background: var(--accent-dark); }
+    .hero-note { margin-top: 14px; font-size: 12px; color: rgba(245,241,235,0.3); font-weight: 500; }
+
+    .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 64px; }
+    .col-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 8px; }
+    .col-head h2 { font-family: var(--font-serif); font-size: 20px; margin: 0; }
+    .more { font-size: 13px; color: var(--accent); font-weight: 600; }
+    .mini { display: flex; flex-direction: column; gap: 3px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .mini:last-child { border-bottom: none; }
+    .mini-num { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    .mini-title { font-family: var(--font-serif); font-size: 17px; line-height: 1.3; }
+    .mini:hover .mini-title { color: var(--accent); }
+    @media (max-width: 768px) {
+      .hero { padding: 80px 24px 56px; }
+      .hero h1 { font-size: 36px; }
+      .hero-form { flex-direction: column; }
+      .home-grid { grid-template-columns: 1fr; gap: 36px; }
+    }
+  </style>
+</Base>

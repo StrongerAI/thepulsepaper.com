@@ -1,0 +1,115 @@
+---
+import Base from './Base.astro';
+
+export interface Props {
+  number: number;
+  title: string;
+  summary: string;
+  date: Date;
+  weekOf?: string;
+  ticker?: string[];
+  kind: 'weekly' | 'special';
+  access: 'gated' | 'free';
+}
+const { number, title, summary, date, weekOf, ticker = [], kind, access } = Astro.props;
+const num = String(number).padStart(2, '0');
+const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const tickerDoubled = [...ticker, ...ticker];
+
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Article',
+  headline: title, description: summary, datePublished: date.toISOString(),
+  author: { '@type': 'Organization', name: 'The Pulse Paper' },
+  publisher: { '@type': 'Organization', name: 'The Pulse Paper' },
+};
+---
+<Base title={`No. ${num} — ${title} | The Pulse Paper`} description={summary} type="article" publishedDate={date}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <header class="ed-masthead">
+    <div class="ed-masthead-inner">
+      <div class="ed-tag">{kind === 'special' ? 'Special Edition' : 'Weekly Economic Intelligence for Decision-Makers'}</div>
+      <h1>The Pulse</h1>
+      <p class="ed-subtitle">{title}</p>
+      <div class="ed-meta">
+        <span>No. {num} &middot; Vol. 1</span>
+        {weekOf && <span>{weekOf}</span>}
+        <span>Published: {dateStr}</span>
+      </div>
+    </div>
+  </header>
+
+  {ticker.length > 0 && (
+    <div class="ed-ticker"><div class="ed-ticker-inner">{tickerDoubled.map((t) => <span>{t}</span>)}</div></div>
+  )}
+
+  <div class="wrap-narrow" id="ed-body">
+    <div class="exec-summary" style="margin-top: 32px;">
+      <h2>Executive Summary</h2>
+      <p>{summary}</p>
+    </div>
+
+    <div class="ed-content">
+      <slot />
+    </div>
+
+    {access === 'gated' && (
+      <div class="gate">
+        <div class="gate-card">
+          <div class="gate-lock">&#128274;</div>
+          <h2>Read the full edition</h2>
+          <p>The remaining sections &mdash; the data, the analysis, and this week&rsquo;s action items &mdash; are for subscribers. Free to join.</p>
+          <a href="/#subscribe" class="gate-btn">Subscribe &mdash; it&rsquo;s free</a>
+          <p class="gate-signin">Already a subscriber? <a href="/#subscribe">Sign in</a></p>
+        </div>
+      </div>
+    )}
+  </div>
+
+  <style>
+    .ed-masthead { background: var(--ink); color: var(--paper); position: relative; overflow: hidden; }
+    .ed-masthead::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px),
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px);
+    }
+    .ed-masthead-inner { max-width: var(--maxw); margin: 0 auto; padding: 36px 32px 32px; position: relative; z-index: 1; }
+    .ed-tag { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; font-weight: 600; }
+    .ed-masthead h1 { font-family: var(--font-serif); font-size: 42px; font-weight: 400; line-height: 1.1; margin-bottom: 6px; letter-spacing: -0.5px; color: var(--accent); }
+    .ed-subtitle { font-size: 17px; color: rgba(245,241,235,0.7); margin-bottom: 20px; font-family: var(--font-serif); font-style: italic; }
+    .ed-meta { display: flex; gap: 24px; flex-wrap: wrap; font-size: 11px; letter-spacing: 0.5px; color: rgba(245,241,235,0.5); border-top: 1px solid rgba(245,241,235,0.12); padding-top: 14px; font-weight: 500; }
+    .ed-ticker { background: var(--accent); color: #fff; overflow: hidden; white-space: nowrap; font-family: var(--font-mono); font-size: 12px; font-weight: 500; }
+    .ed-ticker-inner { display: inline-block; animation: edscroll 40s linear infinite; padding: 10px 0; }
+    .ed-ticker-inner span { padding: 0 28px; }
+    .ed-ticker-inner span::before { content: '\u25A0 '; opacity: 0.5; }
+    @keyframes edscroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .gate { position: relative; margin: -160px auto 60px; padding-top: 160px; background: linear-gradient(to bottom, transparent, var(--paper) 45%); }
+    .gate-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 32px 28px; text-align: center; max-width: 460px; margin: 0 auto; }
+    .gate-lock { font-size: 22px; margin-bottom: 8px; opacity: 0.5; }
+    .gate-card h2 { font-family: var(--font-serif); font-size: 24px; margin-bottom: 10px; }
+    .gate-card p { font-size: 14px; color: var(--muted); max-width: 360px; margin: 0 auto 16px; }
+    .gate-btn { display: inline-block; background: var(--accent); color: #fff; font-weight: 600; padding: 12px 28px; border-radius: 2px; font-size: 14px; }
+    .gate-btn:hover { background: var(--accent-dark); }
+    .gate-signin { margin-top: 14px !important; font-size: 12px; }
+    .gate-signin a { color: var(--accent); font-weight: 600; }
+  </style>
+
+  {access === 'gated' && (
+    <script is:inline>
+      (function () {
+        const body = document.querySelector('.ed-content');
+        if (!body) return;
+        const walker = document.createTreeWalker(body, NodeFilter.SHOW_COMMENT, null);
+        let marker = null;
+        while (walker.nextNode()) { if (walker.currentNode.nodeValue.trim() === 'more') { marker = walker.currentNode; break; } }
+        if (!marker) return;
+        let node = marker; while (node.parentNode !== body) node = node.parentNode;
+        let sib = node.nextSibling;
+        while (sib) { const next = sib.nextSibling; sib.remove(); sib = next; }
+        node.remove();
+      })();
+    </script>
+  )}
+</Base>

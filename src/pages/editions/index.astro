@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const editions = (await getCollection('editions', ({ data }) => !data.draft)).sort((a, b) => b.data.number - a.data.number);
+---
+<Base title="Editions | The Pulse Paper" description="Every edition of The Pulse Paper — independent weekly economic intelligence for Pakistan. Archived and searchable.">
+  <section class="wrap idx">
+    <header class="idx-head"><h1>Editions</h1><p class="muted">The weekly brief, archived. Every issue, searchable.</p></header>
+    <div class="list">
+      {editions.map((e) => {
+        const n = String(e.data.number).padStart(2, '0');
+        const d = e.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+        return (
+          <a class="row" href={`/editions/${e.slug}`}>
+            <div class="row-top">
+              <span class="mono row-meta">No. {n} · {d}{e.data.kind === 'special' ? ' · Special' : ''}</span>
+              <span class={`badge ${e.data.access}`}>{e.data.access === 'free' ? 'Free' : 'Subscribers'}</span>
+            </div>
+            <div class="row-title">{e.data.title}</div>
+            <div class="row-sum muted">{e.data.summary}</div>
+          </a>
+        );
+      })}
+      {editions.length === 0 && <p class="muted">No editions published yet.</p>}
+    </div>
+  </section>
+  <style>
+    .idx { padding-top: 56px; max-width: 860px; }
+    .idx-head { margin-bottom: 28px; }
+    .idx-head h1 { font-size: 36px; margin-bottom: 6px; }
+    .list { display: flex; flex-direction: column; gap: 0; }
+    .row { display: block; padding: 22px 0; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    .row:first-child { border-top: 2px solid var(--ink); }
+    .row:hover { background: var(--cream); }
+    .row-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .row-meta { font-size: 11px; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; font-weight: 500; }
+    .badge { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; font-weight: 600; white-space: nowrap; }
+    .badge.free { background: var(--tag-green); color: var(--green); }
+    .badge.gated { background: var(--tag-red); color: var(--accent); }
+    .row-title { font-family: var(--font-serif); font-size: 21px; margin: 8px 0 6px; line-height: 1.25; }
+    .row:hover .row-title { color: var(--accent); }
+    .row-sum { font-size: 14px; line-height: 1.6; }
+  </style>
+</Base>

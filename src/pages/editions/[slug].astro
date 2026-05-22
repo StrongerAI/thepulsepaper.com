@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import Edition from '../../layouts/Edition.astro';
+
+// One static page per edition Markdown file. The slug in the filename becomes the URL.
+export async function getStaticPaths() {
+  const editions = await getCollection('editions', ({ data }) => !data.draft);
+  return editions.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const d = entry.data;
+---
+
+<Edition number={d.number} title={d.title} summary={d.summary} date={d.date} weekOf={d.weekOf} ticker={d.ticker} kind={d.kind} access={d.access}>
+  <Content />
+</Edition>
