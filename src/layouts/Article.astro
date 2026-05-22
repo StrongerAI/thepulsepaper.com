@@ -1,7 +1,7 @@
 ---
 import Base from './Base.astro';
-export interface Props { title: string; summary: string; date: Date; tags: string[]; }
-const { title, summary, date, tags } = Astro.props;
+export interface Props { title: string; summary: string; date: Date; tags: string[]; slug: string; }
+const { title, summary, date, tags, slug } = Astro.props;
 const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'Article', headline: title, description: summary,
@@ -9,7 +9,7 @@ const jsonLd = {
   publisher: { '@type': 'Organization', name: 'The Pulse Paper' },
 };
 ---
-<Base title={`${title} | The Pulse Paper`} description={summary} type="article" publishedDate={date}>
+<Base title={`${title} | The Pulse Paper`} description={summary} type="article" publishedDate={date} ogImage={`/og/articles/${slug}.png`}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="wrap-narrow art">
     <div class="mono art-meta">{dateStr}{tags.length ? ` · ${tags.join(' · ')}` : ''}</div>

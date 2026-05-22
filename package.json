@@ -13,6 +13,10 @@
     "@astrojs/mdx": "^3.1.9",
     "@astrojs/rss": "^4.0.0",
     "@astrojs/sitemap": "^3.1.6",
-    "astro": "^4.16.0"
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/libre-baskerville": "^5.2.10",
+    "@resvg/resvg-js": "^2.6.2",
+    "astro": "^4.16.0",
+    "satori": "^0.11.1"
   }
 }

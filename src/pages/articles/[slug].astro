@@ -15,6 +15,6 @@ const { Content } = await entry.render();
 const d = entry.data;
 ---
 
-<Article title={d.title} summary={d.summary} date={d.date} tags={d.tags}>
+<Article title={d.title} summary={d.summary} date={d.date} tags={d.tags} slug={entry.slug}>
   <Content />
 </Article>
