@@ -118,7 +118,7 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; }
 .data-card.green::before { background: var(--green); }
 .data-card.neutral::before { background: var(--border); }
 .data-label { font-family: var(--font-sans); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
-.data-value { font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; }
+.data-value { font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; color: var(--ink); }
 .data-delta { font-family: var(--font-mono); font-size: 11px; margin-top: 3px; }
 .delta-up { color: var(--red); }
 .delta-down { color: var(--green); }
