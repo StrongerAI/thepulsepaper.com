@@ -113,4 +113,84 @@ export const glossary = {
     label: 'IMF Tranche',
     def: 'A scheduled instalment of an IMF loan, released only after the country meets agreed conditions. Each disbursement also helps unlock other external financing.',
   },
+  'core-inflation': {
+    label: 'Core Inflation',
+    def: 'Inflation stripped of volatile food and energy prices, used to see the underlying trend. Central banks watch it because it reflects price pressure they can actually influence with interest rates.',
+  },
+  'fiscal-policy': {
+    label: 'Fiscal Policy',
+    def: 'How the government uses taxation and spending to steer the economy. Tightening fiscal policy means raising taxes or cutting spending, usually to reduce a deficit.',
+  },
+  'monetary-policy': {
+    label: 'Monetary Policy',
+    def: 'How a central bank manages interest rates and money supply to control inflation and support growth. The SBP\'s policy rate is its main monetary-policy tool.',
+  },
+  'balance-of-payments': {
+    label: 'Balance of Payments',
+    def: 'The full record of a country\'s financial transactions with the rest of the world, combining trade, income, and capital flows. A balance-of-payments crisis is when a country can no longer pay for its external obligations.',
+  },
+  'fiscal-deficit': {
+    label: 'Fiscal Deficit',
+    def: 'The gap between total government spending and total revenue in a year, including interest payments. It must be financed by borrowing, which adds to the national debt.',
+  },
+  devaluation: {
+    label: 'Devaluation vs Depreciation',
+    def: 'Both mean a currency loses value. Devaluation is a deliberate official move to lower the rate; depreciation is the market pushing the currency down on its own. For the rupee, the distinction signals whether the SBP acted or simply stepped back.',
+  },
+  subsidy: {
+    label: 'Subsidy',
+    def: 'Government money used to keep the price of something (fuel, power, fertiliser, wheat) below its true cost. Cutting subsidies is a frequent IMF condition because they strain the budget.',
+  },
+  tariff: {
+    label: 'Tariff',
+    def: 'A tax on imported goods, or the regulated price of a utility like electricity or gas. Tariff adjustments on power and gas feed directly into business and household costs.',
+  },
+  'structural-reform': {
+    label: 'Structural Reform',
+    def: 'Deep changes to how an economy works, such as broadening the tax base or privatising loss-making state firms, rather than short-term fixes. The IMF presses for these because one-off measures do not last.',
+  },
+  spot: {
+    label: 'Spot Price',
+    def: 'The price to buy something for immediate delivery, right now, as opposed to a future date. Contrast with the futures price.',
+  },
+  futures: {
+    label: 'Futures',
+    def: 'A contract to buy or sell something at a fixed price on a set future date. Futures let buyers lock in costs ahead of time and are how commodity benchmarks like Brent are largely traded.',
+  },
+  contango: {
+    label: 'Contango',
+    def: 'When the future price of a commodity is higher than the current spot price, the opposite of backwardation. It usually signals comfortable supply or expectations of rising prices.',
+  },
+  hedging: {
+    label: 'Hedging',
+    def: 'Taking a financial position that offsets a risk you are already exposed to, such as locking in a future fuel or currency price to protect against an adverse move.',
+  },
+  'real-vs-nominal': {
+    label: 'Real vs Nominal',
+    def: 'Nominal values are the raw numbers; real values are adjusted for inflation. A nominal pay rise can still be a real pay cut if prices rose faster.',
+  },
+  benchmark: {
+    label: 'Benchmark',
+    def: 'A reference price or index that other prices are measured against, such as Brent for oil or the policy rate for lending. Benchmarks let markets price related things consistently.',
+  },
+  liquidity: {
+    label: 'Liquidity',
+    def: 'How easily an asset can be bought or sold, or converted to cash, without moving its price. For a country, it can also mean having enough ready funds to meet immediate obligations.',
+  },
+  volatility: {
+    label: 'Volatility',
+    def: 'How sharply and unpredictably a price moves over time. High volatility means bigger swings and more uncertainty for planning.',
+  },
+  'compound-interest': {
+    label: 'Compound Interest',
+    def: 'Interest earned not only on the original amount but also on the interest already accumulated. It is why debt and savings both grow faster over time than they first appear.',
+  },
+  'equity-vs-debt': {
+    label: 'Equity vs Debt',
+    def: 'Two ways to raise money: equity means selling ownership (shares); debt means borrowing and repaying with interest. Governments and firms weigh the cost and control trade-offs between them.',
+  },
+  'yield-curve': {
+    label: 'Yield Curve',
+    def: 'A line plotting bond yields across different maturities, from short-term to long-term. Its shape signals market expectations for growth and interest rates: an inverted curve often warns of recession.',
+  },
 };
