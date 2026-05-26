@@ -24,7 +24,7 @@ export const editionsList = [
     dateShort: '17 May',
     pubDate: '2026-05-17',
     access: 'free',
-    title: 'The Week Ahead: What decision-makers need to know before Monday',
+    title: 'The rupee holds, but the real exchange rate flashes red',
     summary: "The rupee looks stable at 279, but Pakistan's REER has hit a 7.5-year high of 105.17. Brent rose 8.1% to $109.26 as the escalation scenario from Edition 01 materialised, and the IEA warns the market stays undersupplied through October.",
   },
   {
@@ -34,7 +34,7 @@ export const editionsList = [
     dateShort: '10 May',
     pubDate: '2026-05-10',
     access: 'free',
-    title: 'The Week Ahead: What decision-makers need to know before Monday',
+    title: 'Three disruptions at once: Hormuz, fuel, and a rate shock',
     summary: 'Pakistan enters the week facing three concurrent disruptions — the Strait of Hormuz closure entering week 11, a fourth fuel-price hike since March, and an SBP rate at 11.5% after a 100bps move. Brent swung $19 intra-week.',
   },
 ];
