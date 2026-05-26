@@ -8,6 +8,16 @@
 
 export const editionsList = [
   {
+    no: '03',
+    slug: '2026-05-24',
+    date: '24 May 2026',
+    dateShort: '24 May',
+    pubDate: '2026-05-24',
+    access: 'free',
+    title: 'The imported crisis recedes, the homemade one arrives',
+    summary: "The oil war-premium is unwinding — Brent eased toward $104 and fuel was cut a second straight week — but the relief is matched by a squeeze on money: global borrowing costs at a two-decade high, a record-expensive backdrop for the FY27 budget and Pakistan's new Panda bond.",
+  },
+  {
     no: '02',
     slug: '2026-05-17',
     date: '17 May 2026',
