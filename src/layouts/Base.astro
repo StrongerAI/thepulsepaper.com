@@ -1,6 +1,5 @@
 ---
 import '../styles/theme.css';
-
 export interface Props {
   title: string;
   description: string;
@@ -22,7 +21,6 @@ const ogImageUrl = new URL(ogImage || '/og-default.png', Astro.site).href;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -38,6 +36,15 @@ const ogImageUrl = new URL(ogImage || '/og-default.png', Astro.site).href;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
     <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+    <!-- MailerLite Universal -->
+    <script>
+      (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+      .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+      n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+      (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+      ml('account', '2380106');
+    </script>
+    <!-- End MailerLite Universal -->
   </head>
   <body>
     <nav class="sitenav">
@@ -48,7 +55,7 @@ const ogImageUrl = new URL(ogImage || '/og-default.png', Astro.site).href;
           <a href="/articles">Articles</a>
           <a href="/glossary">Glossary</a>
           <a href="/about">About</a>
-          <a href="/#subscribe" class="sitenav-cta">Subscribe Free</a>
+          <a href="/subscribe" class="sitenav-cta">Subscribe Free</a>
         </div>
       </div>
     </nav>
