@@ -8,176 +8,187 @@ const description = "End-of-day market data and editorial analysis. PSX indices,
 ---
 <Base title={title} description={description}>
 
-<section class="markets-hero">
-  <h1>Markets today</h1>
-  <p class="markets-subtitle">End-of-day data from PSX, stooq, and public sources. Not investment advice.</p>
-  <p class="markets-updated">Last updated: {m.lastUpdated}</p>
-</section>
+<div class="wrap-narrow">
 
-<!-- ===== TICKER STRIP ===== -->
-<div class="ticker-strip">
-  {m.ticker.map(t => (
-    <div class="ticker-item">
-      <div class="ticker-name">{t.name}</div>
-      <div class="ticker-val">{t.value}</div>
-      <div class={`ticker-chg dir-${t.direction}`}>{t.changePct}</div>
-    </div>
-  ))}
-</div>
-
-<!-- ===== KSE-100 CHART ===== -->
-<section class="markets-section">
-  <h2>KSE-100 trajectory</h2>
-  <p class="section-note">Closing trend since launch</p>
-  <div class="chart-wrap">
-    <canvas id="kseChart"></canvas>
+  <!-- ===== HERO ===== -->
+  <div class="markets-hero">
+    <h1>Markets today</h1>
+    <p class="muted">End-of-day data. Not investment advice.</p>
+    <p class="markets-updated">{m.lastUpdated}</p>
   </div>
-</section>
 
-<!-- ===== WEEK-OVER-WEEK ===== -->
-<section class="markets-section">
-  <h2>Week-over-week snapshot</h2>
-  <p class="section-note">Key indicators compared to the previous edition</p>
-  <div class="table-wrap">
-    <table>
+  <!-- ===== TICKER STRIP ===== -->
+  <div class="ticker-strip">
+    {m.ticker.map(t => (
+      <div class="ticker-cell">
+        <span class="data-label">{t.name}</span>
+        <span class="ticker-val">{t.value}</span>
+        <span class={`data-delta delta-${t.direction === 'up' ? 'up' : t.direction === 'down' ? 'down' : 'flat'}`}>{t.changePct}</span>
+      </div>
+    ))}
+  </div>
+
+  <!-- ===== KSE-100 CHART ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">KSE-100 trajectory</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Closing trend since launch</p>
+    <div class="chart-container">
+      <canvas id="kseChart"></canvas>
+    </div>
+  </div>
+
+  <!-- ===== WEEK-OVER-WEEK ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Week-over-week snapshot</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Key indicators compared to the previous edition</p>
+    <table class="mini-table">
       <thead>
-        <tr><th>Indicator</th><th class="r">Previous</th><th class="r">Current</th><th class="r">Change</th></tr>
+        <tr><th>Indicator</th><th style="text-align:right;">Previous</th><th style="text-align:right;">Current</th><th style="text-align:right;">Change</th></tr>
       </thead>
       <tbody>
         {m.weekOverWeek.map(row => (
           <tr>
-            <td class="td-name">{row.name}</td>
-            <td class="r">{row.prev}</td>
-            <td class="r">{row.current}</td>
-            <td class={`r dir-${row.direction}`}>{row.change}</td>
+            <td style="font-weight:600;">{row.name}</td>
+            <td style="text-align:right;">{row.prev}</td>
+            <td style="text-align:right;">{row.current}</td>
+            <td style={`text-align:right;`} class={`delta-${row.direction === 'up' ? 'up' : row.direction === 'down' ? 'down' : 'flat'}`}>{row.change}</td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
-</section>
 
-<!-- ===== PSX INDICES ===== -->
-<section class="markets-section">
-  <h2>PSX indices</h2>
-  <p class="section-note">Pakistan Stock Exchange, end-of-day close</p>
+  <!-- ===== PSX INDICES ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">PSX indices</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Pakistan Stock Exchange, end-of-day close</p>
 
-  <h3 class="group-label">Headline indices</h3>
-  <div class="idx-grid">
-    {m.psx.headline.map(idx => (
-      <div class="idx-card">
-        <div class="idx-name">{idx.name}</div>
-        <div class="idx-val">{idx.value}</div>
-        <div class={`idx-chg dir-${idx.direction}`}>{idx.change}</div>
-        {idx.high && <div class="idx-range">H {idx.high} / L {idx.low}</div>}
-      </div>
-    ))}
-  </div>
-
-  <h3 class="group-label">Sector trackers</h3>
-  <div class="idx-grid">
-    {m.psx.sector.map(idx => (
-      <div class="idx-card">
-        <div class="idx-name">{idx.name}</div>
-        <div class="idx-val">{idx.value}</div>
-        <div class={`idx-chg dir-${idx.direction}`}>{idx.change}</div>
-        {idx.high && <div class="idx-range">H {idx.high} / L {idx.low}</div>}
-      </div>
-    ))}
-  </div>
-
-  <h3 class="group-label">Thematic and fund indices</h3>
-  <div class="idx-grid">
-    {m.psx.thematic.map(idx => (
-      <div class="idx-card">
-        <div class="idx-name">{idx.name}</div>
-        <div class="idx-val">{idx.value}</div>
-        <div class={`idx-chg dir-${idx.direction}`}>{idx.change}</div>
-      </div>
-    ))}
-  </div>
-</section>
-
-<!-- ===== INTERNATIONAL COMMODITIES ===== -->
-<section class="markets-section">
-  <h2>International commodities</h2>
-  <p class="section-note">Benchmark prices that flow into Pakistan's import bill</p>
-  <div class="comm-grid">
-    {m.commodities.map(c => (
-      <div class="comm-card">
-        <div>
-          <div class="comm-name">{c.name}</div>
-          <div class="comm-val">{c.value} <span class="comm-unit">{c.unit}</span></div>
+    <div class="sub-heading">Headline indices</div>
+    <div class="data-grid">
+      {m.psx.headline.map(idx => (
+        <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
+          <div class="data-label">{idx.name}</div>
+          <div class="data-value">{idx.value}</div>
+          <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
+          {idx.high && <div class="data-range">H {idx.high} / L {idx.low}</div>}
         </div>
-        <div class="comm-ohlc-wrap">
-          <div class="comm-ohlc">O {c.open} / H {c.high}</div>
-          <div class="comm-ohlc">L {c.low}</div>
-        </div>
-      </div>
-    ))}
-  </div>
-  <p class="data-note">Brent crude and Dubai Platts (Pakistan's actual import benchmark) are not available via stooq. These are sourced manually from edition research. Crude palm oil (CPO), HDPE resin, and other Pakistan-relevant commodities will be added as reliable free data feeds are confirmed.</p>
-</section>
+      ))}
+    </div>
 
-<!-- ===== INTERNATIONAL EXCHANGES ===== -->
-<section class="markets-section">
-  <h2>International exchanges</h2>
-  <p class="section-note">Major global indices and currencies</p>
-  <div class="table-wrap">
-    <table>
+    <div class="sub-heading">Sector trackers</div>
+    <div class="data-grid">
+      {m.psx.sector.map(idx => (
+        <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
+          <div class="data-label">{idx.name}</div>
+          <div class="data-value">{idx.value}</div>
+          <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
+          {idx.high && <div class="data-range">H {idx.high} / L {idx.low}</div>}
+        </div>
+      ))}
+    </div>
+
+    <div class="sub-heading">Thematic and fund indices</div>
+    <div class="data-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+      {m.psx.thematic.map(idx => (
+        <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
+          <div class="data-label">{idx.name}</div>
+          <div class="data-value" style="font-size:20px;">{idx.value}</div>
+          <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===== INTERNATIONAL COMMODITIES ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">International commodities</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Benchmark prices that flow into Pakistan's import bill</p>
+    <div class="data-grid">
+      {m.commodities.map(c => (
+        <div class="data-card neutral">
+          <div class="data-label">{c.name}</div>
+          <div class="data-value">{c.value} <span style="font-size:14px;font-weight:400;color:var(--muted);">{c.unit}</span></div>
+          <div class="data-range" style="margin-top:6px;">O {c.open} &middot; H {c.high} &middot; L {c.low}</div>
+        </div>
+      ))}
+    </div>
+    <p class="muted" style="font-size:12px;margin-top:8px;">Brent crude and Dubai Platts are sourced manually from edition research. Crude palm oil, HDPE resin, and other Pakistan-relevant commodities will be added as reliable free data feeds are confirmed.</p>
+  </div>
+
+  <!-- ===== INTERNATIONAL EXCHANGES ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">International exchanges</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Major global indices and currencies</p>
+    <table class="mini-table">
       <thead>
-        <tr><th>Index / pair</th><th class="r">Close</th><th class="r">Open</th><th class="r">Day range</th></tr>
+        <tr><th>Index / pair</th><th style="text-align:right;">Close</th><th style="text-align:right;">Open</th><th style="text-align:right;">Day range</th></tr>
       </thead>
       <tbody>
         {m.international.map(row => (
-          <tr class={row.muted ? 'row-muted' : ''}>
-            <td class="td-name">{row.name}</td>
-            <td class="r">{row.close}</td>
-            <td class="r">{row.open || '\u2014'}</td>
-            <td class="r">{row.range}</td>
+          <tr style={row.muted ? 'color:var(--muted);' : ''}>
+            <td style="font-weight:600;">{row.name}</td>
+            <td style="text-align:right;">{row.close}</td>
+            <td style="text-align:right;">{row.open || '\u2014'}</td>
+            <td style="text-align:right;">{row.range}</td>
           </tr>
         ))}
       </tbody>
     </table>
+    <p class="muted" style="font-size:12px;margin-top:8px;">Planned additions: Nasdaq, FTSE 100, Shanghai Composite, Nikkei 225, USD/CNY, GBP/USD.</p>
   </div>
-  <p class="data-note">Planned additions: Nasdaq, FTSE 100, Shanghai Composite, Nikkei 225, USD/CNY, GBP/USD.</p>
-</section>
 
-<!-- ===== BRENT CHART ===== -->
-<section class="markets-section">
-  <h2>Brent crude since launch</h2>
-  <p class="section-note">Tracking the war premium, week by week</p>
-  <div class="chart-wrap">
-    <canvas id="brentChart"></canvas>
-  </div>
-</section>
-
-<!-- ===== EDITORIAL ANALYSIS ===== -->
-<section class="markets-section">
-  <h2>What the numbers mean</h2>
-  <p class="section-note">Brief editorial context, refreshed with each update</p>
-  {m.analysis.map(a => (
-    <div class="analysis-card">
-      <h3>{a.title}</h3>
-      <p>{a.body}</p>
+  <!-- ===== BRENT CHART ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Brent crude since launch</h2>
     </div>
-  ))}
-</section>
+    <p class="muted" style="margin-bottom:16px;">Tracking the war premium, week by week</p>
+    <div class="chart-container">
+      <canvas id="brentChart"></canvas>
+    </div>
+  </div>
 
-<!-- ===== EDITION CALLOUT ===== -->
-<section class="edition-callout">
-  <p class="callout-head">From the latest edition</p>
-  <p class="callout-body">Edition {m.latestEdition.number}: "{m.latestEdition.title}." {m.latestEdition.summary}</p>
-  <a href={m.latestEdition.url} class="callout-link">Read Edition {m.latestEdition.number} &rarr;</a>
-</section>
+  <!-- ===== EDITORIAL ANALYSIS ===== -->
+  <div class="section" style="border-bottom:none;">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">What the numbers mean</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Brief editorial context, refreshed with each update</p>
+    {m.analysis.map(a => (
+      <div class="exec-summary" style="border-left-color:var(--border);">
+        <h2>{a.title}</h2>
+        <p>{a.body}</p>
+      </div>
+    ))}
+  </div>
 
-<!-- ===== FOOTER NOTE ===== -->
-<div class="markets-footer-note">
-  <p>PSX data from dps.psx.com.pk. Global data from stooq.com. All figures end-of-day unless noted.</p>
-  <p>Independent editorial analysis. Not investment advice.</p>
+  <!-- ===== EDITION CALLOUT ===== -->
+  <div class="callout" style="margin:32px 0;border-left-color:var(--accent);">
+    <strong>From the latest edition</strong>
+    Edition {m.latestEdition.number}: "{m.latestEdition.title}." {m.latestEdition.summary}
+    <a href={m.latestEdition.url} style="display:inline-block;margin-top:10px;color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px;">Read Edition {m.latestEdition.number} &rarr;</a>
+  </div>
+
 </div>
 
-<!-- ===== CHARTS: pass data via data-attributes, load Chart.js from CDN ===== -->
+<!-- ===== CHARTS ===== -->
 <script
   is:inline
   define:vars={{ kseHistory: JSON.stringify(m.kseHistory), brentHistory: JSON.stringify(m.brentHistory) }}
@@ -191,11 +202,11 @@ const description = "End-of-day market data and editorial analysis. PSX indices,
     var kseData = JSON.parse(window.__pulseKSE);
     var brentData = JSON.parse(window.__pulseBrent);
 
-    var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
-    var textColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)';
+    var gridColor = 'rgba(26,26,26,0.06)';
+    var textColor = 'rgba(26,26,26,0.4)';
+    var fontFamily = "'Inter', -apple-system, sans-serif";
 
-    function buildChart(id, data, color, bgLight, bgDark, label, yFormat) {
+    function buildChart(id, data, color, bgColor, label, yFormat) {
       new Chart(document.getElementById(id), {
         type: 'line',
         data: {
@@ -204,12 +215,14 @@ const description = "End-of-day market data and editorial analysis. PSX indices,
             label: label,
             data: data.map(function (d) { return d.value; }),
             borderColor: color,
-            backgroundColor: isDark ? bgDark : bgLight,
+            backgroundColor: bgColor,
             fill: true,
             tension: 0.3,
             pointRadius: 5,
             pointBackgroundColor: color,
-            borderWidth: 2,
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            borderWidth: 2.5,
           }],
         },
         options: {
@@ -217,26 +230,36 @@ const description = "End-of-day market data and editorial analysis. PSX indices,
           maintainAspectRatio: false,
           plugins: {
             legend: { display: false },
-            tooltip: { callbacks: { label: function (c) { return label + ': ' + yFormat(c.parsed.y); } } },
+            tooltip: {
+              backgroundColor: '#1a1a1a',
+              titleFont: { family: fontFamily, size: 12 },
+              bodyFont: { family: fontFamily, size: 13, weight: '600' },
+              padding: 10,
+              cornerRadius: 2,
+              callbacks: { label: function (c) { return label + ': ' + yFormat(c.parsed.y); } },
+            },
           },
           scales: {
             y: {
-              grid: { color: gridColor },
-              ticks: { color: textColor, callback: yFormat },
+              grid: { color: gridColor, drawBorder: false },
+              ticks: { color: textColor, font: { family: fontFamily, size: 11 }, callback: yFormat, padding: 8 },
+              border: { display: false },
             },
             x: {
               grid: { display: false },
-              ticks: { color: textColor, maxRotation: 0, font: { size: 12 } },
+              ticks: { color: textColor, font: { family: fontFamily, size: 11 }, maxRotation: 0, padding: 8 },
+              border: { display: false },
             },
           },
+          layout: { padding: { top: 8, right: 12 } },
         },
       });
     }
 
-    buildChart('kseChart', kseData, '#1D9E75', 'rgba(29,158,117,0.08)', 'rgba(29,158,117,0.12)', 'KSE-100', function (v) {
-      return Math.round(v / 1000) + 'k';
+    buildChart('kseChart', kseData, '#2e7d32', 'rgba(46,125,50,0.07)', 'KSE-100', function (v) {
+      return Math.round(v / 1000).toLocaleString() + 'k';
     });
-    buildChart('brentChart', brentData, '#E24B4A', 'rgba(226,75,74,0.08)', 'rgba(226,75,74,0.12)', 'Brent', function (v) {
+    buildChart('brentChart', brentData, '#c0392b', 'rgba(192,57,43,0.07)', 'Brent', function (v) {
       return '$' + Number(v).toFixed(0);
     });
   });
@@ -245,231 +268,90 @@ const description = "End-of-day market data and editorial analysis. PSX indices,
 </Base>
 
 <style>
-  /* ===== PAGE LAYOUT ===== */
+  /* ===== Markets-specific styles (everything else inherits from theme.css) ===== */
+
   .markets-hero {
     text-align: center;
-    padding: 2.5rem 0 0.5rem;
+    padding: 48px 0 8px;
   }
   .markets-hero h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0;
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
   }
-  .markets-subtitle {
+  .markets-hero .muted {
     font-style: italic;
-    color: var(--muted, #888);
-    margin: 0.4rem 0 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
   }
   .markets-updated {
-    font-size: 0.8rem;
-    color: var(--muted, #888);
-    margin: 0.75rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-top: 12px;
   }
 
   /* ===== TICKER STRIP ===== */
   .ticker-strip {
     display: flex;
-    border: 1px solid var(--border, rgba(255,255,255,0.12));
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 1.5rem 0 2.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    margin: 28px 0 8px;
   }
-  .ticker-item {
+  .ticker-cell {
     flex: 1;
-    min-width: 0;
-    padding: 0.75rem 1rem;
-    text-align: center;
-    border-right: 1px solid var(--border, rgba(255,255,255,0.12));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 8px;
+    border-right: 1px solid var(--border);
+    gap: 2px;
   }
-  .ticker-item:last-child { border-right: none; }
-  .ticker-name {
-    font-size: 0.7rem;
-    letter-spacing: 0.04em;
-    color: var(--muted, #888);
-    text-transform: uppercase;
-    margin-bottom: 2px;
+  .ticker-cell:last-child {
+    border-right: none;
+  }
+  .ticker-cell .data-label {
+    margin-bottom: 0;
   }
   .ticker-val {
-    font-size: 1.05rem;
-    font-weight: 600;
-  }
-  .ticker-chg { font-size: 0.8rem; margin-top: 2px; }
-
-  /* ===== DIRECTION COLORS ===== */
-  .dir-up   { color: #1D9E75; }
-  .dir-down { color: #E24B4A; }
-  .dir-flat { color: var(--muted, #888); }
-
-  /* ===== SECTIONS ===== */
-  .markets-section {
-    margin-bottom: 3rem;
-  }
-  .markets-section h2 {
-    font-size: 1.35rem;
+    font-size: 20px;
     font-weight: 700;
-    margin: 0 0 0.2rem;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    line-height: 1.2;
   }
-  .section-note {
-    font-size: 0.9rem;
-    color: var(--muted, #888);
-    margin: 0 0 1.25rem;
-  }
-
-  /* ===== GROUP LABELS ===== */
-  .group-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--muted, #888);
-    margin: 1.25rem 0 0.5rem;
-    letter-spacing: 0.02em;
+  .ticker-cell .data-delta {
+    margin-top: 0;
   }
 
-  /* ===== INDEX CARDS ===== */
-  .idx-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 0.5rem;
-  }
-  .idx-card {
-    background: var(--surface, rgba(255,255,255,0.04));
-    border-radius: 8px;
-    padding: 0.8rem 0.9rem;
-  }
-  .idx-name {
-    font-size: 0.78rem;
-    color: var(--muted, #888);
-    margin-bottom: 3px;
-  }
-  .idx-val {
-    font-size: 1.15rem;
-    font-weight: 600;
-  }
-  .idx-chg { font-size: 0.78rem; margin-top: 3px; }
-  .idx-range {
-    font-size: 0.7rem;
-    color: var(--muted, #888);
-    margin-top: 3px;
+  /* ===== DATA RANGE (high/low on cards) ===== */
+  .data-range {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
   }
 
-  /* ===== TABLES ===== */
-  .table-wrap { overflow-x: auto; }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th {
-    font-size: 0.78rem;
-    color: var(--muted, #888);
-    text-align: left;
-    padding: 0.5rem 0.7rem;
-    border-bottom: 1px solid var(--border, rgba(255,255,255,0.12));
-    font-weight: 400;
-  }
-  td {
-    font-size: 0.88rem;
-    padding: 0.6rem 0.7rem;
-    border-bottom: 1px solid var(--border, rgba(255,255,255,0.08));
-  }
-  tr:last-child td { border-bottom: none; }
-  .r { text-align: right; }
-  .td-name { font-weight: 600; }
-  .row-muted td { color: var(--muted, #888); }
-
-  /* ===== COMMODITY CARDS ===== */
-  .comm-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 10px;
-  }
-  .comm-card {
-    background: var(--surface, rgba(255,255,255,0.04));
-    border-radius: 8px;
-    padding: 0.8rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .comm-name {
-    font-size: 0.78rem;
-    color: var(--muted, #888);
-    margin-bottom: 2px;
-  }
-  .comm-val { font-size: 1.1rem; font-weight: 600; }
-  .comm-unit { font-size: 0.78rem; font-weight: 400; }
-  .comm-ohlc-wrap { text-align: right; }
-  .comm-ohlc { font-size: 0.7rem; color: var(--muted, #888); }
-
-  /* ===== DATA NOTES ===== */
-  .data-note {
-    font-size: 0.8rem;
-    color: var(--muted, #888);
-    margin-top: 0.75rem;
-    line-height: 1.5;
-  }
-
-  /* ===== CHARTS ===== */
-  .chart-wrap {
+  /* ===== CHART CONTAINER ===== */
+  .chart-container {
     position: relative;
     width: 100%;
-    height: 240px;
+    height: 260px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 16px 12px 8px;
   }
 
-  /* ===== ANALYSIS CARDS ===== */
-  .analysis-card {
-    background: var(--surface, rgba(255,255,255,0.04));
-    border-radius: 10px;
-    padding: 1.25rem;
-    margin-bottom: 0.75rem;
-  }
-  .analysis-card h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 0 0 0.4rem;
-  }
-  .analysis-card p {
-    font-size: 0.88rem;
-    color: var(--muted, #888);
-    line-height: 1.65;
-    margin: 0;
-  }
-
-  /* ===== EDITION CALLOUT ===== */
-  .edition-callout {
-    background: var(--surface, rgba(255,255,255,0.04));
-    border-radius: 10px;
-    padding: 1.5rem;
-    text-align: center;
-    margin: 2rem 0;
-  }
-  .callout-head {
-    font-weight: 600;
-    font-size: 1rem;
-    margin: 0 0 0.3rem;
-  }
-  .callout-body {
-    font-size: 0.88rem;
-    color: var(--muted, #888);
-    margin: 0 0 0.75rem;
-    line-height: 1.5;
-  }
-  .callout-link {
-    font-size: 0.88rem;
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  /* ===== FOOTER ===== */
-  .markets-footer-note {
-    text-align: center;
-    padding: 1.5rem 0;
-    border-top: 1px solid var(--border, rgba(255,255,255,0.08));
-    margin-top: 1rem;
-  }
-  .markets-footer-note p {
-    font-size: 0.75rem;
-    color: var(--muted, #888);
-    margin: 0 0 4px;
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .markets-hero { padding-top: 32px; }
+    .markets-hero h1 { font-size: 26px; }
+    .ticker-strip { flex-wrap: wrap; }
+    .ticker-cell { min-width: 33.33%; border-bottom: 1px solid var(--border); }
+    .ticker-cell:nth-child(3) { border-right: none; }
+    .ticker-val { font-size: 17px; }
+    .chart-container { height: 220px; padding: 12px 8px 4px; }
   }
 </style>
