@@ -8,6 +8,17 @@
 
 export const editionsList = [
   {
+  {
+   no: '04',
+   slug: '2026-05-31',
+   date: '31 May 2026',
+   dateShort: '31 May',
+   pubDate: '2026-05-31',
+   access: 'free',
+   title: 'The ceasefire trade: priced in, not signed.',
+   summary: "Oil crashed 11% on a US-Iran MOU framework that remains unsigned and unsigned by Tehran. The government delivered three fuel cuts, launched a strategic petroleum reserve framework, and opened a budget session against a backdrop of a Rs 864 billion FBR shortfall. The relief and the risk this week come from the same event on different timelines.",
+  },
+  {    
     no: '03',
     slug: '2026-05-24',
     date: '24 May 2026',
