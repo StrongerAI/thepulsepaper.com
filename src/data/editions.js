@@ -8,7 +8,6 @@
 
 export const editionsList = [
   {
-  {
    no: '04',
    slug: '2026-05-31',
    date: '31 May 2026',
