@@ -5,6 +5,9 @@ import { marketsData as m } from '../data/markets.js';
 
 const title = "Markets | The Pulse Paper";
 const description = "End-of-day market data and editorial analysis. PSX indices, global commodities, international exchanges, and what the numbers mean for Pakistan.";
+
+// Build the region order for the international exchanges section
+const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
 ---
 <Base title={title} description={description}>
 
@@ -124,7 +127,7 @@ const description = "End-of-day market data and editorial analysis. PSX indices,
         </div>
       ))}
     </div>
-    <p class="muted" style="font-size:12px;margin-top:8px;">Brent crude and Dubai Platts are sourced manually from edition research. Crude palm oil, HDPE resin, and other Pakistan-relevant commodities will be added as reliable free data feeds are confirmed.</p>
+    <p class="muted" style="font-size:12px;margin-top:8px;">Dubai Platts and certain Pakistan-relevant commodities (CPO, HDPE, PET, SMP) are sourced manually pending reliable free data feeds.</p>
   </div>
 
   <!-- ===== INTERNATIONAL EXCHANGES ===== -->
@@ -133,23 +136,28 @@ const description = "End-of-day market data and editorial analysis. PSX indices,
       <span class="section-num">05</span>
       <h2 class="section-title">International exchanges</h2>
     </div>
-    <p class="muted" style="margin-bottom:16px;">Major global indices and currencies</p>
-    <table class="mini-table">
-      <thead>
-        <tr><th>Index / pair</th><th style="text-align:right;">Close</th><th style="text-align:right;">Open</th><th style="text-align:right;">Day range</th></tr>
-      </thead>
-      <tbody>
-        {m.international.map(row => (
-          <tr style={row.muted ? 'color:var(--muted);' : ''}>
-            <td style="font-weight:600;">{row.name}</td>
-            <td style="text-align:right;">{row.close}</td>
-            <td style="text-align:right;">{row.open || '\u2014'}</td>
-            <td style="text-align:right;">{row.range}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <p class="muted" style="font-size:12px;margin-top:8px;">Planned additions: Nasdaq, FTSE 100, Shanghai Composite, Nikkei 225, USD/CNY, GBP/USD.</p>
+    <p class="muted" style="margin-bottom:16px;">Major global indices and currencies, grouped by region</p>
+
+    {regions.map(region => (
+      <div style="margin-bottom:20px;">
+        <div class="sub-heading">{region}</div>
+        <table class="mini-table">
+          <thead>
+            <tr><th>Index / pair</th><th style="text-align:right;">Close</th><th style="text-align:right;">Open</th><th style="text-align:right;">Day range</th></tr>
+          </thead>
+          <tbody>
+            {m.international.filter(row => row.region === region).map(row => (
+              <tr style={row.muted ? 'color:var(--muted);' : ''}>
+                <td style="font-weight:600;">{row.name}</td>
+                <td style="text-align:right;">{row.close}</td>
+                <td style="text-align:right;">{row.open || '\u2014'}</td>
+                <td style="text-align:right;">{row.range}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ))}
   </div>
 
   <!-- ===== BRENT CHART ===== -->
@@ -355,3 +363,4 @@ const description = "End-of-day market data and editorial analysis. PSX indices,
     .chart-container { height: 220px; padding: 12px 8px 4px; }
   }
 </style>
+</Base>
