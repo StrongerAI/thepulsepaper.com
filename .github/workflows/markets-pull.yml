@@ -1,0 +1,50 @@
+name: Markets data pull
+
+# Runs twice daily PKT to refresh the markets page data.
+# Morning: 09:00 PKT = 04:00 UTC
+# Evening: 17:00 PKT = 12:00 UTC
+#
+# Can also be triggered manually from the Actions tab.
+
+on:
+  schedule:
+    - cron: '0 4 * * *'    # 09:00 PKT
+    - cron: '0 12 * * *'   # 17:00 PKT
+  workflow_dispatch:        # manual trigger
+
+# Allow the workflow to push commits back to the repo
+permissions:
+  contents: write
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run markets pull
+        run: |
+          python scripts/pull_markets.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name  "Pulse Markets Bot"
+          git config user.email "bot@thepulsepaper.com"
+          git add src/data/markets.js src/data/markets-alerts.json src/data/.markets-prev.json
+          if git diff --cached --quiet; then
+            echo "No data changes; nothing to commit."
+          else
+            git commit -m "Markets auto-update: $(TZ=Asia/Karachi date '+%Y-%m-%d %H:%M PKT')"
+            git push
+          fi
