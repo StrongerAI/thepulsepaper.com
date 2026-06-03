@@ -6,7 +6,7 @@ import { marketsData as m } from '../data/markets.js';
 const title = "Markets | The Pulse Paper";
 const description = "End-of-day market data and editorial analysis. PSX indices, global commodities, international exchanges, and what the numbers mean for Pakistan.";
 
-// Build the region order for the international exchanges section
+// Region order for international exchanges
 const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
 ---
 <Base title={title} description={description}>
@@ -55,7 +55,7 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         <tr><th>Indicator</th><th style="text-align:right;">Previous</th><th style="text-align:right;">Current</th><th style="text-align:right;">Change</th></tr>
       </thead>
       <tbody>
-        {m.weekOverWeek.map(row => (
+        {m.weekOverWeek.rows.map(row => (
           <tr>
             <td style="font-weight:600;">{row.name}</td>
             <td style="text-align:right;">{row.prev}</td>
@@ -65,6 +65,9 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         ))}
       </tbody>
     </table>
+    <div class="section-commentary">
+      <p>{m.weekOverWeek.commentary}</p>
+    </div>
   </div>
 
   <!-- ===== PSX INDICES ===== -->
@@ -109,6 +112,10 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         </div>
       ))}
     </div>
+
+    <div class="section-commentary">
+      <p>{m.psx.commentary}</p>
+    </div>
   </div>
 
   <!-- ===== INTERNATIONAL COMMODITIES ===== -->
@@ -119,7 +126,7 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
     </div>
     <p class="muted" style="margin-bottom:16px;">Benchmark prices that flow into Pakistan's import bill</p>
     <div class="data-grid">
-      {m.commodities.map(c => (
+      {m.commodities.rows.map(c => (
         <div class="data-card neutral">
           <div class="data-label">{c.name}</div>
           <div class="data-value">{c.value} <span style="font-size:14px;font-weight:400;color:var(--muted);">{c.unit}</span></div>
@@ -127,7 +134,10 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         </div>
       ))}
     </div>
-    <p class="muted" style="font-size:12px;margin-top:8px;">Dubai Platts and certain Pakistan-relevant commodities (CPO, HDPE, PET, SMP) are sourced manually pending reliable free data feeds.</p>
+    <p class="muted" style="font-size:12px;margin-top:8px;">{m.commodities.footnote}</p>
+    <div class="section-commentary">
+      <p>{m.commodities.commentary}</p>
+    </div>
   </div>
 
   <!-- ===== INTERNATIONAL EXCHANGES ===== -->
@@ -143,10 +153,15 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         <div class="sub-heading">{region}</div>
         <table class="mini-table">
           <thead>
-            <tr><th>Index / pair</th><th style="text-align:right;">Close</th><th style="text-align:right;">Open</th><th style="text-align:right;">Day range</th></tr>
+            <tr>
+              <th>{region === 'Currencies' ? 'Pair' : 'Index'}</th>
+              <th style="text-align:right;">Close</th>
+              <th style="text-align:right;">Open</th>
+              <th style="text-align:right;">Day range</th>
+            </tr>
           </thead>
           <tbody>
-            {m.international.filter(row => row.region === region).map(row => (
+            {m.international.rows.filter(row => row.region === region).map(row => (
               <tr style={row.muted ? 'color:var(--muted);' : ''}>
                 <td style="font-weight:600;">{row.name}</td>
                 <td style="text-align:right;">{row.close}</td>
@@ -158,10 +173,14 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         </table>
       </div>
     ))}
+
+    <div class="section-commentary">
+      <p>{m.international.commentary}</p>
+    </div>
   </div>
 
   <!-- ===== BRENT CHART ===== -->
-  <div class="section">
+  <div class="section" style="border-bottom:none;">
     <div class="section-header">
       <span class="section-num">06</span>
       <h2 class="section-title">Brent crude since launch</h2>
@@ -170,21 +189,6 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
     <div class="chart-container">
       <canvas id="brentChart"></canvas>
     </div>
-  </div>
-
-  <!-- ===== EDITORIAL ANALYSIS ===== -->
-  <div class="section" style="border-bottom:none;">
-    <div class="section-header">
-      <span class="section-num">07</span>
-      <h2 class="section-title">What the numbers mean</h2>
-    </div>
-    <p class="muted" style="margin-bottom:16px;">Brief editorial context, refreshed with each update</p>
-    {m.analysis.map(a => (
-      <div class="exec-summary" style="border-left-color:var(--border);">
-        <h2>{a.title}</h2>
-        <p>{a.body}</p>
-      </div>
-    ))}
   </div>
 
   <!-- ===== EDITION CALLOUT ===== -->
@@ -352,6 +356,21 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
     padding: 16px 12px 8px;
   }
 
+  /* ===== SECTION COMMENTARY (the editorial paragraph under each section's data) ===== */
+  .section-commentary {
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: var(--card-bg);
+    border-left: 3px solid var(--accent);
+  }
+  .section-commentary p {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .markets-hero { padding-top: 32px; }
@@ -361,6 +380,7 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
     .ticker-cell:nth-child(3) { border-right: none; }
     .ticker-val { font-size: 17px; }
     .chart-container { height: 220px; padding: 12px 8px 4px; }
+    .section-commentary { padding: 14px 14px; }
+    .section-commentary p { font-size: 14px; }
   }
 </style>
-</Base>
