@@ -1,48 +1,60 @@
-name: Data source probe
+import requests
+import json
 
-on:
-  workflow_dispatch:
+UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
 
-jobs:
-  probe:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+# Yahoo Finance v8 chart symbols to test
+symbols = {
+    # Commodities
+    "Brent":         "BZ=F",
+    "WTI":           "CL=F",
+    "Natural Gas":   "NG=F",
+    "Gold":          "GC=F",
+    "Silver":        "SI=F",
+    # US equities
+    "S&P 500":       "^GSPC",
+    "Nasdaq":        "^IXIC",
+    "Dow Jones":     "^DJI",
+    # European equities
+    "FTSE 100":      "^FTSE",
+    "DAX":           "^GDAXI",
+    "CAC 40":        "^FCHI",
+    "Stoxx 600":     "^STOXX",
+    # Asian equities
+    "Nikkei 225":    "^N225",
+    "Shanghai Comp": "000001.SS",
+    "Hang Seng":     "^HSI",
+    "Sensex":        "^BSESN",
+    "KOSPI":         "^KS11",
+    # FX
+    "EUR/USD":       "EURUSD=X",
+    "GBP/USD":       "GBPUSD=X",
+    "USD/CNY":       "CNY=X",
+    "USD/PKR":       "PKR=X",
+}
 
-      - name: Install deps
-        run: pip install requests
+base = "https://query1.finance.yahoo.com/v8/finance/chart/"
 
-      - name: Probe data sources
-        run: |
-          python << 'EOF'
-          import requests
-          
-          UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
-          
-          tests = [
-              ("stooq Brent CSV",     "https://stooq.com/q/d/l/?s=cb.f&i=d"),
-              ("stooq S&P CSV",       "https://stooq.com/q/d/l/?s=^spx&i=d"),
-              ("stooq quote page",    "https://stooq.com/q/?s=^spx"),
-              ("Yahoo Finance API",   "https://query1.finance.yahoo.com/v8/finance/chart/^GSPC?interval=1d&range=5d"),
-              ("Yahoo Finance v7",    "https://query2.finance.yahoo.com/v7/finance/quote?symbols=^GSPC,CL=F,GC=F"),
-              ("Investing.com home",  "https://www.investing.com"),
-              ("FT markets",          "https://markets.ft.com/data/indices/tearsheet/summary?s=INX:IOM"),
-              ("CoinGecko (sanity)",  "https://api.coingecko.com/api/v3/ping"),
-              ("Frankfurter FX",      "https://api.frankfurter.app/latest?from=USD"),
-              ("ExchangeRate.host",   "https://api.exchangerate.host/latest?base=USD"),
-              ("SBP rates page",      "https://www.sbp.org.pk/ecodata/rates/eer/index.asp"),
-              ("SBP root",            "https://www.sbp.org.pk"),
-              ("PSX",                 "https://dps.psx.com.pk/"),
-          ]
-          
-          for name, url in tests:
-              try:
-                  r = requests.get(url, timeout=15, headers=UA)
-                  body = r.text[:200].replace('\n', ' ')
-                  print(f"{r.status_code:>3} | {name:<25} | {len(r.text):>7} bytes | {body[:120]}")
-              except Exception as e:
-                  print(f"ERR | {name:<25} | {e}")
-          EOF
+for name, sym in symbols.items():
+    url = f"{base}{sym}?interval=1d&range=5d"
+    try:
+        r = requests.get(url, timeout=15, headers=UA)
+        if r.status_code != 200:
+            print(f"FAIL {r.status_code} | {name:<15} | {sym}")
+            continue
+        data = r.json()
+        result = data.get("chart", {}).get("result")
+        if not result:
+            err = data.get("chart", {}).get("error", {})
+            print(f"NORESULT  | {name:<15} | {sym} | {err}")
+            continue
+        quote = result[0]["indicators"]["quote"][0]
+        closes = [c for c in quote.get("close", []) if c is not None]
+        if not closes:
+            print(f"NOCLOSE   | {name:<15} | {sym}")
+            continue
+        latest = closes[-1]
+        prev = closes[-2] if len(closes) > 1 else None
+        print(f"OK        | {name:<15} | {sym:<12} | close={latest:.2f}" + (f"  prev={prev:.2f}" if prev else ""))
+    except Exception as e:
+        print(f"ERR       | {name:<15} | {sym} | {e}")
