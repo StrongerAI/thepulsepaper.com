@@ -1,0 +1,386 @@
+---
+// src/pages/markets.astro
+import Base from '../layouts/Base.astro';
+import { marketsData as m } from '../data/markets.js';
+
+const title = "Markets | The Pulse Paper";
+const description = "End-of-day market data and editorial analysis. PSX indices, global commodities, international exchanges, and what the numbers mean for Pakistan.";
+
+// Region order for international exchanges
+const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
+---
+<Base title={title} description={description}>
+
+<div class="wrap-narrow">
+
+  <!-- ===== HERO ===== -->
+  <div class="markets-hero">
+    <h1>Markets today</h1>
+    <p class="muted">End-of-day data. Not investment advice.</p>
+    <p class="markets-updated">{m.lastUpdated}</p>
+  </div>
+
+  <!-- ===== TICKER STRIP ===== -->
+  <div class="ticker-strip">
+    {m.ticker.map(t => (
+      <div class="ticker-cell">
+        <span class="data-label">{t.name}</span>
+        <span class="ticker-val">{t.value}</span>
+        <span class={`data-delta delta-${t.direction === 'up' ? 'up' : t.direction === 'down' ? 'down' : 'flat'}`}>{t.changePct}</span>
+      </div>
+    ))}
+  </div>
+
+  <!-- ===== KSE-100 CHART ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">KSE-100 trajectory</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Closing trend since launch</p>
+    <div class="chart-container">
+      <canvas id="kseChart"></canvas>
+    </div>
+  </div>
+
+  <!-- ===== WEEK-OVER-WEEK ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Week-over-week snapshot</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Key indicators compared to the previous edition</p>
+    <table class="mini-table">
+      <thead>
+        <tr><th>Indicator</th><th style="text-align:right;">Previous</th><th style="text-align:right;">Current</th><th style="text-align:right;">Change</th></tr>
+      </thead>
+      <tbody>
+        {m.weekOverWeek.rows.map(row => (
+          <tr>
+            <td style="font-weight:600;">{row.name}</td>
+            <td style="text-align:right;">{row.prev}</td>
+            <td style="text-align:right;">{row.current}</td>
+            <td style={`text-align:right;`} class={`delta-${row.direction === 'up' ? 'up' : row.direction === 'down' ? 'down' : 'flat'}`}>{row.change}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <div class="section-commentary">
+      <p>{m.weekOverWeek.commentary}</p>
+    </div>
+  </div>
+
+  <!-- ===== PSX INDICES ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">PSX indices</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Pakistan Stock Exchange, end-of-day close</p>
+
+    <div class="sub-heading">Headline indices</div>
+    <div class="data-grid">
+      {m.psx.headline.map(idx => (
+        <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
+          <div class="data-label">{idx.name}</div>
+          <div class="data-value">{idx.value}</div>
+          <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
+          {idx.high && <div class="data-range">H {idx.high} / L {idx.low}</div>}
+        </div>
+      ))}
+    </div>
+
+    <div class="sub-heading">Sector trackers</div>
+    <div class="data-grid">
+      {m.psx.sector.map(idx => (
+        <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
+          <div class="data-label">{idx.name}</div>
+          <div class="data-value">{idx.value}</div>
+          <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
+          {idx.high && <div class="data-range">H {idx.high} / L {idx.low}</div>}
+        </div>
+      ))}
+    </div>
+
+    <div class="sub-heading">Thematic and fund indices</div>
+    <div class="data-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+      {m.psx.thematic.map(idx => (
+        <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
+          <div class="data-label">{idx.name}</div>
+          <div class="data-value" style="font-size:20px;">{idx.value}</div>
+          <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="section-commentary">
+      <p>{m.psx.commentary}</p>
+    </div>
+  </div>
+
+  <!-- ===== INTERNATIONAL COMMODITIES ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">International commodities</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Benchmark prices that flow into Pakistan's import bill</p>
+    <div class="data-grid">
+      {m.commodities.rows.map(c => (
+        <div class="data-card neutral">
+          <div class="data-label">{c.name}</div>
+          <div class="data-value">{c.value} <span style="font-size:14px;font-weight:400;color:var(--muted);">{c.unit}</span></div>
+          <div class="data-range" style="margin-top:6px;">O {c.open} &middot; H {c.high} &middot; L {c.low}</div>
+        </div>
+      ))}
+    </div>
+    <p class="muted" style="font-size:12px;margin-top:8px;">{m.commodities.footnote}</p>
+    <div class="section-commentary">
+      <p>{m.commodities.commentary}</p>
+    </div>
+  </div>
+
+  <!-- ===== INTERNATIONAL EXCHANGES ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">International exchanges</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Major global indices and currencies, grouped by region</p>
+
+    {regions.map(region => (
+      <div style="margin-bottom:20px;">
+        <div class="sub-heading">{region}</div>
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>{region === 'Currencies' ? 'Pair' : 'Index'}</th>
+              <th style="text-align:right;">Close</th>
+              <th style="text-align:right;">Open</th>
+              <th style="text-align:right;">Day range</th>
+            </tr>
+          </thead>
+          <tbody>
+            {m.international.rows.filter(row => row.region === region).map(row => (
+              <tr style={row.muted ? 'color:var(--muted);' : ''}>
+                <td style="font-weight:600;">{row.name}</td>
+                <td style="text-align:right;">{row.close}</td>
+                <td style="text-align:right;">{row.open || '\u2014'}</td>
+                <td style="text-align:right;">{row.range}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ))}
+
+    <div class="section-commentary">
+      <p>{m.international.commentary}</p>
+    </div>
+  </div>
+
+  <!-- ===== BRENT CHART ===== -->
+  <div class="section" style="border-bottom:none;">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Brent crude since launch</h2>
+    </div>
+    <p class="muted" style="margin-bottom:16px;">Tracking the war premium, week by week</p>
+    <div class="chart-container">
+      <canvas id="brentChart"></canvas>
+    </div>
+  </div>
+
+  <!-- ===== EDITION CALLOUT ===== -->
+  <div class="callout" style="margin:32px 0;border-left-color:var(--accent);">
+    <strong>From the latest edition</strong>
+    Edition {m.latestEdition.number}: "{m.latestEdition.title}." {m.latestEdition.summary}
+    <a href={m.latestEdition.url} style="display:inline-block;margin-top:10px;color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px;">Read Edition {m.latestEdition.number} &rarr;</a>
+  </div>
+
+</div>
+
+<!-- ===== CHARTS ===== -->
+<script
+  is:inline
+  define:vars={{ kseHistory: JSON.stringify(m.kseHistory), brentHistory: JSON.stringify(m.brentHistory) }}
+>
+  window.__pulseKSE = kseHistory;
+  window.__pulseBrent = brentHistory;
+</script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    var kseData = JSON.parse(window.__pulseKSE);
+    var brentData = JSON.parse(window.__pulseBrent);
+
+    var gridColor = 'rgba(26,26,26,0.06)';
+    var textColor = 'rgba(26,26,26,0.4)';
+    var fontFamily = "'Inter', -apple-system, sans-serif";
+
+    function buildChart(id, data, color, bgColor, label, yFormat) {
+      new Chart(document.getElementById(id), {
+        type: 'line',
+        data: {
+          labels: data.map(function (d) { return d.date; }),
+          datasets: [{
+            label: label,
+            data: data.map(function (d) { return d.value; }),
+            borderColor: color,
+            backgroundColor: bgColor,
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointBackgroundColor: color,
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            borderWidth: 2.5,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#1a1a1a',
+              titleFont: { family: fontFamily, size: 12 },
+              bodyFont: { family: fontFamily, size: 13, weight: '600' },
+              padding: 10,
+              cornerRadius: 2,
+              callbacks: { label: function (c) { return label + ': ' + yFormat(c.parsed.y); } },
+            },
+          },
+          scales: {
+            y: {
+              grid: { color: gridColor, drawBorder: false },
+              ticks: { color: textColor, font: { family: fontFamily, size: 11 }, callback: yFormat, padding: 8 },
+              border: { display: false },
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: textColor, font: { family: fontFamily, size: 11 }, maxRotation: 0, padding: 8 },
+              border: { display: false },
+            },
+          },
+          layout: { padding: { top: 8, right: 12 } },
+        },
+      });
+    }
+
+    buildChart('kseChart', kseData, '#2e7d32', 'rgba(46,125,50,0.07)', 'KSE-100', function (v) {
+      return Math.round(v / 1000).toLocaleString() + 'k';
+    });
+    buildChart('brentChart', brentData, '#c0392b', 'rgba(192,57,43,0.07)', 'Brent', function (v) {
+      return '$' + Number(v).toFixed(0);
+    });
+  });
+</script>
+
+</Base>
+
+<style>
+  /* ===== Markets-specific styles (everything else inherits from theme.css) ===== */
+
+  .markets-hero {
+    text-align: center;
+    padding: 48px 0 8px;
+  }
+  .markets-hero h1 {
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .markets-hero .muted {
+    font-style: italic;
+    font-family: var(--font-serif);
+    font-size: 15px;
+  }
+  .markets-updated {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-top: 12px;
+  }
+
+  /* ===== TICKER STRIP ===== */
+  .ticker-strip {
+    display: flex;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    margin: 28px 0 8px;
+  }
+  .ticker-cell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 8px;
+    border-right: 1px solid var(--border);
+    gap: 2px;
+  }
+  .ticker-cell:last-child {
+    border-right: none;
+  }
+  .ticker-cell .data-label {
+    margin-bottom: 0;
+  }
+  .ticker-val {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .ticker-cell .data-delta {
+    margin-top: 0;
+  }
+
+  /* ===== DATA RANGE (high/low on cards) ===== */
+  .data-range {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ===== CHART CONTAINER ===== */
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 16px 12px 8px;
+  }
+
+  /* ===== SECTION COMMENTARY (the editorial paragraph under each section's data) ===== */
+  .section-commentary {
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: var(--card-bg);
+    border-left: 3px solid var(--accent);
+  }
+  .section-commentary p {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .markets-hero { padding-top: 32px; }
+    .markets-hero h1 { font-size: 26px; }
+    .ticker-strip { flex-wrap: wrap; }
+    .ticker-cell { min-width: 33.33%; border-bottom: 1px solid var(--border); }
+    .ticker-cell:nth-child(3) { border-right: none; }
+    .ticker-val { font-size: 17px; }
+    .chart-container { height: 220px; padding: 12px 8px 4px; }
+    .section-commentary { padding: 14px 14px; }
+    .section-commentary p { font-size: 14px; }
+  }
+</style>
