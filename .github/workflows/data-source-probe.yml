@@ -1,0 +1,48 @@
+name: Data source probe
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install requests
+
+      - name: Probe data sources
+        run: |
+          python << 'EOF'
+          import requests
+          
+          UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+          
+          tests = [
+              ("stooq Brent CSV",     "https://stooq.com/q/d/l/?s=cb.f&i=d"),
+              ("stooq S&P CSV",       "https://stooq.com/q/d/l/?s=^spx&i=d"),
+              ("stooq quote page",    "https://stooq.com/q/?s=^spx"),
+              ("Yahoo Finance API",   "https://query1.finance.yahoo.com/v8/finance/chart/^GSPC?interval=1d&range=5d"),
+              ("Yahoo Finance v7",    "https://query2.finance.yahoo.com/v7/finance/quote?symbols=^GSPC,CL=F,GC=F"),
+              ("Investing.com home",  "https://www.investing.com"),
+              ("FT markets",          "https://markets.ft.com/data/indices/tearsheet/summary?s=INX:IOM"),
+              ("CoinGecko (sanity)",  "https://api.coingecko.com/api/v3/ping"),
+              ("Frankfurter FX",      "https://api.frankfurter.app/latest?from=USD"),
+              ("ExchangeRate.host",   "https://api.exchangerate.host/latest?base=USD"),
+              ("SBP rates page",      "https://www.sbp.org.pk/ecodata/rates/eer/index.asp"),
+              ("SBP root",            "https://www.sbp.org.pk"),
+              ("PSX",                 "https://dps.psx.com.pk/"),
+          ]
+          
+          for name, url in tests:
+              try:
+                  r = requests.get(url, timeout=15, headers=UA)
+                  body = r.text[:200].replace('\n', ' ')
+                  print(f"{r.status_code:>3} | {name:<25} | {len(r.text):>7} bytes | {body[:120]}")
+              except Exception as e:
+                  print(f"ERR | {name:<25} | {e}")
+          EOF
