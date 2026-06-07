@@ -7,6 +7,16 @@
 //   2. Add one entry to the TOP of this list (newest first).
 
 export const editionsList = [
+{
+   no: '05',
+   slug: '2026-06-08',
+   date: '07 June 2026',
+   dateShort: '07 Jun',
+   pubDate: '2026-06-08',
+   access: 'free',
+   title: 'The budget arrives Tuesday. What to expect before it lands.',
+   summary: "Finance Minister Aurangzeb will present it to the National Assembly on Tuesday, following the Economic Survey expected on June 9. The number that will matter most when it lands is not the headline outlay. It is the gap between the revenue target and what FBR actually collected in FY26: roughly Rs 11.23 trillion through eleven months, requiring a near-impossible June sprint to close.",
+  },  
   {
    no: '04',
    slug: '2026-05-31',
