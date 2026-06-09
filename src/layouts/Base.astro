@@ -50,7 +50,10 @@ const ogImageUrl = new URL(ogImage || '/og-default.png', Astro.site).href;
     <nav class="sitenav">
       <div class="sitenav-inner">
         <a href="/" class="sitenav-brand">The Pulse Paper <span>Economic Intelligence</span></a>
-        <div class="sitenav-links">
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="sitenav-links" id="navLinks">
           <a href="/editions">Editions</a>
           <a href="/specials">Specials</a>
           <a href="/articles">Articles</a>
@@ -65,5 +68,31 @@ const ogImageUrl = new URL(ogImage || '/og-default.png', Astro.site).href;
     <footer class="sitefooter">
       The Pulse Paper &middot; thepulsepaper.com &middot; Independent economic intelligence for Pakistan &middot; <a href="https://x.com/ThePulsePaper" target="_blank" rel="noopener">Follow on X</a>
     </footer>
+    <script>
+      (function () {
+        var toggle = document.getElementById('navToggle');
+        var links = document.getElementById('navLinks');
+        if (!toggle || !links) return;
+        function close() {
+          links.classList.remove('open');
+          toggle.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Open menu');
+        }
+        toggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = links.classList.toggle('open');
+          toggle.classList.toggle('open', open);
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        });
+        document.addEventListener('click', function (e) {
+          if (links.classList.contains('open') && !links.contains(e.target) && e.target !== toggle) close();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') close();
+        });
+      })();
+    </script>
   </body>
 </html>

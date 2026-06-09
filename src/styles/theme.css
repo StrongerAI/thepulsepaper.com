@@ -156,9 +156,67 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; }
 .mini-table th { font-family: var(--font-sans); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--border); font-weight: 600; }
 .mini-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
 
+/* ── hamburger toggle (hidden on desktop) ── */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: rgba(245,241,235,0.75);
+  border-radius: 1px;
+  transform-origin: center;
+  transition: transform 0.25s ease, opacity 0.15s ease;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 @media (max-width: 768px) {
   .wrap, .wrap-narrow { padding-left: 20px; padding-right: 20px; }
   .sitenav-inner { padding: 0 20px; }
   .sitenav-brand span { display: none; }
   .scenario-grid { grid-template-columns: 1fr; }
+
+  /* mobile nav drawer */
+  .nav-toggle { display: flex; }
+  .sitenav-links {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 0 0 12px;
+    background: rgba(26,26,26,0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    z-index: 98;
+  }
+  .sitenav-links.open { display: flex; }
+  .sitenav-links a {
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(245,241,235,0.75);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .sitenav-links a:hover { color: var(--paper); }
+  .sitenav-links a:last-child { border-bottom: none; }
+  .sitenav-links .sitenav-cta {
+    margin: 10px 20px 0;
+    padding: 12px 18px;
+    text-align: center;
+    border-radius: 2px;
+    display: block;
+    color: #fff !important;
+  }
 }
