@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="Specials | The Pulse Paper"
+  description="Special editions and in-depth reports from The Pulse Paper — extended analysis on the forces shaping Pakistan's economy."
+>
+  <div class="wrap-narrow">
+    <div class="specials-hero">
+      <div class="specials-tag">Special Editions</div>
+      <h1>In-depth reports</h1>
+      <p class="muted">Extended analysis on the forces shaping Pakistan's economy. Published outside the weekly cycle when the story demands it.</p>
+    </div>
+
+    <div class="coming-soon">
+      <p>Special editions will appear here. Check back soon.</p>
+    </div>
+  </div>
+
+  <style>
+    .specials-hero {
+      padding: 56px 0 40px;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 40px;
+    }
+    .specials-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .specials-hero h1 {
+      font-family: var(--font-serif);
+      font-size: 38px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+    .specials-hero .muted {
+      font-size: 16px;
+      max-width: 560px;
+    }
+    .coming-soon {
+      padding: 48px 0 80px;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--muted);
+    }
+  </style>
+</Base>
