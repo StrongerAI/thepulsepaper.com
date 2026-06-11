@@ -1,5 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
+
+const specials = [
+  {
+    date: '11 June 2026',
+    tag: 'FY27 Budget Special',
+    title: 'The Scorecard: Economic Survey 2025-26',
+    summary: 'Growth at 3.7% — the fastest in four years, still short of target. The fiscal books are the tightest in two decades. Seven charts on what the survey actually says before the budget lands.',
+    href: '/specials/survey-scorecard-fy26.html',
+    access: 'free',
+  },
+];
 ---
 <Base
   title="Specials | The Pulse Paper"
@@ -12,8 +23,17 @@ import Base from '../layouts/Base.astro';
       <p class="muted">Extended analysis on the forces shaping Pakistan's economy. Published outside the weekly cycle when the story demands it.</p>
     </div>
 
-    <div class="coming-soon">
-      <p>Special editions will appear here. Check back soon.</p>
+    <div class="list">
+      {specials.map((s) => (
+        <a class="row" href={s.href}>
+          <div class="row-top">
+            <span class="mono row-meta">{s.date} &middot; {s.tag}</span>
+            <span class="badge free">Free</span>
+          </div>
+          <div class="row-title">{s.title}</div>
+          <div class="row-sum muted">{s.summary}</div>
+        </a>
+      ))}
     </div>
   </div>
 
@@ -21,7 +41,7 @@ import Base from '../layouts/Base.astro';
     .specials-hero {
       padding: 56px 0 40px;
       border-bottom: 2px solid var(--ink);
-      margin-bottom: 40px;
+      margin-bottom: 8px;
     }
     .specials-tag {
       font-size: 11px;
@@ -42,12 +62,48 @@ import Base from '../layouts/Base.astro';
       font-size: 16px;
       max-width: 560px;
     }
-    .coming-soon {
-      padding: 48px 0 80px;
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 17px;
+    .row {
+      display: block;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .row:hover { background: var(--cream); }
+    .row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .row-meta {
+      font-size: 11px;
+      letter-spacing: 0.5px;
       color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .badge {
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge.free { background: var(--tag-green); color: var(--green); }
+    .row-title {
+      font-family: var(--font-serif);
+      font-size: 21px;
+      margin: 8px 0 6px;
+      line-height: 1.25;
+    }
+    .row:hover .row-title { color: var(--accent); }
+    .row-sum { font-size: 14px; line-height: 1.6; }
+
+    @media (max-width: 768px) {
+      .specials-hero { padding: 32px 0 28px; }
+      .specials-hero h1 { font-size: 26px; }
     }
   </style>
 </Base>
