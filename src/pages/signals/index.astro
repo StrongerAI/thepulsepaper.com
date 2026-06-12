@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title="Signals | The Pulse Paper" description="Short-form economic intelligence from The Pulse Paper — bite-sized reads on Pakistan's markets, policy, and macro forces.">
+<Base title="Pakistan Economic Signals | The Pulse Paper" description="Short-form economic intelligence from The Pulse Paper — bite-sized reads on Pakistan's markets, policy, and macro forces.">
   <section class="wrap idx">
     <header class="idx-head"><h1>Signals</h1><p class="muted">Bite-sized reads on what's moving. Published when something is worth flagging.</p></header>
     <div class="list">

@@ -3,8 +3,8 @@
 import Base from '../layouts/Base.astro';
 import { marketsData as m } from '../data/markets.js';
 
-const title = "Markets | The Pulse Paper";
-const description = "End-of-day market data and editorial analysis. PSX indices, global commodities, international exchanges, and what the numbers mean for Pakistan.";
+const title = "Pakistan Markets | The Pulse Paper";
+const description = "End-of-day Pakistan market data and editorial analysis. KSE-100, PSX indices, Brent crude, rupee rate, global commodities, and what the numbers mean for Pakistan.";
 
 // Region order for international exchanges
 const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
@@ -15,7 +15,7 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
 
   <!-- ===== HERO ===== -->
   <div class="markets-hero">
-    <h1>Markets today</h1>
+    <h1>Pakistan markets today</h1>
     <p class="muted">End-of-day data. Not investment advice.</p>
     <p class="markets-updated">{m.lastUpdated}</p>
   </div>
