@@ -38,10 +38,11 @@ const audience = [
       <div class="hero-tag">Economic Intelligence — Pakistan</div>
       <h1>Know what&rsquo;s coming <em>before</em> Monday</h1>
       <p class="hero-sub">Independent analysis of Pakistan&rsquo;s economy and markets — what moved last week, what&rsquo;s developing now, and what to prepare for. One brief. Every Sunday. For the people who make decisions with money.</p>
-      <div id="subscribe" class="hero-ml-wrap">
-        <div class="ml-embedded" data-form="taVtu7"></div>
-        <p class="hero-note">Free weekly edition. No spam. Unsubscribe anytime.</p>
-      </div>
+      <form class="hero-form" id="subscribe" autocomplete="off">
+        <input type="email" id="heroEmail" placeholder="Your work email" required />
+        <button type="submit">Subscribe — It&rsquo;s Free</button>
+      </form>
+      <p class="hero-note" id="heroNote">Free weekly edition. No spam. Unsubscribe anytime.</p>
     </div>
   </section>
 
@@ -177,6 +178,11 @@ const audience = [
     </div>
   </section>
 
+  <!-- Offscreen MailerLite form — initialised by their JS, driven by the hero form above -->
+  <div class="ml-sink" aria-hidden="true">
+    <div class="ml-embedded" data-form="taVtu7"></div>
+  </div>
+
   <style>
     /* HERO */
     .hero { background: var(--ink); color: var(--paper); padding: 140px 40px 80px; position: relative; overflow: hidden; }
@@ -267,70 +273,14 @@ const audience = [
       .sc-label { writing-mode: horizontal-tb; transform: none; }
     }
 
-    /* MailerLite hero overrides — strip white box, apply dark hero aesthetic */
-    .hero-ml-wrap { max-width: 480px; }
-    .hero-ml-wrap .ml-form-embedContainer,
-    .hero-ml-wrap .ml-form-align-center { display: block !important; }
-    .hero-ml-wrap .ml-form-embedWrapper {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      padding: 0 !important;
-      max-width: 100% !important;
-    }
-    .hero-ml-wrap .ml-form-embedBody,
-    .hero-ml-wrap .ml-form-embedBody .ml-form-fieldRow { padding: 0 !important; }
-    .hero-ml-wrap .ml-form-horizontalRow {
-      display: flex !important;
-      gap: 10px !important;
-      align-items: stretch !important;
-    }
-    .hero-ml-wrap .ml-input-horizontal { flex: 1 !important; }
-    .hero-ml-wrap .ml-input-horizontal input[type="email"],
-    .hero-ml-wrap input[type="email"] {
-      width: 100% !important;
-      padding: 14px 18px !important;
-      border: 1px solid rgba(245,241,235,0.15) !important;
-      background: rgba(245,241,235,0.06) !important;
-      color: var(--paper) !important;
-      font-family: var(--font-sans) !important;
-      font-size: 14px !important;
-      border-radius: 2px !important;
-      outline: none !important;
-      box-shadow: none !important;
-      height: auto !important;
-    }
-    .hero-ml-wrap input[type="email"]::placeholder { color: rgba(245,241,235,0.3) !important; }
-    .hero-ml-wrap input[type="email"]:focus { border-color: var(--accent) !important; }
-    .hero-ml-wrap .ml-button-horizontal { flex-shrink: 0 !important; }
-    .hero-ml-wrap .ml-button-horizontal .primary,
-    .hero-ml-wrap button[type="submit"] {
-      background: var(--accent) !important;
-      color: #fff !important;
-      border: none !important;
-      padding: 14px 28px !important;
-      font-family: var(--font-sans) !important;
-      font-size: 14px !important;
-      font-weight: 600 !important;
-      border-radius: 2px !important;
-      cursor: pointer !important;
-      white-space: nowrap !important;
-      height: auto !important;
-      width: auto !important;
-    }
-    .hero-ml-wrap .ml-button-horizontal .primary:hover,
-    .hero-ml-wrap button[type="submit"]:hover { background: var(--accent-dark) !important; }
-    /* success / error states */
-    .hero-ml-wrap .ml-form-successBody { padding: 0 !important; }
-    .hero-ml-wrap .ml-form-successContent { background: transparent !important; padding: 0 !important; }
-    .hero-ml-wrap .ml-form-successContent p { color: rgba(245,241,235,0.75) !important; font-size: 14px !important; }
-    /* hide MailerLite branding/GDPR text in hero */
-    .hero-ml-wrap .ml-form-embedPermissions,
-    .hero-ml-wrap .ml-form-recaptcha { display: none !important; }
-    @media (max-width: 768px) {
-      .hero-ml-wrap { max-width: 100%; }
-      .hero-ml-wrap .ml-form-horizontalRow { flex-direction: column !important; }
-    }
+    .hero-form { display: flex; gap: 10px; max-width: 480px; }
+    .hero-form input { flex: 1; padding: 14px 18px; border: 1px solid rgba(245,241,235,0.15); background: rgba(245,241,235,0.06); color: var(--paper); font-family: var(--font-sans); font-size: 14px; border-radius: 2px; outline: none; }
+    .hero-form input::placeholder { color: rgba(245,241,235,0.3); }
+    .hero-form input:focus { border-color: var(--accent); }
+    .hero-form button { background: var(--accent); color: #fff; border: none; padding: 14px 28px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; border-radius: 2px; cursor: pointer; white-space: nowrap; }
+    .hero-form button:hover { background: var(--accent-dark); }
+    .hero-success { font-size: 14px; color: rgba(245,241,235,0.8); max-width: 480px; padding: 14px 0 4px; }
+    .ml-sink { position: fixed; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; pointer-events: none; }
 
     /* final cta */
     .final-cta { padding: 72px 40px 24px; }
@@ -341,7 +291,7 @@ const audience = [
     @media (max-width: 768px) {
       .hero { padding: 110px 24px 56px; }
       .hero h1 { font-size: 36px; }
-      .hero-form { flex-direction: column; }
+      .hero-form { flex-direction: column; max-width: 100%; }
       .block, .block-paper, .final-cta { padding-left: 20px; padding-right: 20px; }
       .pillars { grid-template-columns: 1fr; }
       .sample-grid { grid-template-columns: 1fr 1fr; }
@@ -350,4 +300,31 @@ const audience = [
       .home-grid { grid-template-columns: 1fr; gap: 36px; }
     }
   </style>
+
+  <script>
+    (function () {
+      var form = document.getElementById('heroSubscribeForm') || document.getElementById('subscribe');
+      if (!form || form.tagName !== 'FORM') return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var emailVal = (document.getElementById('heroEmail') || form.querySelector('input[type="email"]')).value.trim();
+        if (!emailVal) return;
+        var mlInput = document.querySelector('.ml-sink input[type="email"]');
+        var mlBtn = document.querySelector('.ml-sink button[type="submit"], .ml-sink .primary');
+        if (mlInput && mlBtn) {
+          mlInput.value = emailVal;
+          mlInput.dispatchEvent(new Event('input', { bubbles: true }));
+          mlInput.dispatchEvent(new Event('change', { bubbles: true }));
+          setTimeout(function () { mlBtn.click(); }, 60);
+        }
+        form.style.display = 'none';
+        var note = document.getElementById('heroNote');
+        if (note) {
+          note.textContent = "You’re in. First edition lands Sunday.";
+          note.style.color = 'rgba(245,241,235,0.75)';
+          note.style.fontSize = '15px';
+        }
+      });
+    })();
+  </script>
 </Base>
