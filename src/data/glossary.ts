@@ -193,4 +193,79 @@ export const glossary = {
     label: 'Yield Curve',
     def: 'A line plotting bond yields across different maturities, from short-term to long-term. Its shape signals market expectations for growth and interest rates: an inverted curve often warns of recession.',
   },
+
+  // --- Added from published editions and Economic Survey scorecard ---
+
+  sbp: {
+    label: 'SBP (State Bank of Pakistan)',
+    def: "Pakistan's central bank. It sets the policy rate, manages foreign exchange reserves, oversees the banking system, and publishes key economic data. Every interest-rate decision and reserve figure in The Pulse Paper originates here.",
+  },
+  'kse-100': {
+    label: 'KSE-100',
+    def: "The benchmark index of the Pakistan Stock Exchange, tracking the 100 largest companies by market capitalisation. It is Pakistan's most-cited gauge of equity market sentiment and is reported in every edition.",
+  },
+  pib: {
+    label: 'PIBs (Pakistan Investment Bonds)',
+    def: "Long-term government debt securities issued by the State Bank on behalf of the government, typically with maturities of 3, 5, or 10 years. They are the main instrument through which the government borrows domestically at fixed rates.",
+  },
+  'tbills': {
+    label: 'T-bills (Treasury Bills)',
+    def: "Short-term government debt securities with maturities of 3, 6, or 12 months. They are how the government manages its immediate financing needs and benchmark short-term interest rates across the domestic economy.",
+  },
+  kibor: {
+    label: 'KIBOR (Karachi Interbank Offered Rate)',
+    def: "The rate at which Pakistani banks lend to each other overnight or at short tenors. It tracks the SBP policy rate closely and is used as the floating benchmark for most corporate loans and variable-rate financing in Pakistan.",
+  },
+  pso: {
+    label: 'PSO (Pakistan State Oil)',
+    def: "Pakistan's state-owned oil marketing company and the country's largest. It handles the bulk of refined petroleum imports, storage, and distribution — making its financial position a direct indicator of the health of the fuel supply chain.",
+  },
+  hormuz: {
+    label: 'Strait of Hormuz',
+    def: "A narrow waterway between Iran and Oman through which roughly 20 percent of the world's traded oil passes daily. Any closure or military threat there immediately moves global crude prices upward — and directly inflates Pakistan's import bill.",
+  },
+  'opec-plus': {
+    label: 'OPEC+',
+    def: "The expanded alliance of oil-producing countries, combining the original OPEC members with non-members including Russia and Kazakhstan. It controls a large share of global crude supply, and its production decisions are the primary driver of international oil prices.",
+  },
+  'war-risk-premium': {
+    label: 'War Risk Premium',
+    def: "The extra cost added to commodity or shipping prices because of active conflict or a credible threat of it near key supply routes. When tensions rise in or around oil-producing regions, war risk premiums push crude prices above what supply and demand alone would justify.",
+  },
+  hsd: {
+    label: 'HSD (High Speed Diesel)',
+    def: "The grade of diesel fuel most widely used in Pakistan for road transport, agriculture, and industry. Fortnightly HSD price changes set by OGRA flow directly into logistics costs, food prices, and farm input costs across the economy.",
+  },
+  rlng: {
+    label: 'RLNG (Regasified LNG)',
+    def: "Liquefied Natural Gas that has been imported by ship, stored, and converted back to gas for distribution through the pipeline network. RLNG is a major and expensive fuel input for Pakistan's power sector and industry, so its price is highly sensitive to global gas markets.",
+  },
+  spr: {
+    label: 'SPR (Strategic Petroleum Reserve)',
+    def: "A government-held stockpile of crude oil or refined fuel maintained as a buffer against supply disruptions or price spikes. Pakistan announced a framework for building its own SPR in 2026 to reduce vulnerability to Hormuz-related shocks.",
+  },
+  gdp: {
+    label: 'GDP (Gross Domestic Product)',
+    def: "The total value of all goods and services produced in a country in a year. The GDP growth rate — how fast this total expanded — is the headline measure of economic performance. Pakistan's GDP grew 3.7 percent in FY26, the fastest in four years.",
+  },
+  lsm: {
+    label: 'LSM (Large Scale Manufacturing)',
+    def: "An index published monthly by the Pakistan Bureau of Statistics tracking output from the country's major industrial sectors — textiles, cement, steel, food processing, autos, and others. LSM is a leading indicator of economic momentum and export capacity.",
+  },
+  'fiscal-year': {
+    label: 'Fiscal Year (FY)',
+    def: "Pakistan's fiscal year runs from 1 July to 30 June. FY26 means the year ending 30 June 2026; FY27 means the year ending 30 June 2027. The annual budget, presented to the National Assembly in June, sets revenue and spending plans for the year ahead.",
+  },
+  'kharif-rabi': {
+    label: 'Kharif and Rabi',
+    def: "Pakistan's two main agricultural seasons. Kharif runs roughly June to November and covers summer crops — rice, cotton, sugarcane, and maize. Rabi runs November to April and covers winter crops — wheat, gram, and mustard. Their output directly drives food prices, rural incomes, and the agricultural GDP reading.",
+  },
+  iea: {
+    label: 'IEA (International Energy Agency)',
+    def: "A Paris-based intergovernmental organisation that tracks and forecasts global energy supply, demand, and market conditions. Its monthly oil market reports are closely watched by traders and policymakers worldwide. The IEA's supply-deficit warnings are regularly cited in The Pulse Paper's oil analysis.",
+  },
+  'circular-debt': {
+    label: 'Circular Debt',
+    def: "The accumulation of unpaid bills between entities in Pakistan's power sector — power generators are owed by distribution companies, which are owed by the government. Each unpaid link blocks the next, creating a structural financial liability that constrains power supply and discourages investment. It is a recurring item in budget discussions and IMF negotiations.",
+  },
 };
