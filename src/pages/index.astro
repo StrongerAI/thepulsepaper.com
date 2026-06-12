@@ -1,12 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { editionsList } from '../data/editions.js';
 
-// Latest editions — manual list mirroring the archive (newest first, top 3 shown).
-const editions = [
-  { no: '02', date: '17 May', href: '/editions/2026-05-17.html', access: 'free', title: 'The Week Ahead: What decision-makers need to know before Monday' },
-  { no: '01', date: '10 May', href: '/editions/2026-05-10.html', access: 'free', title: 'The Week Ahead: What decision-makers need to know before Monday' },
-].slice(0, 3);
+const editions = editionsList.slice(0, 3);
 const articles = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 
@@ -141,8 +138,8 @@ const audience = [
     <div class="col">
       <div class="col-head"><h2>Latest editions</h2><a href="/editions" class="more">All editions →</a></div>
       {editions.map((e) => (
-        <a class="mini" href={e.href}>
-          <span class="mono mini-num">No. {e.no} · {e.access === 'free' ? 'Free' : 'Subscribers'}</span>
+        <a class="mini" href={`/editions/${e.slug}.html`}>
+          <span class="mono mini-num">No. {e.no} · {e.date} · {e.access === 'free' ? 'Free' : 'Subscribers'}</span>
           <span class="mini-title">{e.title}</span>
         </a>
       ))}
