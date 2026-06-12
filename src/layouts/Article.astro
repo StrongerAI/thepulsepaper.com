@@ -9,7 +9,7 @@ const jsonLd = {
   publisher: { '@type': 'Organization', name: 'The Pulse Paper' },
 };
 ---
-<Base title={`${title} | The Pulse Paper`} description={summary} type="article" publishedDate={date} ogImage={`/og/articles/${slug}.png`}>
+<Base title={`${title} | The Pulse Paper`} description={summary} type="article" publishedDate={date} ogImage={`/og/signals/${slug}.png`}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="wrap-narrow art">
     <div class="mono art-meta">{dateStr}{tags.length ? ` · ${tags.join(' · ')}` : ''}</div>

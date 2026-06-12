@@ -3,21 +3,21 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title="Articles | The Pulse Paper" description="Free standalone analysis of Pakistan's economy and markets — open to read and share.">
+<Base title="Signals | The Pulse Paper" description="Short-form economic intelligence from The Pulse Paper — bite-sized reads on Pakistan's markets, policy, and macro forces.">
   <section class="wrap idx">
-    <header class="idx-head"><h1>Articles</h1><p class="muted">Free, standalone analysis. The pieces we share and Google indexes.</p></header>
+    <header class="idx-head"><h1>Signals</h1><p class="muted">Bite-sized reads on what's moving. Published when something is worth flagging.</p></header>
     <div class="list">
       {articles.map((a) => {
         const d = a.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
         return (
-          <a class="row" href={`/articles/${a.slug}`}>
+          <a class="row" href={`/signals/${a.slug}`}>
             <div class="mono row-meta">{d}{a.data.tags.length ? ` · ${a.data.tags.join(' · ')}` : ''}</div>
             <div class="row-title">{a.data.title}</div>
             <div class="row-sum muted">{a.data.summary}</div>
           </a>
         );
       })}
-      {articles.length === 0 && <p class="muted">No articles published yet.</p>}
+      {articles.length === 0 && <p class="muted">No signals published yet.</p>}
     </div>
   </section>
   <style>

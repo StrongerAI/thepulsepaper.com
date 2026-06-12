@@ -159,9 +159,9 @@ const audience = [
       {editions.length === 0 && <p class="muted">First edition coming soon.</p>}
     </div>
     <div class="col">
-      <div class="col-head"><h2>Free articles</h2><a href="/articles" class="more">All articles →</a></div>
+      <div class="col-head"><h2>Signals</h2><a href="/signals" class="more">All signals →</a></div>
       {articles.map((a) => (
-        <a class="mini" href={`/articles/${a.slug}`}>
+        <a class="mini" href={`/signals/${a.slug}`}>
           <span class="mono mini-num">Free · {a.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short' })}</span>
           <span class="mini-title">{a.data.title}</span>
         </a>

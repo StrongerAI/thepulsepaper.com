@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 
 export async function GET({ props }) {
   const png = await renderCard({
-    kicker: 'Free Article',
+    kicker: 'Signal',
     title: props.title,
     footer: 'thepulsepaper.com · Independent economic intelligence for Pakistan',
   });
