@@ -13,7 +13,7 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "12 June 2026, 1:37 PM PKT",
+  lastUpdated: "12 June 2026, 7:50 PM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
