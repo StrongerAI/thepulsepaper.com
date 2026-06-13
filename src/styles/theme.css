@@ -65,8 +65,8 @@ a { color: inherit; text-decoration: none; }
 }
 .sitenav-brand { font-family: var(--font-serif); font-size: 18px; color: var(--paper); letter-spacing: -0.3px; }
 .sitenav-brand span {
-  color: var(--gold); font-size: 11px; font-family: var(--font-sans); font-weight: 600;
-  letter-spacing: 2px; text-transform: uppercase; margin-left: 12px; vertical-align: middle; opacity: 0.6;
+  color: var(--accent); font-size: 11px; font-family: var(--font-sans); font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; margin-left: 12px; vertical-align: middle; opacity: 0.85;
 }
 .sitenav-links { display: flex; align-items: center; gap: 22px; font-size: 13px; }
 .sitenav-links a { color: rgba(245,241,235,0.6); transition: color 0.2s; font-weight: 500; }
