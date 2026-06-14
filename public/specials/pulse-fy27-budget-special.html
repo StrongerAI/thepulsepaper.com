@@ -51,7 +51,7 @@ a{color:inherit}
 .hero{padding:46px 0 18px}
 .eyebrow{font-family:'IBM Plex Sans',sans-serif;font-size:.74rem;text-transform:uppercase;letter-spacing:.2em;color:var(--salmon-deep);margin:0 0 18px}
 h1.cover{font-family:'Source Serif 4',serif;font-weight:700;font-size:clamp(34px,7vw,52px);line-height:1.05;margin:0 0 22px}
-.cover-thesis{font-family:'Source Serif 4',serif;font-style:italic;font-weight:500;font-size:clamp(1.5rem,3.4vw,2.15rem);line-height:1.25;color:var(--ink);max-width:24ch;margin:0 0 22px}
+.cover-thesis{font-family:'Source Serif 4',serif;font-style:italic;font-weight:500;font-size:clamp(1.5rem,3.4vw,2.15rem);line-height:1.25;color:var(--ink);max-width:none;margin:0 0 22px}
 .standfirst{font-family:'Source Serif 4',serif;font-size:clamp(16px,2.6vw,19px);line-height:1.5;color:var(--ink-soft);max-width:none;font-weight:500;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
 .byline{font-family:'IBM Plex Sans',sans-serif;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:26px}
 
@@ -62,7 +62,7 @@ h1.cover{font-family:'Source Serif 4',serif;font-weight:700;font-size:clamp(34px
 .bstat.con .n{color:var(--slate)}
 .bstat.prov .n{color:var(--salmon-deep)}
 
-.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid var(--rule-strong);margin:42px 0;background:var(--card-2)}
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid var(--rule-strong);margin:42px 0;background:var(--paper)}
 .tile{padding:18px 16px;border-right:1px solid var(--rule)}
 .tile:last-child{border-right:0}
 .tile .n{font-family:'Source Serif 4',serif;font-weight:700;font-size:1.3rem;color:var(--ink);line-height:1.1}
@@ -70,7 +70,7 @@ h1.cover{font-family:'Source Serif 4',serif;font-weight:700;font-size:clamp(34px
 .tile .l{font-family:'IBM Plex Sans',sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);margin-top:7px;line-height:1.35}
 
 section{padding:34px 0;}
-.sec-eyebrow{font-family:'IBM Plex Sans',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--salmon-deep);margin:0 0 6px;display:block;border-top:1px solid var(--ink);padding-top:12px;}
+.sec-eyebrow{font-family:'IBM Plex Sans',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--salmon-deep);margin:0 0 6px;display:block;border-top:1px solid var(--ink);padding-top:12px;max-width:none;}
 .sec-eyebrow .sec-num{display:inline;margin-right:10px;}
 .verdict .sec-eyebrow,.watch .sec-eyebrow{border-top:none;padding-top:0;}
 .sec-eyebrow .sec-num{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:.85rem;letter-spacing:.04em;color:var(--salmon-deep)}
@@ -81,12 +81,14 @@ section>p:not([class]){text-align:justify;max-width:none;hyphens:auto;-webkit-hy
 .lead p:not([class]):first-of-type::first-letter{font-family:'Source Serif 4',serif;float:left;font-size:3.5rem;line-height:.8;padding:6px 10px 0 0;color:var(--salmon-deep);font-weight:700}
 .pull{font-family:'Source Serif 4',serif;font-size:1.45rem;line-height:1.3;color:var(--ink);border-left:3px solid var(--salmon);padding:4px 0 4px 20px;margin:26px 0;max-width:32ch;font-weight:500}
 
-.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:26px 0}
-.figure{background:var(--card);border:1px solid var(--rule-strong);padding:18px 18px 16px}
+.chart-grid{display:grid;grid-template-columns:1fr;gap:26px;margin:26px 0}
+.chart-grid .figure{display:flex;flex-direction:column}
+.chart-grid .fig-note{margin-top:auto;padding-top:10px}
+.figure{background:var(--paper);border:1px solid var(--rule-strong);padding:18px 18px 16px}
 .figure.wide{grid-column:1/-1}
-.figure.hero-fig{background:var(--card-2);border-color:var(--rule-strong);margin:34px 0 0}
-.fig-title{font-family:'Source Serif 4',serif;font-weight:700;font-size:1.05rem;margin:0 0 2px}
-.fig-kicker{font-family:'IBM Plex Sans',sans-serif;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--salmon-deep);margin:0 0 12px}
+.figure.hero-fig{background:var(--paper);border-color:var(--rule-strong);margin:34px 0 0}
+.fig-kicker{font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin:0 0 2px}
+.fig-title{font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:400;color:var(--ink-soft);margin:0 0 10px}
 .chart-box{position:relative;height:300px}
 .chart-svg{margin-top:4px}
 .chart-svg svg{width:100%;height:auto;display:block}
@@ -101,7 +103,7 @@ section>p:not([class]){text-align:justify;max-width:none;hyphens:auto;-webkit-hy
 .glance tr.tot td{font-weight:700;font-size:.92rem;border-top:2px solid var(--ink);border-bottom:none;padding-top:7px}
 @media(max-width:680px){.glance{grid-template-columns:1fr;gap:20px}}
 .chart-box.tall{height:340px}
-.fig-note{font-family:'IBM Plex Sans',sans-serif;font-style:italic;font-size:.9rem;color:var(--ink-soft);margin:12px 0 0;max-width:64ch}
+.fig-note{font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:var(--ink-soft);margin:10px 0 0;padding:0 2px;max-width:none}
 
 table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.95rem}
 caption{font-family:'IBM Plex Sans',sans-serif;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--salmon-deep);text-align:left;margin-bottom:8px}
@@ -113,12 +115,11 @@ td.num,th.num{font-family:'IBM Plex Sans',sans-serif;text-align:right}
 .hm-wrap{overflow-x:auto;margin:18px 0 0}
 .hm{width:100%;border-collapse:collapse;font-family:'IBM Plex Sans',sans-serif;font-size:.82rem;min-width:600px}
 .hm thead th{background:var(--ink);color:var(--paper);text-align:left;padding:12px 14px;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
-.hm tbody td{padding:11px 14px;border-bottom:2px solid var(--paper)}
+.hm tbody td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,0.35)}
 .hm td.ind{color:var(--ink)}
-.hm td.y26{color:var(--ink-soft);background:var(--card-2)}
-.hm .hm-bad{background:#F6DED8;color:#8F241F}
-.hm .hm-watch{background:#FAEFD4;color:#9A6A1C}
-.hm .hm-good{background:#DEEBE0;color:#2F6B4C}
+.hm td.hm-bad{background:#F6DED8;color:#8F241F}
+.hm td.hm-watch{background:#FAEFD4;color:#9A6A1C}
+.hm td.hm-good{background:#DEEBE0;color:#2F6B4C}
 .hm-legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;font-family:'IBM Plex Sans',sans-serif;font-size:.66rem;color:var(--ink-soft)}
 .hm-legend span{display:inline-flex;align-items:center;gap:7px}
 .hm-legend i{width:11px;height:11px;border-radius:2px}
@@ -127,7 +128,7 @@ td.num,th.num{font-family:'IBM Plex Sans',sans-serif;text-align:right}
 .ratio{margin:8px 0;padding:24px 0 4px}
 .ratio-head{font-family:'IBM Plex Sans',sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 4px}
 .ratio-sub{font-family:'Source Serif 4',serif;font-size:1.3rem;margin:0 0 22px;font-weight:500}
-.bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,4vw,52px);align-items:end;min-height:300px}
+.bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,4vw,52px);align-items:end;min-height:140px}
 .bar-col{display:flex;flex-direction:column;justify-content:flex-end}
 .bar-val{font-family:'Source Serif 4',serif;font-weight:700;font-size:clamp(1rem,2.4vw,1.4rem);margin-bottom:8px}
 .bar{width:100%;border-radius:3px 3px 0 0}
@@ -214,7 +215,7 @@ footer{margin-top:44px;border-top:3px solid var(--ink);padding:14px 24px 48px;fo
 <header class="masthead">
   <div class="wordmark"><a href="https://thepulsepaper.com" style="color:inherit;text-decoration:none;">The Pulse</a></div>
   <div class="mast-meta">
-    <span>FY27 Budget Special &middot; Data Sheet</span>
+    <span>FY27 Budget Special &middot; Analysis</span>
     <span>12 June 2026</span>
   </div>
 </header>
@@ -225,7 +226,6 @@ footer{margin-top:44px;border-top:3px solid var(--ink);padding:14px 24px 48px;fo
     <h1 class="cover">The borrowed balance</h1>
     <p class="cover-thesis">The stabilisation is real, the growth is assumed, and the balance is borrowed.</p>
     <p class="standfirst">The federal government's own deficit is close to 5 percent of GDP. It reaches the 3.6 percent the IMF wants only after a provincial grant is counted in federal receipts and a further provincial surplus is assumed. This is a budget written in Islamabad that Islamabad cannot deliver on its own.</p>
-    <p class="byline">The Pulse Paper &middot; Macro Desk</p>
 
     <div class="figure wide hero-fig">
       <p class="fig-kicker">How the deficit reaches the IMF line &middot; Rs trillion</p>
@@ -258,28 +258,28 @@ footer{margin-top:44px;border-top:3px solid var(--ink);padding:14px 24px 48px;fo
     <table class="hm">
       <thead><tr><th>Indicator</th><th>FY26 revised</th><th>FY27 budget</th><th>Direction</th></tr></thead>
       <tbody>
-        <tr><td class="ind">GDP growth</td><td class="y26">3.7%</td><td class="hm-watch">4.0%</td><td class="hm-watch">Target, +0.3pp</td></tr>
-        <tr><td class="ind">Average inflation</td><td class="y26">~7%</td><td class="hm-watch">8.2%</td><td class="hm-watch">Budgeted higher</td></tr>
-        <tr><td class="ind">Consolidated deficit, % GDP</td><td class="y26">3.0%</td><td class="hm-bad">3.6%</td><td class="hm-bad">Wider</td></tr>
-        <tr><td class="ind">Federal deficit</td><td class="y26">Rs5.16tr</td><td class="hm-bad">Rs7.02tr</td><td class="hm-bad">Wider &middot; 4.9% GDP</td></tr>
-        <tr><td class="ind">Primary surplus, % GDP</td><td class="y26">2.5%</td><td class="hm-watch">2.0%</td><td class="hm-watch">Thinner</td></tr>
-        <tr><td class="ind">FBR tax</td><td class="y26">Rs12.98tr</td><td class="hm-watch">Rs15.26tr</td><td class="hm-watch">+17.6%, steep</td></tr>
-        <tr><td class="ind">Interest bill</td><td class="y26">Rs6.94tr</td><td class="hm-bad">Rs8.05tr</td><td class="hm-bad">+16%</td></tr>
-        <tr><td class="ind">Defence</td><td class="y26">Rs2.59tr</td><td class="hm-watch">Rs3.00tr</td><td class="hm-watch">+15.9%</td></tr>
-        <tr><td class="ind">Federal PSDP</td><td class="y26">Rs0.82tr</td><td class="hm-good">Rs1.00tr</td><td class="hm-good">+22%</td></tr>
-        <tr><td class="ind">Subsidies</td><td class="y26">Rs1.16tr</td><td class="hm-good">Rs1.09tr</td><td class="hm-good">-5.7%</td></tr>
-        <tr><td class="ind">SBP profit</td><td class="y26">Rs2.43tr</td><td class="hm-bad">Rs1.44tr</td><td class="hm-bad">-40.9%</td></tr>
-        <tr><td class="ind">Petroleum levy</td><td class="y26">Rs1.50tr</td><td class="hm-watch">Rs1.68tr</td><td class="hm-watch">Heavier</td></tr>
-        <tr><td class="ind">Provincial grant</td><td class="y26">nil</td><td class="hm-watch">Rs1.04tr</td><td class="hm-watch">New reliance</td></tr>
-        <tr><td class="ind">Provincial surplus, assumed</td><td class="y26">Rs1.38tr</td><td class="hm-watch">Rs1.79tr</td><td class="hm-watch">+30%, assumed</td></tr>
-        <tr><td class="ind">BISP</td><td class="y26">Rs0.71tr</td><td class="hm-good">Rs0.84tr</td><td class="hm-good">+17%</td></tr>
+        <tr><td class="ind">GDP growth</td><td class="hm-watch">3.7%</td><td class="hm-watch">4.0%</td><td class="hm-watch">Target, +0.3pp</td></tr>
+        <tr><td class="ind">Average inflation</td><td class="hm-watch">~7%</td><td class="hm-watch">8.2%</td><td class="hm-watch">Budgeted higher</td></tr>
+        <tr><td class="ind">Consolidated deficit, % GDP</td><td class="hm-bad">3.0%</td><td class="hm-bad">3.6%</td><td class="hm-bad">Wider</td></tr>
+        <tr><td class="ind">Federal deficit</td><td class="hm-bad">Rs5.16tr</td><td class="hm-bad">Rs7.02tr</td><td class="hm-bad">Wider &middot; 4.9% GDP</td></tr>
+        <tr><td class="ind">Primary surplus, % GDP</td><td class="hm-watch">2.5%</td><td class="hm-watch">2.0%</td><td class="hm-watch">Thinner</td></tr>
+        <tr><td class="ind">FBR tax</td><td class="hm-watch">Rs12.98tr</td><td class="hm-watch">Rs15.26tr</td><td class="hm-watch">+17.6%, steep</td></tr>
+        <tr><td class="ind">Interest bill</td><td class="hm-bad">Rs6.94tr</td><td class="hm-bad">Rs8.05tr</td><td class="hm-bad">+16%</td></tr>
+        <tr><td class="ind">Defence</td><td class="hm-watch">Rs2.59tr</td><td class="hm-watch">Rs3.00tr</td><td class="hm-watch">+15.9%</td></tr>
+        <tr><td class="ind">Federal PSDP</td><td class="hm-good">Rs0.82tr</td><td class="hm-good">Rs1.00tr</td><td class="hm-good">+22%</td></tr>
+        <tr><td class="ind">Subsidies</td><td class="hm-good">Rs1.16tr</td><td class="hm-good">Rs1.09tr</td><td class="hm-good">-5.7%</td></tr>
+        <tr><td class="ind">SBP profit</td><td class="hm-bad">Rs2.43tr</td><td class="hm-bad">Rs1.44tr</td><td class="hm-bad">-40.9%</td></tr>
+        <tr><td class="ind">Petroleum levy</td><td class="hm-watch">Rs1.50tr</td><td class="hm-watch">Rs1.68tr</td><td class="hm-watch">Heavier</td></tr>
+        <tr><td class="ind">Provincial grant</td><td class="hm-watch">nil</td><td class="hm-watch">Rs1.04tr</td><td class="hm-watch">New reliance</td></tr>
+        <tr><td class="ind">Provincial surplus, assumed</td><td class="hm-watch">Rs1.38tr</td><td class="hm-watch">Rs1.79tr</td><td class="hm-watch">+30%, assumed</td></tr>
+        <tr><td class="ind">BISP</td><td class="hm-good">Rs0.71tr</td><td class="hm-good">Rs0.84tr</td><td class="hm-good">+17%</td></tr>
       </tbody>
     </table>
   </div>
   <div class="hm-legend">
-    <span><i style="background:#F6DED8"></i> Weakens fiscal credibility</span>
-    <span><i style="background:#FAEFD4"></i> Watch / assumed</span>
-    <span><i style="background:#DEEBE0"></i> Discipline / favourable</span>
+    <span><i style="background:#F6DED8;border:1.5px solid #8F241F"></i> Weakens fiscal credibility</span>
+    <span><i style="background:#FAEFD4;border:1.5px solid #9A6A1C"></i> Watch / assumed</span>
+    <span><i style="background:#DEEBE0;border:1.5px solid #2F6B4C"></i> Discipline / favourable</span>
   </div>
   <div class="figure" style="margin-top:24px">
     <p class="fig-kicker">The official ledger</p>
@@ -389,26 +389,24 @@ footer{margin-top:44px;border-top:3px solid var(--ink);padding:14px 24px 48px;fo
     <p class="ratio-head">The squeeze that creates the dependence &middot; Rs trillion</p>
     <p class="ratio-sub">Why there is nothing left to balance with</p>
     <div class="bars">
-      <div class="bar-col"><span class="bar-val">8.05</span><div class="bar interest" style="height:300px"></div><span class="bar-label">Interest<br>payments</span></div>
-      <div class="bar-col"><span class="bar-val">3.00</span><div class="bar defence" style="height:112px"></div><span class="bar-label">Defence</span></div>
-      <div class="bar-col"><span class="bar-val">1.00</span><div class="bar dev" style="height:37px"></div><span class="bar-label">Federal<br>development</span></div>
+      <div class="bar-col"><span class="bar-val">8.05</span><div class="bar interest" style="height:140px"></div><span class="bar-label">Interest<br>payments</span></div>
+      <div class="bar-col"><span class="bar-val">3.00</span><div class="bar defence" style="height:52px"></div><span class="bar-label">Defence</span></div>
+      <div class="bar-col"><span class="bar-val">1.00</span><div class="bar dev" style="height:16px"></div><span class="bar-label">Federal<br>development</span></div>
     </div>
     <p class="fig-note" style="margin-top:18px">Interest costs roughly eight times the federal development programme. With the past and the military taking the first two claims, the centre has no room left to fund relief from its own revenue, which is why it turns to the provinces.</p>
   </div>
 
-  <div class="chart-grid">
-    <div class="figure">
+  <div class="figure wide" style="max-width:600px;margin-left:auto;margin-right:auto">
       <p class="fig-kicker">Federal fiscal arithmetic, Rs trillion</p>
       <p class="fig-title">Gross receipts, the transfer out, the net</p>
       <div class="chart-svg"><svg viewBox="0 0 720 360" role="img" aria-label="Federal receipts bridge" style="width:100%;height:auto;display:block;font-family:'IBM Plex Sans',sans-serif"><g stroke="var(--rule)" stroke-width="1"><line x1="60" y1="300.0" x2="680" y2="300.0"/><line x1="60" y1="243.5" x2="680" y2="243.5"/><line x1="60" y1="187.0" x2="680" y2="187.0"/><line x1="60" y1="130.4" x2="680" y2="130.4"/><line x1="60" y1="73.9" x2="680" y2="73.9"/></g><g font-size="11" fill="var(--ink-soft)" text-anchor="end"><text x="54" y="304.0">0tr</text><text x="54" y="247.5">5tr</text><text x="54" y="191.0">10tr</text><text x="54" y="134.4">15tr</text><text x="54" y="77.9">20tr</text></g><rect x="120" y="67.1" width="120" height="232.9" fill="var(--slate)"/><text x="180" y="59.1" font-size="12.5" font-weight="700" fill="var(--ink)" text-anchor="middle">20.60tr</text><rect x="300" y="67.1" width="120" height="100.0" fill="var(--gold)"/><text x="360" y="59.1" font-size="12.5" font-weight="700" fill="var(--ink)" text-anchor="middle">-8.85tr</text><rect x="480" y="167.2" width="120" height="132.8" fill="var(--salmon)"/><text x="540" y="159.2" font-size="12.5" font-weight="700" fill="var(--ink)" text-anchor="middle">11.75tr</text><g stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"><line x1="240" y1="67.1" x2="300" y2="67.1"/><line x1="420" y1="167.2" x2="480" y2="167.2"/></g><line x1="60" y1="300" x2="680" y2="300" stroke="var(--ink)" stroke-width="1.5"/><g font-size="11.5" fill="var(--ink-soft)" text-anchor="middle"><text x="180" y="322">Gross receipts</text><text x="360" y="322">Provincial share</text><text x="540" y="322">Net federal</text></g></svg></div>
       <p class="fig-note">Gross revenue of Rs20.6tr, the Rs8.85tr provincial transfer removed, leaving Rs11.75tr the centre keeps against Rs18.8tr of spending.</p>
-    </div>
-    <div class="figure">
+  </div>
+  <div class="figure wide" style="max-width:600px;margin-left:auto;margin-right:auto;margin-top:20px">
       <p class="fig-kicker">Major federal spending lines, Rs trillion</p>
       <p class="fig-title">How the federal rupee is spent</p>
       <div class="chart-svg"><svg viewBox="0 0 720 364" role="img" aria-label="Major federal spending lines" style="width:100%;height:auto;display:block;font-family:'IBM Plex Sans',sans-serif"><g stroke="var(--rule)" stroke-width="1"><line x1="170.0" y1="34" x2="170.0" y2="326"/><line x1="279.8" y1="34" x2="279.8" y2="326"/><line x1="389.6" y1="34" x2="389.6" y2="326"/><line x1="499.3" y1="34" x2="499.3" y2="326"/><line x1="609.1" y1="34" x2="609.1" y2="326"/></g><g font-size="11" fill="var(--ink-soft)" text-anchor="middle"><text x="170.0" y="346">0.00</text><text x="279.8" y="346">2.00</text><text x="389.6" y="346">4.00</text><text x="499.3" y="346">6.00</text><text x="609.1" y="346">8.00</text></g><g font-size="12.5" font-weight="600" fill="var(--ink)"><text x="14" y="64">Interest</text><text x="14" y="104">Defence</text><text x="14" y="144">Grants</text><text x="14" y="184">Pensions</text><text x="14" y="224">Subsidies</text><text x="14" y="264">Civil admin</text><text x="14" y="304">Development</text></g><line x1="170" y1="60" x2="612.1" y2="60" stroke="var(--claret)" stroke-width="2.5"/><circle cx="612.1" cy="60" r="6" fill="var(--claret)"/><text x="624.1" y="64" font-size="11.5" font-weight="700" fill="var(--ink)">8.05</text><line x1="170" y1="100" x2="334.7" y2="100" stroke="var(--slate)" stroke-width="2.5"/><circle cx="334.7" cy="100" r="6" fill="var(--slate)"/><text x="346.7" y="104" font-size="11.5" font-weight="700" fill="var(--ink)">3.00</text><line x1="170" y1="140" x2="317.1" y2="140" stroke="var(--gold)" stroke-width="2.5"/><circle cx="317.1" cy="140" r="6" fill="var(--gold)"/><text x="329.1" y="144" font-size="11.5" font-weight="700" fill="var(--ink)">2.68</text><line x1="170" y1="180" x2="234.2" y2="180" stroke="var(--slate)" stroke-width="2.5"/><circle cx="234.2" cy="180" r="6" fill="var(--slate)"/><text x="246.2" y="184" font-size="11.5" font-weight="700" fill="var(--ink)">1.17</text><line x1="170" y1="220" x2="229.9" y2="220" stroke="var(--slate)" stroke-width="2.5"/><circle cx="229.9" cy="220" r="6" fill="var(--slate)"/><text x="241.9" y="224" font-size="11.5" font-weight="700" fill="var(--ink)">1.09</text><line x1="170" y1="260" x2="228.8" y2="260" stroke="var(--slate)" stroke-width="2.5"/><circle cx="228.8" cy="260" r="6" fill="var(--slate)"/><text x="240.8" y="264" font-size="11.5" font-weight="700" fill="var(--ink)">1.07</text><line x1="170" y1="300" x2="224.9" y2="300" stroke="var(--salmon)" stroke-width="2.5"/><circle cx="224.9" cy="300" r="6" fill="var(--salmon)"/><text x="236.9" y="304" font-size="11.5" font-weight="700" fill="var(--ink)">1.00</text></svg></div>
       <p class="fig-note">Interest dwarfs every other line. Development sits at the bottom.</p>
-    </div>
   </div>
 </section>
 
@@ -433,15 +431,15 @@ footer{margin-top:44px;border-top:3px solid var(--ink);padding:14px 24px 48px;fo
     <p class="fig-title">Old rate against new rate</p>
     <div class="chart-svg">
 <svg viewBox="0 0 720 300" role="img" aria-label="Marginal income tax rate by salary band, old rate against new rate" style="width:100%;height:auto;display:block;font-family:'IBM Plex Sans',sans-serif">
-<circle cx="470" cy="16" r="5" fill="var(--salmon-deep)"/><text x="481" y="20" font-size="11" fill="var(--ink-soft)">New rate</text>
+<circle cx="470" cy="16" r="5" fill="var(--positive)"/><text x="481" y="20" font-size="11" fill="var(--ink-soft)">New rate</text>
 <circle cx="573" cy="16" r="5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><text x="584" y="20" font-size="11" fill="var(--ink-soft)">Old rate</text>
 <g stroke="var(--rule)" stroke-width="1"><line x1="150" y1="40" x2="150" y2="256"/><line x1="285" y1="40" x2="285" y2="256"/><line x1="420" y1="40" x2="420" y2="256"/><line x1="555" y1="40" x2="555" y2="256"/><line x1="690" y1="40" x2="690" y2="256"/></g>
 <g font-size="11" fill="var(--ink-soft)" text-anchor="middle"><text x="150" y="276">0</text><text x="285" y="276">10</text><text x="420" y="276">20</text><text x="555" y="276">30</text><text x="690" y="276">40</text></g>
 <g font-size="12.5" font-weight="600" fill="var(--ink)"><text x="14" y="64">Rs2.2-3.2m</text><text x="14" y="124">Rs3.2-4.1m</text><text x="14" y="184">Rs4.1-5.6m</text><text x="14" y="244">Rs5.6-7.0m</text></g>
-<line x1="420" y1="60" x2="460.5" y2="60" stroke="var(--salmon-deep)" stroke-width="3"/><circle cx="460.5" cy="60" r="6.5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><circle cx="420" cy="60" r="6.5" fill="var(--salmon-deep)"/><text x="409" y="64" font-size="11.5" font-weight="700" fill="var(--salmon-deep)" text-anchor="end">20</text><text x="471.5" y="64" font-size="11" fill="var(--ink-soft)">23</text>
-<line x1="487.5" y1="120" x2="555" y2="120" stroke="var(--salmon-deep)" stroke-width="3"/><circle cx="555" cy="120" r="6.5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><circle cx="487.5" cy="120" r="6.5" fill="var(--salmon-deep)"/><text x="476.5" y="124" font-size="11.5" font-weight="700" fill="var(--salmon-deep)" text-anchor="end">25</text><text x="566" y="124" font-size="11" fill="var(--ink-soft)">30</text>
-<line x1="541.5" y1="180" x2="622.5" y2="180" stroke="var(--salmon-deep)" stroke-width="3"/><circle cx="622.5" cy="180" r="6.5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><circle cx="541.5" cy="180" r="6.5" fill="var(--salmon-deep)"/><text x="530.5" y="184" font-size="11.5" font-weight="700" fill="var(--salmon-deep)" text-anchor="end">29</text><text x="633.5" y="184" font-size="11" fill="var(--ink-soft)">35</text>
-<line x1="582" y1="240" x2="622.5" y2="240" stroke="var(--salmon-deep)" stroke-width="3"/><circle cx="622.5" cy="240" r="6.5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><circle cx="582" cy="240" r="6.5" fill="var(--salmon-deep)"/><text x="571" y="244" font-size="11.5" font-weight="700" fill="var(--salmon-deep)" text-anchor="end">32</text><text x="633.5" y="244" font-size="11" fill="var(--ink-soft)">35</text>
+<line x1="420" y1="60" x2="460.5" y2="60" stroke="var(--positive)" stroke-width="3"/><circle cx="460.5" cy="60" r="6.5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><circle cx="420" cy="60" r="6.5" fill="var(--positive)"/><text x="409" y="64" font-size="11.5" font-weight="700" fill="var(--positive)" text-anchor="end">20</text><text x="471.5" y="64" font-size="11" fill="var(--ink-soft)">23</text>
+<line x1="487.5" y1="120" x2="555" y2="120" stroke="var(--positive)" stroke-width="3"/><circle cx="555" cy="120" r="6.5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><circle cx="487.5" cy="120" r="6.5" fill="var(--positive)"/><text x="476.5" y="124" font-size="11.5" font-weight="700" fill="var(--positive)" text-anchor="end">25</text><text x="566" y="124" font-size="11" fill="var(--ink-soft)">30</text>
+<line x1="541.5" y1="180" x2="622.5" y2="180" stroke="var(--positive)" stroke-width="3"/><circle cx="622.5" cy="180" r="6.5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><circle cx="541.5" cy="180" r="6.5" fill="var(--positive)"/><text x="530.5" y="184" font-size="11.5" font-weight="700" fill="var(--positive)" text-anchor="end">29</text><text x="633.5" y="184" font-size="11" fill="var(--ink-soft)">35</text>
+<line x1="582" y1="240" x2="622.5" y2="240" stroke="var(--positive)" stroke-width="3"/><circle cx="622.5" cy="240" r="6.5" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><circle cx="582" cy="240" r="6.5" fill="var(--positive)"/><text x="571" y="244" font-size="11.5" font-weight="700" fill="var(--positive)" text-anchor="end">32</text><text x="633.5" y="244" font-size="11" fill="var(--ink-soft)">35</text>
 </svg>
 </div>
     <p class="fig-note">Every cut sits above Rs2.2m a year. Lower salaried filers below that line see no change.</p>
@@ -531,9 +529,67 @@ footer{margin-top:44px;border-top:3px solid var(--ink);padding:14px 24px 48px;fo
   <p>What is not in dispute is the consequence. Defence rises 15.9 percent to Rs3 trillion, three times the entire federal development programme. The figures still record where the money went, and a reader is entitled to weigh Rs3 trillion for defence against Rs1 trillion for everything the federal state will build next year, with the difference made up by the provinces.</p>
 </section>
 
+<!-- SECTOR REVIEW -->
+<section>
+  <p class="sec-eyebrow"><span class="sec-num">X</span> Sector read-through</p>
+  <h2>Where the budget changes operating conditions</h2>
+  <p>The budget does not simply give relief or take it away. It steers activity toward documented producers, export earners and local assembly, and raises the cost of operating outside the formal system. This is the policy transmission map, not a stock call.</p>
+
+  <div class="elsewhere">
+    <div class="ebox">
+      <h4>Construction and property</h4>
+      <p>The property package is one of the clearest sector supports. Section 7E deemed-income tax on immovable property is abolished, seller-side advance tax is cut to 2.75 percent and buyer-side tax is cut to 1.25 percent. The Rs71 billion PM Apna Ghar allocation adds subsidised housing finance. The signal is to lower transaction friction and restart construction-linked activity.</p>
+    </div>
+    <div class="ebox">
+      <h4>Cement and steel</h4>
+      <p>Construction materials benefit from the larger national development programme, property-tax relief and subsidised housing finance. Cement gets a demand tailwind from public works and real-estate revival. Steel gets the same demand support, but also a documentation squeeze as sales-tax collection shifts toward electricity-based monitoring for melters, re-rollers and composite units, with refunds linked to digital integration.</p>
+    </div>
+    <div class="ebox">
+      <h4>Exporters and textiles</h4>
+      <p>Exporters get direct relief. The Export Development Surcharge is abolished, the minimum tax is reduced to 1.25 percent from 2 percent, and the Export Facilitation Scheme window is extended to 18 months from 9 months. This is meant to ease cash flow and improve export margins, but the test is whether it reverses the FY26 export decline.</p>
+    </div>
+    <div class="ebox">
+      <h4>IT and software</h4>
+      <p>IT gets policy continuity rather than a new fiscal push. The 0.25 percent final-tax regime for IT and IT-enabled services is extended to tax year 2029. The value is certainty: lower tax friction, better reinvestment room and a clearer runway for services-export growth.</p>
+    </div>
+    <div class="ebox">
+      <h4>FMCG and branded consumer goods</h4>
+      <p>The budget pushes FMCG deeper into formal taxation. More products enter the Third Schedule, fixing GST at printed retail price and closing room for under-invoicing. Documented branded producers gain against informal channels; the cost is upward pressure on consumer prices.</p>
+    </div>
+    <div class="ebox">
+      <h4>Autos</h4>
+      <p>Autos get a split signal. The budget raises FED on large-engine and imported vehicles to 40–41 percent and applies value-based FED to imported high-value EVs, while keeping duty concessions on EV parts and cutting GST on imported trucks to 1 percent. The direction is to discourage high-end import demand and protect space for local assembly.</p>
+    </div>
+    <div class="ebox">
+      <h4>OMCs and fuel distribution</h4>
+      <p>OMCs sit inside the fuel-levy bet. The PDL target rises to Rs1.7 trillion and a new Rs80-per-litre FED lands on petroleum solvents. The sector depends on stable prices: if oil rises too far, the state faces a choice between levy collection and consumer cushioning.</p>
+    </div>
+    <div class="ebox">
+      <h4>Refineries</h4>
+      <p>Refineries get a targeted measure: GST is exempted on machinery imported for upgrading existing capacity. The relief lowers the cost of improving product quality without extending a broad sector subsidy.</p>
+    </div>
+    <div class="ebox">
+      <h4>Pharmaceuticals</h4>
+      <p>The budget gives targeted relief to medicines by exempting customs duty on active pharmaceutical ingredients for cancer-related drugs. The measure is narrow, but directionally important: it lowers import-cost pressure on critical medicine inputs rather than giving a blanket pharmaceutical-sector concession.</p>
+    </div>
+    <div class="ebox">
+      <h4>Banks and financials</h4>
+      <p>Banks are left outside the main super-tax relief. The 10 percent super tax remains unchanged for banks, while cross-border card withholding is reduced to 0.5 percent from 5 percent and housing finance gets support through PM Apna Ghar. The direct tax picture is neutral; the positives are second-round effects from housing, formalisation and financial intermediation.</p>
+    </div>
+    <div class="ebox">
+      <h4>Fertiliser and E&amp;P</h4>
+      <p>Fertiliser and exploration-and-production companies are also excluded from the super-tax cut, keeping their 10 percent rate unchanged. That means the broad corporate relief does not fully apply to these strategic/high-profit sectors. The budget keeps them as revenue anchors rather than relief beneficiaries.</p>
+    </div>
+    <div class="ebox">
+      <h4>Digital commerce and professionals</h4>
+      <p>The budget tightens the tax net around services and digital channels. Withholding on services rises to 7 percent for listed services, 14 percent for other services and 15 percent for independent professionals. Withholding on digitally ordered goods and services rises to 20 percent at the point of order, and social-media/influencer income routed through banking channels faces 5 percent WHT. The direction is clear: more collection at source, less room outside the documented system.</p>
+    </div>
+  </div>
+</section>
+
 <!-- MARKETS -->
 <section>
-  <p class="sec-eyebrow"><span class="sec-num">X</span> Markets</p>
+  <p class="sec-eyebrow"><span class="sec-num">XI</span> Markets</p>
   <h2>The market read it early</h2>
   <div class="mkt reveal">
     <div>
@@ -554,7 +610,7 @@ footer{margin-top:44px;border-top:3px solid var(--ink);padding:14px 24px 48px;fo
 
 <!-- VERDICT -->
 <section class="verdict">
-  <p class="sec-eyebrow"><span class="sec-num">XI</span> The verdict</p>
+  <p class="sec-eyebrow"><span class="sec-num">XII</span> The verdict</p>
   <h2>Credit on the discipline, exposure on the dependence</h2>
   <ol class="points">
     <li><div><h4>The balance is borrowed</h4><p>The federal deficit is close to 5 percent of GDP and reaches the 3.6 percent target only through a provincial surplus and grant the centre does not control and must still see materialise through provincial budgets and cash behaviour. It is the budget's defining feature and its largest single risk.</p></div></li>
@@ -568,7 +624,7 @@ footer{margin-top:44px;border-top:3px solid var(--ink);padding:14px 24px 48px;fo
 
 <!-- WATCH -->
 <section class="watch">
-  <p class="sec-eyebrow"><span class="sec-num">XII</span> What to watch</p>
+  <p class="sec-eyebrow"><span class="sec-num">XIII</span> What to watch</p>
   <h2>The indicators that will settle the argument</h2>
   <ul>
     <li><span><b>Provincial sign-off on the Article 164 arrangement.</b> The whole framework assumes four provinces run a surplus and hand the centre a grant. Whether they agree, and on what terms, is the fault line under the 3.6 percent.</span></li>
