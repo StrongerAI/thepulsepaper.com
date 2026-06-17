@@ -17,7 +17,6 @@ import { editionsList as editions } from '../../data/editions.js';
         <a class="row" href={`/editions/${e.slug}.html`}>
           <div class="row-top">
             <span class="mono row-meta">No. {e.no} · {e.date}</span>
-            <span class={`badge ${e.access}`}>{e.access === 'free' ? 'Free' : 'Subscribers'}</span>
           </div>
           <div class="row-title">{e.title}</div>
           <div class="row-sum muted">{e.summary}</div>
