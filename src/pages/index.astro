@@ -13,13 +13,12 @@ const sections = [
   'Regulatory', 'Weather & Agri', 'Political Risk', 'Global Signals', 'Action Items',
 ];
 
-// "Glimpse inside" — real figures from a recent edition (No. 02). Framed as a sample,
-// not live data, so it never looks stale or wrong.
+// "Glimpse inside" — illustrative format cards, styled exactly like edition data cards.
 const sample = [
-  { label: 'Brent Crude', value: '$67.10', delta: 'down 11% WoW', tone: 'green' },
-  { label: 'FBR Revenue', value: 'Rs 11.23tr', delta: 'Rs 864bn short', tone: 'red' },
-  { label: 'USD / PKR', value: '280.60', delta: 'stable', tone: 'neutral' },
-  { label: 'KSE-100', value: '117,440', delta: 'up 2.1% WoW', tone: 'green' },
+  { label: 'Brent Crude', value: 'Oil benchmark', delta: 'USD/bbl · WoW direction', tone: 'red' },
+  { label: 'USD / PKR', value: 'Exchange rate', delta: 'weekly close · trend', tone: 'amber' },
+  { label: 'KSE-100', value: 'Equity market', delta: 'index pts · WoW %', tone: 'green' },
+  { label: 'FBR Revenue', value: 'Fiscal pulse', delta: 'Rs bn · vs target', tone: 'red' },
 ];
 
 // Who it reads for — broadened beyond supply chain to the full decision-maker audience.
@@ -35,14 +34,17 @@ const audience = [
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
-      <div class="hero-tag">Economic Intelligence — Pakistan</div>
-      <h1>Know what&rsquo;s coming <em>before</em> Monday</h1>
-      <p class="hero-sub">Independent analysis of Pakistan&rsquo;s economy and markets — what moved last week, what&rsquo;s developing now, and what to prepare for. One brief. Every Sunday. For the people who make decisions with money.</p>
-      <form class="hero-form" id="subscribe" autocomplete="off">
-        <input type="email" id="heroEmail" placeholder="Your work email" required />
-        <button type="submit">Subscribe — It&rsquo;s Free</button>
-      </form>
-      <p class="hero-note" id="heroNote">Free weekly edition. No spam. Unsubscribe anytime.</p>
+      <div class="hero-tag">The Pulse Paper &middot; Economic Intelligence &middot; Pakistan</div>
+      {editions.length > 0 ? (
+        <div class="hero-edition">
+          <div class="hero-ed-kicker mono">Latest &middot; Edition No. {editions[0].no} &middot; {editions[0].date}</div>
+          <a class="hero-ed-title" href={`/editions/${editions[0].slug}.html`}>{editions[0].title}</a>
+          <p class="hero-ed-sum">{editions[0].summary}</p>
+          <a class="hero-ed-read" href={`/editions/${editions[0].slug}.html`}>Read this edition &rarr;</a>
+        </div>
+      ) : (
+        <h1>Independent economic intelligence for Pakistan</h1>
+      )}
     </div>
   </section>
 
@@ -84,23 +86,23 @@ const audience = [
   </section>
 
   <!-- GLIMPSE INSIDE -->
-  <section class="block-dark">
+  <section class="block-cream">
     <div class="wrap">
-      <div class="block-head center">
-        <h2 class="on-dark">A glimpse inside</h2>
-        <p class="muted-dark">Real figures from Edition No. 05 &mdash; 7 June 2026.</p>
+      <div class="block-head">
+        <h2>What every edition tracks</h2>
+        <p class="muted">Each Sunday brief covers these indicators &mdash; with the week&rsquo;s actual figures, context, and what they mean for Pakistan.</p>
       </div>
       <div class="sample-grid">
         {sample.map((s) => (
           <div class={`data-card ${s.tone}`}>
             <div class="data-label">{s.label}</div>
             <div class="data-value">{s.value}</div>
-            <div class={`data-delta ${s.tone === 'green' ? 'delta-down' : s.tone === 'red' ? 'delta-up' : 'delta-flat'}`}>{s.delta}</div>
+            <div class="data-delta delta-flat">{s.delta}</div>
           </div>
         ))}
       </div>
-      <div class="center" style="margin-top: 28px;">
-        <a href="/editions" class="ghost-btn">Read a full edition →</a>
+      <div style="margin-top: 24px;">
+        <a href="/editions" class="more">Read a full edition →</a>
       </div>
     </div>
   </section>
@@ -157,15 +159,40 @@ const audience = [
 
   <!-- RHYTHM -->
   <section class="wrap block">
-    <div class="block-head"><h2>Your intelligence rhythm</h2></div>
+    <div class="block-head">
+      <h2>What arrives, and when</h2>
+      <p class="muted">Three publication types. A predictable schedule. Everything a decision-maker needs to stay ahead of Pakistan&rsquo;s economy.</p>
+    </div>
     <div class="rhythm">
-      <div class="rhythm-card">
-        <div class="rhythm-when mono">The Weekly &middot; Every Sunday evening</div>
-        <p>The full brief — data cards, commodity tables, a disruption calendar, oil charts, scenario analysis, and prioritised action items.</p>
+      <div class="rhythm-card rhythm-weekly">
+        <div class="rhythm-name">The Weekly Brief</div>
+        <div class="rhythm-when mono">Every Sunday evening</div>
+        <ul class="rhythm-list">
+          <li>PKR, oil benchmarks, commodities &amp; KSE-100</li>
+          <li>Data cards, charts &amp; commodity tables</li>
+          <li>Disruption calendar &amp; scenario analysis</li>
+          <li>Prioritised action items with deadlines</li>
+        </ul>
       </div>
-      <div class="rhythm-card">
-        <div class="rhythm-when mono">The Monthly &middot; Last Sunday of the month</div>
-        <p>A 30-day trend analysis with a macro risk scorecard, longer-horizon outlook, and strategy recommendations.</p>
+      <div class="rhythm-card rhythm-monthly">
+        <div class="rhythm-name">The Monthly Digest</div>
+        <div class="rhythm-when mono">Last Sunday of the month</div>
+        <ul class="rhythm-list">
+          <li>30-day trend analysis across all ten sections</li>
+          <li>Macro risk scorecard with directional ratings</li>
+          <li>Longer-horizon outlook &amp; scenario map</li>
+          <li>Strategic recommendations for the month ahead</li>
+        </ul>
+      </div>
+      <div class="rhythm-card rhythm-special">
+        <div class="rhythm-name">Special Editions</div>
+        <div class="rhythm-when mono">Event-driven &middot; As they happen</div>
+        <ul class="rhythm-list">
+          <li>Budget analysis &amp; fiscal deep dives</li>
+          <li>Policy shifts &amp; regulatory events</li>
+          <li>Geopolitical &amp; supply chain shocks</li>
+          <li>One-off briefs when the story demands it</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -185,22 +212,33 @@ const audience = [
 
   <style>
     /* page-level background override — white instead of cream */
-    :global(body) { background: #fff; }
+    :global(body) { background: #fafaf8; }
 
     /* HERO */
-    .hero { background: var(--ink); color: var(--paper); padding: 140px 0 80px; position: relative; overflow: hidden; }
+    .hero { background: var(--ink); color: var(--paper); padding: 80px 0 64px; position: relative; overflow: hidden; }
     .hero::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
-      background:
-        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.02) 79px, rgba(255,255,255,0.02) 80px),
-        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,255,255,0.02) 79px, rgba(255,255,255,0.02) 80px);
+      background-image: radial-gradient(rgba(255,255,255,0.10) 1.2px, transparent 1.2px);
+      background-size: 60px 60px;
     }
     .hero-inner { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 40px; position: relative; z-index: 1; }
-    .hero-tag { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
-    .hero h1 { font-family: var(--font-serif); font-size: 54px; font-weight: 400; line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px; }
-    .hero h1 em { font-style: italic; color: var(--accent); }
-    .hero-sub { font-size: 19px; line-height: 1.7; color: rgba(245,241,235,0.65); max-width: 580px; margin-bottom: 40px; }
-    .hero-note { margin-top: 14px; font-size: 12px; color: rgba(245,241,235,0.3); font-weight: 500; }
+    .hero-tag { font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(245,241,235,0.35); margin-bottom: 28px; }
+
+    /* featured edition */
+    .hero-ed-kicker { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,241,235,0.4); margin-bottom: 14px; }
+    .hero-ed-title { display: block; font-family: var(--font-serif); font-size: 52px; font-weight: 400; line-height: 1.15; letter-spacing: -0.5px; color: var(--paper); text-decoration: none; max-width: 920px; margin-bottom: 20px; transition: color 0.2s; }
+    .hero-ed-title:hover { color: rgba(245,241,235,0.75); }
+    .hero-ed-sum { font-size: 16px; line-height: 1.7; color: rgba(245,241,235,0.5); max-width: 760px; margin-bottom: 22px; }
+    .hero-ed-read { font-size: 13px; font-weight: 600; color: var(--accent); letter-spacing: 0.3px; }
+    .hero-ed-read:hover { color: var(--accent-dark); }
+
+    /* fallback h1 when no editions */
+    .hero h1 { font-family: var(--font-serif); font-size: 46px; font-weight: 400; line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.5px; }
+
+    /* subscribe area */
+    .hero-divider { width: 40px; height: 1px; background: rgba(245,241,235,0.12); margin: 32px 0; }
+    .hero-prompt { font-size: 13px; color: rgba(245,241,235,0.4); margin-bottom: 14px; font-weight: 500; letter-spacing: 0.2px; }
+    .hero-note { margin-top: 12px; font-size: 11px; color: rgba(245,241,235,0.25); font-weight: 500; }
 
     /* shared block scaffolding */
     .block { padding: 64px 40px; }
@@ -216,13 +254,10 @@ const audience = [
     .pillar h3 { font-family: var(--font-sans); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
     .pillar p { font-size: 14.5px; line-height: 1.6; }
 
-    /* glimpse inside (dark band) */
-    .block-dark { background: var(--ink); color: var(--paper); padding: 64px 0; }
-    .on-dark { color: var(--paper); }
-    .muted-dark { color: rgba(245,241,235,0.5); }
+    /* glimpse inside */
+    .block-cream { background: var(--paper); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 64px 0; }
     .sample-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .ghost-btn { display: inline-block; border: 1px solid rgba(245,241,235,0.3); color: var(--paper); padding: 10px 22px; border-radius: 2px; font-size: 14px; font-weight: 500; transition: all 0.2s; }
-    .ghost-btn:hover { background: var(--paper); color: var(--ink); }
+    .sample-grid .data-value { font-size: 17px; font-weight: 600; letter-spacing: -0.2px; }
 
     /* ten sections */
     .sections-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
@@ -236,10 +271,15 @@ const audience = [
     .proofline { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 18px; color: var(--muted); margin-top: 32px; }
 
     /* rhythm */
-    .rhythm { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .rhythm-card { border: 1px solid var(--border); border-left: 3px solid var(--gold); background: var(--card-bg); padding: 22px 24px; }
-    .rhythm-when { font-size: 12px; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; font-weight: 600; }
-    .rhythm-card p { font-size: 14.5px; line-height: 1.6; }
+    .rhythm { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .rhythm-card { border: 1px solid var(--border); background: var(--card-bg); padding: 22px 24px; display: flex; flex-direction: column; gap: 10px; }
+    .rhythm-weekly  { border-top: 3px solid var(--gold); }
+    .rhythm-monthly { border-top: 3px solid var(--muted); }
+    .rhythm-special { border-top: 3px solid var(--accent); }
+    .rhythm-name { font-family: var(--font-serif); font-size: 18px; font-weight: 400; line-height: 1.2; }
+    .rhythm-when { font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+    .rhythm-list { list-style: none; margin: 4px 0 0; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 12px; }
+    .rhythm-list li { font-size: 13.5px; line-height: 1.5; color: var(--ink); }
 
     /* latest grid */
     .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding-top: 56px; padding-bottom: 8px; }
@@ -292,15 +332,17 @@ const audience = [
     .cta-btn:hover { background: var(--accent-dark); }
 
     @media (max-width: 768px) {
-      .hero { padding: 110px 0 56px; }
+      .hero { padding: 72px 0 48px; }
       .hero-inner { padding: 0 20px; }
-      .hero h1 { font-size: 36px; }
+      .hero-ed-title { font-size: 32px; letter-spacing: -0.3px; }
+      .hero-ed-sum { font-size: 15px; }
+      .hero h1 { font-size: 30px; }
       .hero-form { flex-direction: column; max-width: 100%; }
-      .block, .block-paper, .final-cta { padding-left: 20px; padding-right: 20px; }
+      .block, .block-paper, .block-cream, .final-cta { padding-left: 20px; padding-right: 20px; }
       .pillars { grid-template-columns: 1fr; }
       .sample-grid { grid-template-columns: 1fr 1fr; }
       .sections-grid { grid-template-columns: 1fr 1fr; }
-      .rhythm { grid-template-columns: 1fr; }
+      .rhythm { grid-template-columns: 1fr; gap: 12px; }
       .home-grid { grid-template-columns: 1fr; gap: 36px; }
     }
   </style>
