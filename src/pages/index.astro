@@ -46,25 +46,40 @@ const audience = [
     </div>
   </section>
 
-  <!-- THREE PILLARS -->
-  <section class="wrap block">
-    <div class="block-head">
-      <h2>The intelligence gap, closed</h2>
-      <p class="muted">The forces moving Pakistan&rsquo;s economy are scattered across dozens of sources. The Pulse Paper brings them into one focused brief, every week — structured around three questions.</p>
+  <!-- LATEST EDITIONS + SIGNALS -->
+  <section class="wrap home-grid">
+    <div class="col">
+      <div class="col-head"><h2>Latest editions</h2><a href="/editions" class="more">All editions →</a></div>
+      {editions.map((e) => (
+        <a class="mini" href={`/editions/${e.slug}.html`}>
+          <span class="mono mini-num">No. {e.no} · {e.date} · {e.access === 'free' ? 'Free' : 'Subscribers'}</span>
+          <span class="mini-title">{e.title}</span>
+        </a>
+      ))}
+      {editions.length === 0 && <p class="muted">First edition coming soon.</p>}
     </div>
-    <div class="pillars">
-      <div class="pillar">
-        <h3>What Moved</h3>
-        <p>PKR, oil benchmarks, fuel prices, commodities, KSE-100, inflation, ports — the numbers that changed last week, and what they mean for your costs and decisions.</p>
+    <div class="col">
+      <div class="col-head"><h2>Signals</h2><a href="/signals" class="more">All signals →</a></div>
+      {articles.map((a) => (
+        <a class="mini" href={`/signals/${a.slug}`}>
+          <span class="mono mini-num">Free · {a.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short' })}</span>
+          <span class="mini-title">{a.data.title}</span>
+        </a>
+      ))}
+      {articles.length === 0 && <p class="muted">First article coming soon.</p>}
+    </div>
+  </section>
+
+  <!-- SPECIALS CALLOUT -->
+  <section class="wrap specials-callout">
+    <div class="sc-inner">
+      <div class="sc-label">Special Edition</div>
+      <div class="sc-body">
+        <div class="sc-tag mono">FY27 Budget Special &middot; 14 June 2026</div>
+        <a class="sc-title" href="/specials/pulse-fy27-budget-special.html">The borrowed balance</a>
+        <p class="sc-sum muted">The stabilisation is real, the growth is assumed, and the balance is borrowed. Pakistan's FY27 budget: the deficit bridge, the provincial dependence, and six things to watch.</p>
       </div>
-      <div class="pillar">
-        <h3>What&rsquo;s Developing</h3>
-        <p>Geopolitical risk, regulatory shifts, weather, diplomatic signals, disruption threats — the forces building now that will land on your business next.</p>
-      </div>
-      <div class="pillar">
-        <h3>What To Do</h3>
-        <p>Prioritised action items with specific dates, thresholds, and recommendations. Not &ldquo;monitor the situation&rdquo; — real decisions with deadlines.</p>
-      </div>
+      <a class="sc-cta" href="/specials/pulse-fy27-budget-special.html">Read free →</a>
     </div>
   </section>
 
@@ -90,16 +105,25 @@ const audience = [
     </div>
   </section>
 
-  <!-- SPECIALS CALLOUT -->
-  <section class="wrap specials-callout">
-    <div class="sc-inner">
-      <div class="sc-label">Special Edition</div>
-      <div class="sc-body">
-        <div class="sc-tag mono">FY27 Budget Special &middot; 14 June 2026</div>
-        <a class="sc-title" href="/specials/pulse-fy27-budget-special.html">The borrowed balance</a>
-        <p class="sc-sum muted">The stabilisation is real, the growth is assumed, and the balance is borrowed. Pakistan's FY27 budget: the deficit bridge, the provincial dependence, and six things to watch.</p>
+  <!-- THREE PILLARS -->
+  <section class="wrap block">
+    <div class="block-head">
+      <h2>The intelligence gap, closed</h2>
+      <p class="muted">The forces moving Pakistan&rsquo;s economy are scattered across dozens of sources. The Pulse Paper brings them into one focused brief, every week — structured around three questions.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <h3>What Moved</h3>
+        <p>PKR, oil benchmarks, fuel prices, commodities, KSE-100, inflation, ports — the numbers that changed last week, and what they mean for your costs and decisions.</p>
       </div>
-      <a class="sc-cta" href="/specials/pulse-fy27-budget-special.html">Read free →</a>
+      <div class="pillar">
+        <h3>What&rsquo;s Developing</h3>
+        <p>Geopolitical risk, regulatory shifts, weather, diplomatic signals, disruption threats — the forces building now that will land on your business next.</p>
+      </div>
+      <div class="pillar">
+        <h3>What To Do</h3>
+        <p>Prioritised action items with specific dates, thresholds, and recommendations. Not &ldquo;monitor the situation&rdquo; — real decisions with deadlines.</p>
+      </div>
     </div>
   </section>
 
@@ -143,30 +167,6 @@ const audience = [
         <div class="rhythm-when mono">The Monthly &middot; Last Sunday of the month</div>
         <p>A 30-day trend analysis with a macro risk scorecard, longer-horizon outlook, and strategy recommendations.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- LATEST + FINAL CTA -->
-  <section class="wrap home-grid">
-    <div class="col">
-      <div class="col-head"><h2>Latest editions</h2><a href="/editions" class="more">All editions →</a></div>
-      {editions.map((e) => (
-        <a class="mini" href={`/editions/${e.slug}.html`}>
-          <span class="mono mini-num">No. {e.no} · {e.date} · {e.access === 'free' ? 'Free' : 'Subscribers'}</span>
-          <span class="mini-title">{e.title}</span>
-        </a>
-      ))}
-      {editions.length === 0 && <p class="muted">First edition coming soon.</p>}
-    </div>
-    <div class="col">
-      <div class="col-head"><h2>Signals</h2><a href="/signals" class="more">All signals →</a></div>
-      {articles.map((a) => (
-        <a class="mini" href={`/signals/${a.slug}`}>
-          <span class="mono mini-num">Free · {a.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short' })}</span>
-          <span class="mini-title">{a.data.title}</span>
-        </a>
-      ))}
-      {articles.length === 0 && <p class="muted">First article coming soon.</p>}
     </div>
   </section>
 
