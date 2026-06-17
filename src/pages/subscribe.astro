@@ -22,5 +22,10 @@ import Base from '../layouts/Base.astro';
     .tagline { font-family: var(--font-serif); font-style: italic; font-size: 17px; color: var(--ink); margin-bottom: 12px; }
     .sub-head .muted { font-size: 15px; line-height: 1.6; }
     .form-wrap { margin-top: 12px; }
+    @media (max-width: 768px) {
+      .sub { padding-top: 32px; }
+      .sub-head h1 { font-size: 26px; }
+      .tagline { font-size: 15px; }
+    }
   </style>
 </Base>

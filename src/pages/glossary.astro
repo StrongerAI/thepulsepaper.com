@@ -31,5 +31,11 @@ const terms = Object.values(glossary).sort((a, b) => a.label.localeCompare(b.lab
     .gloss-item:first-child { border-top: 2px solid var(--ink); }
     dt { font-family: var(--font-serif); font-size: 19px; margin-bottom: 6px; }
     dd { margin: 0; font-size: 15.5px; line-height: 1.65; color: var(--muted); }
+    @media (max-width: 768px) {
+      .gloss { padding-top: 32px; }
+      .gloss-head h1 { font-size: 26px; }
+      dt { font-size: 17px; }
+      dd { font-size: 15px; }
+    }
   </style>
 </Base>

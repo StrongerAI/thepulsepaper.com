@@ -26,6 +26,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { overflow-x: hidden; }
   body {
     background: var(--paper);
     color: var(--ink);
@@ -33,6 +34,7 @@
     font-size: 15px;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   .masthead {
@@ -1038,6 +1040,7 @@
     .hm-cell { font-size: 9px; padding: 6px 4px; }
     .cost-index-value { font-size: 32px; }
     .cost-index-bar-label { width: 70px; font-size: 10px; }
+    .mini-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   }
 .sf-bar{position:fixed;right:0;top:50%;transform:translateY(-50%) translateX(100%);z-index:90;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .28s ease,transform .28s ease}
 .sf-bar.sf-show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
