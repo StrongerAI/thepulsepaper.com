@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import ShareBar from '../components/ShareBar.astro';
 export interface Props { title: string; summary: string; date: Date; tags: string[]; slug: string; }
 const { title, summary, date, tags, slug } = Astro.props;
 const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -17,6 +18,7 @@ const jsonLd = {
     <p class="art-lede">{summary}</p>
     <div class="art-rule"></div>
     <div class="art-body"><slot /></div>
+    <ShareBar />
     <div class="art-cta">
       <p>This is a free article. The full weekly brief — ten sections, every Sunday — is The Pulse Paper.</p>
       <a href="/#subscribe" class="art-btn">Subscribe — it&rsquo;s free</a>

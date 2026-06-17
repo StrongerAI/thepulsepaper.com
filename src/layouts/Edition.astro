@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import ShareBar from '../components/ShareBar.astro';
 
 export interface Props {
   number: number;
@@ -52,6 +53,8 @@ const jsonLd = {
     <div class="ed-content">
       <slot />
     </div>
+
+    {access === 'free' && <ShareBar />}
 
     {access === 'gated' && (
       <div class="gate">
