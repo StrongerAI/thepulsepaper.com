@@ -844,7 +844,14 @@
   }
 
   @media (max-width: 900px) {
-    .dot-trail { display: none; }
+    .dot-trail { left: 8px; }
+    .dot-trail-label { display: none; }
+  }
+  @media (max-width: 640px) {
+    .dot-trail-dot { width: 6px; height: 6px; }
+    .dot-trail a.active .dot-trail-dot { width: 8px; height: 8px; }
+    .dot-trail-line { height: 4px; }
+    .dot-trail a { padding: 4px 0; }
   }
 
   /* SECTION DOT TRAIL */
