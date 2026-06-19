@@ -2,42 +2,44 @@
 """
 scripts/chart_snippets.py
 =========================
-Library of self-contained Chart.js HTML fragments matching The Pulse Paper visual style.
+Library of chart HTML fragments matching The Pulse Paper visual style.
 
-Each function returns a string you can paste into any section of the edition HTML.
-Chart.js loads automatically from CDN if not already on the page.
-The shared CSS injects once per page via a DOM ID guard.
+Charts are generated as matplotlib PNG images embedded as base64 data URIs.
+No JavaScript or CDN dependencies — renders in any browser including file://.
+data_table() returns pure HTML (no matplotlib).
 
 Usage:
   from chart_snippets import line_chart, bar_chart, horizontal_bar, data_table, dual_axis_chart
   html = line_chart("Brent Crude ($/bbl)", labels, [{"label": "Brent", "data": values}])
 """
 
-import json
-import uuid
+import base64
+import io
 
-CHARTJS_CDN = "https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 
 # Edition palette
-INK    = "#1a1a1a"
-PAPER  = "#FFF1E5"
-MUTED  = "#7a6a5a"
-ACCENT = "#c0392b"
-GREEN  = "#1a6632"
-AMBER  = "#b06000"
+CARD_BG = "#fffaf4"
+BORDER  = "#d8ccc0"
+INK     = "#1a1a1a"
+MUTED   = "#7a6a5a"
+ACCENT  = "#c0392b"
+GREEN   = "#1a6632"
+AMBER   = "#b06000"
+
+PALETTE = [ACCENT, GREEN, AMBER, "#1565c0", "#6a1b9a"]
 
 _SHARED_CSS = (
-    ".pulse-chart-block{"
-    "background:var(--card-bg,#fffaf4);"
-    "border:1px solid var(--border,#d8ccc0);"
+    ".pulse-chart-block{background:#fffaf4;border:1px solid #d8ccc0;"
     "padding:20px 24px;margin:20px 0}"
-    ".pulse-chart-title{"
-    "font-family:'IBM Plex Mono','Courier New',monospace;"
+    ".pulse-chart-title{font-family:'IBM Plex Mono','Courier New',monospace;"
     "font-size:9px;letter-spacing:2px;text-transform:uppercase;"
-    "color:var(--muted,#7a6a5a);margin-bottom:14px;font-weight:500}"
-    ".pulse-chart-note{"
-    "font-family:'IBM Plex Mono','Courier New',monospace;"
-    "font-size:8.5px;color:var(--muted,#7a6a5a);margin-top:10px;opacity:.8}"
+    "color:#7a6a5a;margin-bottom:14px;font-weight:500}"
+    ".pulse-chart-note{font-family:'IBM Plex Mono','Courier New',monospace;"
+    "font-size:8.5px;color:#7a6a5a;margin-top:10px;opacity:.8}"
     ".pulse-data-table{width:100%;border-collapse:collapse;"
     "font-family:'JetBrains Mono','IBM Plex Mono',monospace;font-size:11px}"
     ".pulse-data-table th{background:#1a1a1a;color:rgba(255,241,229,.7);"
@@ -51,37 +53,64 @@ _SHARED_CSS = (
     ".ptd-amber{color:#8b5000!important;font-weight:600}"
 )
 
-# Injects shared CSS exactly once per page (checked via DOM ID)
-_CSS_INJECTOR = (
-    "<script>(function(){if(!document.getElementById('pulse-chart-css')){"
-    "var s=document.createElement('style');s.id='pulse-chart-css';"
-    f"s.textContent={json.dumps(_SHARED_CSS)};"
-    "document.head.appendChild(s);}}());</script>"
-)
+# Inline <style> block — safe to repeat, CSS is idempotent
+_CSS_INJECTOR = f"<style>{_SHARED_CSS}</style>"
+
+# Matplotlib global defaults
+plt.rcParams.update({
+    "font.family":       "monospace",
+    "font.size":         8,
+    "text.color":        INK,
+    "figure.facecolor":  CARD_BG,
+    "axes.facecolor":    CARD_BG,
+    "savefig.facecolor": CARD_BG,
+})
 
 
-def _uid() -> str:
-    return uuid.uuid4().hex[:8]
+# ---------------------------------------------------------------------------
+# INTERNAL HELPERS
+# ---------------------------------------------------------------------------
+
+def _setup_ax(ax, x_grid: bool = False):
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["left"].set_color(BORDER)
+    ax.spines["bottom"].set_color(BORDER)
+    ax.tick_params(colors=MUTED, labelsize=7, length=3)
+    ax.grid(axis="y", color=BORDER, linewidth=0.5, alpha=0.8)
+    if x_grid:
+        ax.grid(axis="x", color=BORDER, linewidth=0.5, alpha=0.8)
+    ax.set_axisbelow(True)
 
 
-def _loader(fn_name: str, fn_body: str) -> str:
-    """Lazy-loads Chart.js then calls fn_body. Safe to embed multiple times."""
+def _fig_to_html(fig, title: str, note: str | None) -> str:
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", dpi=130, bbox_inches="tight",
+                facecolor=CARD_BG, edgecolor="none")
+    buf.seek(0)
+    b64 = base64.b64encode(buf.read()).decode("utf-8")
+    plt.close(fig)
+    note_html = f'<div class="pulse-chart-note">{note}</div>' if note else ""
     return (
-        "<script>(function(){"
-        f"function {fn_name}(){{{fn_body}}}"
-        f"if(window.Chart){{{fn_name}();}}"
-        "else{"
-        "var e=document.createElement('script');"
-        f"e.src='{CHARTJS_CDN}';"
-        f"e.onload={fn_name};"
-        "document.head.appendChild(e);"
-        "}"
-        "})();</script>"
+        f"{_CSS_INJECTOR}"
+        f'<div class="pulse-chart-block">'
+        f'<div class="pulse-chart-title">{title}</div>'
+        f'<img src="data:image/png;base64,{b64}" style="width:100%;display:block">'
+        f"{note_html}"
+        f"</div>"
     )
 
 
+def _xticks(labels: list, max_ticks: int = 8) -> tuple[list, list]:
+    n = len(labels)
+    if n <= max_ticks:
+        return list(range(n)), labels
+    step = max(1, n // max_ticks)
+    idxs = list(range(0, n, step))
+    return idxs, [labels[i] for i in idxs]
+
+
 def _auto_colors(values: list) -> list:
-    """Green for ≥0, red for <0."""
     return [GREEN if (v or 0) >= 0 else ACCENT for v in values]
 
 
@@ -100,56 +129,32 @@ def line_chart(
     """
     Line / area chart.
 
-    datasets: list of dicts — {"label": str, "data": [float], "color": str (optional)}
+    datasets: [{"label": str, "data": [float], "color": str (optional)}]
     """
-    cid = _uid()
-    fn  = f"pci_{cid}"
-    palette = [ACCENT, GREEN, AMBER, "#1565c0", "#6a1b9a"]
+    fig_h = max(2.2, height / 96)
+    fig, ax = plt.subplots(figsize=(8, fig_h))
+    _setup_ax(ax)
 
-    ds_parts = []
     for i, ds in enumerate(datasets):
-        color = ds.get("color") or palette[i % len(palette)]
-        bg    = (color + "18") if fill else "transparent"
-        fill_js = "true" if fill else "false"
-        ds_parts.append(
-            f'{{"label":{json.dumps(ds["label"])},'
-            f'"data":{json.dumps(ds["data"])},'
-            f'"borderColor":"{color}",'
-            f'"backgroundColor":"{bg}",'
-            f'"borderWidth":1.5,"pointRadius":0,"tension":0.25,"fill":{fill_js}}}'
-        )
+        color = ds.get("color") or PALETTE[i % len(PALETTE)]
+        x = list(range(len(ds["data"])))
+        y = ds["data"]
+        ax.plot(x, y, color=color, linewidth=1.5, label=ds.get("label", ""))
+        if fill:
+            ax.fill_between(x, y, alpha=0.10, color=color)
 
-    show_legend = "true" if len(datasets) > 1 else "false"
+    idxs, lbs = _xticks(labels)
+    ax.set_xticks(idxs)
+    ax.set_xticklabels(lbs, rotation=0, ha="center", fontsize=7, color=MUTED)
+    ax.tick_params(axis="y", labelsize=7, labelcolor=MUTED)
+    ax.set_xlim(-0.5, len(labels) - 0.5)
 
-    fn_body = (
-        f"var el=document.getElementById('c_{cid}');"
-        "if(!el)return;"
-        f"new Chart(el.getContext('2d'),{{"
-        f'"type":"line",'
-        f'"data":{{"labels":{json.dumps(labels)},"datasets":[{",".join(ds_parts)}]}},'
-        '"options":{'
-        '"responsive":true,"maintainAspectRatio":false,'
-        '"interaction":{"mode":"index","intersect":false},'
-        '"plugins":{'
-        f'"legend":{{"display":{show_legend},"labels":{{"font":{{"family":"IBM Plex Mono","size":9}},"color":"{MUTED}","boxWidth":10,"padding":12}}}},'
-        f'"tooltip":{{"backgroundColor":"{INK}","titleFont":{{"family":"IBM Plex Mono","size":9}},"bodyFont":{{"family":"JetBrains Mono","size":10}},"padding":10}}'
-        '},'
-        '"scales":{'
-        f'"x":{{"grid":{{"color":"rgba(0,0,0,0.04)"}},"ticks":{{"font":{{"family":"IBM Plex Mono","size":8}},"color":"{MUTED}","maxTicksLimit":8,"maxRotation":0}}}},'
-        f'"y":{{"grid":{{"color":"rgba(0,0,0,0.05)"}},"ticks":{{"font":{{"family":"JetBrains Mono","size":9}},"color":"{MUTED}"}}}}'
-        "}}}})"
-    )
+    if len(datasets) > 1:
+        ax.legend(fontsize=7, framealpha=0.9, facecolor=CARD_BG,
+                  edgecolor=BORDER, loc="best")
 
-    note_html = f'<div class="pulse-chart-note">{note}</div>' if note else ""
-    return (
-        f"{_CSS_INJECTOR}"
-        f'<div class="pulse-chart-block">'
-        f'<div class="pulse-chart-title">{title}</div>'
-        f'<div style="position:relative;height:{height}px"><canvas id="c_{cid}"></canvas></div>'
-        f"{note_html}"
-        f"</div>"
-        f"{_loader(fn, fn_body)}"
-    )
+    plt.tight_layout(pad=0.4)
+    return _fig_to_html(fig, title, note)
 
 
 # ---------------------------------------------------------------------------
@@ -165,42 +170,22 @@ def bar_chart(
     note: str | None = None,
 ) -> str:
     """Vertical bar chart. Colors auto red/green by sign if not provided."""
-    cid = _uid()
-    fn  = f"pci_{cid}"
     if colors is None:
         colors = _auto_colors(values)
 
-    fn_body = (
-        f"var el=document.getElementById('c_{cid}');"
-        "if(!el)return;"
-        f"new Chart(el.getContext('2d'),{{"
-        f'"type":"bar",'
-        f'"data":{{"labels":{json.dumps(labels)},'
-        f'"datasets":[{{"data":{json.dumps(values)},'
-        f'"backgroundColor":{json.dumps(colors)},'
-        '"borderWidth":0,"borderRadius":2}]}},'
-        '"options":{'
-        '"responsive":true,"maintainAspectRatio":false,'
-        '"plugins":{'
-        '"legend":{"display":false},'
-        f'"tooltip":{{"backgroundColor":"{INK}","titleFont":{{"family":"IBM Plex Mono","size":9}},"bodyFont":{{"family":"JetBrains Mono","size":10}},"padding":10}}'
-        '},'
-        '"scales":{'
-        f'"x":{{"grid":{{"display":false}},"ticks":{{"font":{{"family":"IBM Plex Mono","size":8}},"color":"{MUTED}","maxRotation":30}}}},'
-        f'"y":{{"grid":{{"color":"rgba(0,0,0,0.04)"}},"ticks":{{"font":{{"family":"JetBrains Mono","size":9}},"color":"{MUTED}"}}}}'
-        "}}}})"
-    )
+    fig_h = max(2.0, height / 96)
+    fig, ax = plt.subplots(figsize=(8, fig_h))
+    _setup_ax(ax)
 
-    note_html = f'<div class="pulse-chart-note">{note}</div>' if note else ""
-    return (
-        f"{_CSS_INJECTOR}"
-        f'<div class="pulse-chart-block">'
-        f'<div class="pulse-chart-title">{title}</div>'
-        f'<div style="position:relative;height:{height}px"><canvas id="c_{cid}"></canvas></div>'
-        f"{note_html}"
-        f"</div>"
-        f"{_loader(fn, fn_body)}"
-    )
+    x = list(range(len(labels)))
+    ax.bar(x, values, color=colors, width=0.6, edgecolor="none")
+    ax.axhline(0, color=BORDER, linewidth=0.8)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, rotation=20, ha="right", fontsize=7, color=MUTED)
+    ax.tick_params(axis="y", labelsize=7, labelcolor=MUTED)
+
+    plt.tight_layout(pad=0.4)
+    return _fig_to_html(fig, title, note)
 
 
 # ---------------------------------------------------------------------------
@@ -215,44 +200,24 @@ def horizontal_bar(
     note: str | None = None,
 ) -> str:
     """Horizontal bar chart. Colors auto red/green by sign if not provided."""
-    cid = _uid()
-    fn  = f"pci_{cid}"
-    height = max(160, len(labels) * 34)
     if colors is None:
         colors = _auto_colors(values)
 
-    fn_body = (
-        f"var el=document.getElementById('c_{cid}');"
-        "if(!el)return;"
-        f"new Chart(el.getContext('2d'),{{"
-        f'"type":"bar",'
-        f'"data":{{"labels":{json.dumps(labels)},'
-        f'"datasets":[{{"data":{json.dumps(values)},'
-        f'"backgroundColor":{json.dumps(colors)},'
-        '"borderWidth":0,"borderRadius":2}]}},'
-        '"options":{'
-        '"indexAxis":"y",'
-        '"responsive":true,"maintainAspectRatio":false,'
-        '"plugins":{'
-        '"legend":{"display":false},'
-        f'"tooltip":{{"backgroundColor":"{INK}","titleFont":{{"family":"IBM Plex Mono","size":9}},"bodyFont":{{"family":"JetBrains Mono","size":10}},"padding":10}}'
-        '},'
-        '"scales":{'
-        f'"x":{{"grid":{{"color":"rgba(0,0,0,0.04)"}},"ticks":{{"font":{{"family":"JetBrains Mono","size":9}},"color":"{MUTED}"}}}},'
-        f'"y":{{"grid":{{"display":false}},"ticks":{{"font":{{"family":"IBM Plex Mono","size":9}},"color":"{MUTED}"}}}}'
-        "}}}})"
-    )
+    fig_h = max(1.8, len(labels) * 0.40)
+    fig, ax = plt.subplots(figsize=(8, fig_h))
+    _setup_ax(ax, x_grid=True)
+    ax.grid(axis="y", visible=False)
 
-    note_html = f'<div class="pulse-chart-note">{note}</div>' if note else ""
-    return (
-        f"{_CSS_INJECTOR}"
-        f'<div class="pulse-chart-block">'
-        f'<div class="pulse-chart-title">{title}</div>'
-        f'<div style="position:relative;height:{height}px"><canvas id="c_{cid}"></canvas></div>'
-        f"{note_html}"
-        f"</div>"
-        f"{_loader(fn, fn_body)}"
-    )
+    y = list(range(len(labels)))
+    ax.barh(y, values, color=colors, height=0.55, edgecolor="none")
+    ax.axvline(0, color=BORDER, linewidth=0.8)
+    ax.set_yticks(y)
+    ax.set_yticklabels(labels, fontsize=7, color=MUTED)
+    ax.tick_params(axis="x", labelsize=7, labelcolor=MUTED)
+    ax.invert_yaxis()
+
+    plt.tight_layout(pad=0.4)
+    return _fig_to_html(fig, title, note)
 
 
 # ---------------------------------------------------------------------------
@@ -267,60 +232,44 @@ def dual_axis_chart(
     height: int = 220,
     note: str | None = None,
 ) -> str:
-    """
-    Two Y-axes on one chart.
+    """Two Y-axes on one chart."""
+    lc = left_dataset.get("color", ACCENT)
+    rc = right_dataset.get("color", GREEN)
 
-    left_dataset / right_dataset: {"label": str, "data": [float], "color": str (optional)}
-    """
-    cid = _uid()
-    fn  = f"pci_{cid}"
-    lc  = left_dataset.get("color", ACCENT)
-    rc  = right_dataset.get("color", GREEN)
+    fig_h = max(2.4, height / 96)
+    fig, ax1 = plt.subplots(figsize=(8, fig_h))
+    _setup_ax(ax1)
 
-    fn_body = (
-        f"var el=document.getElementById('c_{cid}');"
-        "if(!el)return;"
-        f"new Chart(el.getContext('2d'),{{"
-        '"type":"line",'
-        f'"data":{{"labels":{json.dumps(labels)},'
-        '"datasets":['
-        f'{{"label":{json.dumps(left_dataset["label"])},'
-        f'"data":{json.dumps(left_dataset["data"])},'
-        f'"borderColor":"{lc}","backgroundColor":"transparent",'
-        '"borderWidth":1.5,"pointRadius":0,"tension":0.25,"yAxisID":"yL"}},'
-        f'{{"label":{json.dumps(right_dataset["label"])},'
-        f'"data":{json.dumps(right_dataset["data"])},'
-        f'"borderColor":"{rc}","backgroundColor":"transparent",'
-        '"borderWidth":1.5,"pointRadius":0,"tension":0.25,"yAxisID":"yR"}}'
-        ']}},'
-        '"options":{'
-        '"responsive":true,"maintainAspectRatio":false,'
-        '"interaction":{"mode":"index","intersect":false},'
-        '"plugins":{'
-        f'"legend":{{"display":true,"labels":{{"font":{{"family":"IBM Plex Mono","size":9}},"color":"{MUTED}","boxWidth":10,"padding":12}}}},'
-        f'"tooltip":{{"backgroundColor":"{INK}","titleFont":{{"family":"IBM Plex Mono","size":9}},"bodyFont":{{"family":"JetBrains Mono","size":10}},"padding":10}}'
-        '},'
-        '"scales":{'
-        f'"x":{{"grid":{{"color":"rgba(0,0,0,0.04)"}},"ticks":{{"font":{{"family":"IBM Plex Mono","size":8}},"color":"{MUTED}","maxTicksLimit":8,"maxRotation":0}}}},'
-        f'"yL":{{"position":"left","grid":{{"color":"rgba(0,0,0,0.05)"}},"ticks":{{"font":{{"family":"JetBrains Mono","size":9}},"color":"{lc}"}}}},'
-        f'"yR":{{"position":"right","grid":{{"drawOnChartArea":false}},"ticks":{{"font":{{"family":"JetBrains Mono","size":9}},"color":"{rc}"}}}}'
-        "}}}})"
-    )
+    x = list(range(len(labels)))
+    ax1.plot(x, left_dataset["data"], color=lc, linewidth=1.5,
+             label=left_dataset.get("label", ""))
+    ax1.tick_params(axis="y", labelcolor=lc, labelsize=7)
+    ax1.spines["left"].set_color(lc)
 
-    note_html = f'<div class="pulse-chart-note">{note}</div>' if note else ""
-    return (
-        f"{_CSS_INJECTOR}"
-        f'<div class="pulse-chart-block">'
-        f'<div class="pulse-chart-title">{title}</div>'
-        f'<div style="position:relative;height:{height}px"><canvas id="c_{cid}"></canvas></div>'
-        f"{note_html}"
-        f"</div>"
-        f"{_loader(fn, fn_body)}"
-    )
+    ax2 = ax1.twinx()
+    ax2.plot(x, right_dataset["data"], color=rc, linewidth=1.5,
+             label=right_dataset.get("label", ""))
+    ax2.tick_params(axis="y", labelcolor=rc, labelsize=7)
+    ax2.spines["right"].set_color(rc)
+    ax2.spines["top"].set_visible(False)
+    ax2.set_facecolor(CARD_BG)
+
+    idxs, lbs = _xticks(labels)
+    ax1.set_xticks(idxs)
+    ax1.set_xticklabels(lbs, rotation=0, ha="center", fontsize=7, color=MUTED)
+    ax1.set_xlim(-0.5, len(labels) - 0.5)
+
+    lines1, labs1 = ax1.get_legend_handles_labels()
+    lines2, labs2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labs1 + labs2, fontsize=7,
+               framealpha=0.9, facecolor=CARD_BG, edgecolor=BORDER, loc="best")
+
+    plt.tight_layout(pad=0.4)
+    return _fig_to_html(fig, title, note)
 
 
 # ---------------------------------------------------------------------------
-# DATA TABLE (pure HTML — no canvas, no Chart.js)
+# DATA TABLE (pure HTML — no matplotlib)
 # ---------------------------------------------------------------------------
 
 def data_table(
@@ -332,9 +281,7 @@ def data_table(
     """
     Static HTML table styled to match the edition.
 
-    rows: list of lists. Each cell can be:
-      - a plain value (str/int/float) — rendered as-is
-      - a dict {"value": str, "class": "ptd-red|ptd-green|ptd-amber"} — styled cell
+    Each cell can be a plain value or {"value": str, "class": "ptd-red|ptd-green|ptd-amber"}.
     """
     th_html = "".join(f"<th>{h}</th>" for h in headers)
     rows_html = ""

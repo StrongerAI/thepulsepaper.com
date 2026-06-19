@@ -31,7 +31,6 @@ SCRIPTS_DIR   = Path(__file__).resolve().parent
 DRAFTS_DIR    = SCRIPTS_DIR / "weekly_drafts"
 HISTORICAL    = SCRIPTS_DIR / "historical_data.json"
 PKT           = ZoneInfo("Asia/Karachi")
-CHARTJS_CDN   = "https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"
 
 # Edition palette
 INK    = "#1a1a1a"
@@ -580,11 +579,14 @@ def build_gallery(charts: list[dict], date_slug: str) -> str:
         if cat not in ordered_cats:
             ordered_cats.append(cat)
 
-    # Build JS chart store for Copy buttons
+    # Build JS chart store for Copy buttons.
+    # Escape </script> so the JSON string doesn't prematurely close the <script> block.
+    # In JS strings, <\/ is identical to </ — browsers treat \/ as an escaped forward slash.
     chart_store = {}
     for c in charts:
         chart_store[c["id"]] = c["html"]
-    chart_store_js = "var PULSE_CHARTS=" + json.dumps(chart_store, ensure_ascii=False) + ";"
+    chart_store_json = json.dumps(chart_store, ensure_ascii=False).replace("</script>", r"<\/script>")
+    chart_store_js = "var PULSE_CHARTS=" + chart_store_json + ";"
 
     sections_html = ""
     for cat in ordered_cats:
@@ -594,7 +596,7 @@ def build_gallery(charts: list[dict], date_slug: str) -> str:
             cid = c["id"]
             cards += f"""
 <div style="margin-bottom:20px;border:1px solid #d8ccc0;background:#fffaf4">
-  <div style="padding:4px 16px;background:{cid};min-height:10px">
+  <div style="padding:16px 16px 4px">
     {c['html']}
   </div>
   <div style="padding:8px 16px 10px;border-top:1px solid #d8ccc0;display:flex;align-items:center;gap:12px">
@@ -615,6 +617,7 @@ def build_gallery(charts: list[dict], date_slug: str) -> str:
   padding-bottom:8px;border-bottom:1px solid #d8ccc0">{cat.upper()}</div>
 {cards}"""
 
+    from chart_snippets import _SHARED_CSS
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -622,11 +625,11 @@ def build_gallery(charts: list[dict], date_slug: str) -> str:
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Chart Gallery — {date_slug} — The Pulse Paper</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Libre+Baskerville:wght@400;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
-<script src="{CHARTJS_CDN}"></script>
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box }}
 :root {{ --card-bg:#fffaf4; --border:#d8ccc0; --muted:#7a6a5a }}
 body {{ background:#FFF1E5; color:#1a1a1a; font-family:'Crimson Pro',serif; font-size:15px; line-height:1.6 }}
+{_SHARED_CSS}
 </style>
 </head>
 <body>
