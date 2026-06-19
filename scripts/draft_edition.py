@@ -39,6 +39,7 @@ SCRIPTS_DIR   = Path(__file__).resolve().parent
 DRAFTS_DIR    = SCRIPTS_DIR / "weekly_drafts"
 EDITIONS_DIR  = REPO_ROOT / "public" / "editions"
 STYLE_PROMPT  = SCRIPTS_DIR / "style_prompt.md"
+HISTORICAL    = SCRIPTS_DIR / "historical_data.json"
 DEFAULT_MODEL = "claude-sonnet-4-6"
 PKT           = ZoneInfo("Asia/Karachi")
 
@@ -84,6 +85,55 @@ def find_template() -> Path:
 def check_fill_me(data: dict) -> list[str]:
     return [k for k, v in data.get("manual", {}).items()
             if isinstance(v, str) and v.startswith("FILL_ME")]
+
+
+def _parse_num(val) -> float | None:
+    try:
+        return float(str(val).replace(",", "").replace("%", "").replace("$", "").split()[0])
+    except Exception:
+        return None
+
+
+def accumulate_history(data: dict) -> None:
+    """Append this week's filled manual fields to historical_data.json."""
+    manual    = data.get("manual", {})
+    date_slug = data.get("date_slug", "")
+    if not date_slug:
+        return
+    if check_fill_me(data):
+        print("  ⚠  Skipping history accumulation — unfilled FILL_ME fields remain")
+        return
+
+    history: dict = {}
+    if HISTORICAL.exists():
+        try:
+            history = json.loads(HISTORICAL.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
+    history[date_slug] = {
+        "sbp_reserves":  _parse_num(manual.get("SBP forex reserves, gross ($bn)", "")),
+        "policy_rate":   _parse_num(manual.get("SBP policy rate (%)", "")),
+        "tbill_3m":      _parse_num(manual.get("T-bill 3M cut-off yield (%)", "")),
+        "tbill_6m":      _parse_num(manual.get("T-bill 6M cut-off yield (%)", "")),
+        "tbill_12m":     _parse_num(manual.get("T-bill 12M cut-off yield (%)", "")),
+        "pib_2y":        _parse_num(manual.get("PIB 2Y cut-off yield (%)", "")),
+        "pib_3y":        _parse_num(manual.get("PIB 3Y cut-off yield (%)", "")),
+        "fbr_ytd":       _parse_num(manual.get("FBR revenue YTD (Rs bn)", "")),
+        "fbr_target":    _parse_num(manual.get("FBR revenue YTD target (Rs bn)", "")),
+        "spi_yoy":       _parse_num(manual.get("SPI latest YoY (%)", "")),
+        "cpi_yoy":       _parse_num(manual.get("CPI latest YoY (%)", "")),
+        "petrol":        _parse_num(manual.get("Petrol (MS) price (Rs/L)", "")),
+        "diesel":        _parse_num(manual.get("Diesel (HSD) price (Rs/L)", "")),
+        "tarbela":       _parse_num(manual.get("Tarbela live storage (MAF)", "")),
+        "mangla":        _parse_num(manual.get("Mangla live storage (MAF)", "")),
+        "brent_dubai":   _parse_num(manual.get("Dubai Platts ($/bbl)", "")),
+        "cpo":           _parse_num(manual.get("CPO price (MYR/MT)", "")),
+        "wheat":         _parse_num(manual.get("Wheat (international, $/MT)", "")),
+    }
+
+    HISTORICAL.write_text(json.dumps(history, indent=2), encoding="utf-8")
+    print(f"  ✓  historical_data.json updated ({len(history)} week(s) on record)")
 
 
 # ---------------------------------------------------------------------------
@@ -340,6 +390,10 @@ def main():
     edition_n  = manual.get("Edition number", "Edition No. ?")
     ed_date    = manual.get("Edition date", data.get("date_slug", ""))
     theme      = manual.get("Edition theme / through-line", "")
+
+    # Accumulate historical data (used by render_charts.py for trend charts)
+    print(f"\n  Accumulating historical data...")
+    accumulate_history(data)
 
     # Split template
     shell_head, template_a, template_b, shell_foot = split_template(template_html)
