@@ -12,14 +12,16 @@ What this script DOES update:
   - FX pairs (EUR/USD, GBP/USD, USD/CNY)
   - USD/PKR (from SBP daily rates page)
   - Ticker strip top-line values
-  - Week-over-week table (auto-calculated from current vs previous run)
+  - Week-over-week table rows (auto-calculated from weekly OHLC; manual rows
+    KSE-100, Dubai Platts, Petrol, SPI are preserved from the existing file)
   - lastUpdated timestamp
 
 What this script does NOT touch (editor-controlled):
   - All four commentary paragraphs (weekOverWeek.commentary, psx.commentary,
     commodities.commentary, international.commentary)
-  - PSX indices (manual until Commit 4)
+  - PSX indices (no reliable free feed)
   - Dubai Platts (paywalled)
+  - KSE-100, Petrol (MS), SPI wow rows (no free yfinance source)
   - Latest edition callout
 
 Failure mode: if a single source fails, only that field is marked stale.
@@ -80,6 +82,28 @@ FX_TICKERS = {
     "GBP / USD": "GBPUSD=X",
     "USD / CNY": "CNY=X",
 }
+
+# Week-over-week table: instruments with yfinance weekly data
+WOW_TICKERS = {
+    "Brent crude":  "BZ=F",
+    "WTI crude":    "CL=F",
+    "Gold":         "GC=F",
+    "Silver":       "SI=F",
+    "Natural Gas":  "NG=F",
+    "USD / PKR":    "PKR=X",
+    "EUR / USD":    "EURUSD=X",
+    "S&P 500":      "^GSPC",
+}
+
+# These rows have no free yfinance source — preserved from the existing file
+MANUAL_WOW_NAMES = {"KSE-100", "Dubai Platts", "Petrol (MS)", "SPI (YoY)"}
+
+# Display order in the table
+WOW_ROW_ORDER = [
+    "KSE-100", "Brent crude", "WTI crude", "Dubai Platts",
+    "Gold", "Silver", "Natural Gas", "USD / PKR", "EUR / USD",
+    "S&P 500", "Petrol (MS)", "SPI (YoY)",
+]
 
 # Alert thresholds: anything moving by more than this triggers an alert
 ALERT_THRESHOLDS = {
@@ -150,6 +174,84 @@ def fetch_sbp_pkr() -> float | None:
     except Exception as e:
         print(f"  [PKR yfinance fail] {e}", file=sys.stderr)
     return None
+
+
+# ----------------------------------------------------------------------------
+# WEEKLY OHLC FETCHER (for week-over-week table)
+# ----------------------------------------------------------------------------
+
+def fetch_weekly_prev(ticker: str) -> dict | None:
+    """Return {prev, current} weekly closing prices via yfinance weekly OHLC.
+    period='1mo' yields 4-5 weekly candles; we take the last two."""
+    try:
+        hist = yf.Ticker(ticker).history(period="1mo", interval="1wk")
+        hist = hist.dropna(subset=["Close"])
+        if len(hist) < 2:
+            return None
+        return {
+            "prev":    float(hist.iloc[-2]["Close"]),
+            "current": float(hist.iloc[-1]["Close"]),
+        }
+    except Exception as e:
+        print(f"  [weekly fail] {ticker}: {e}", file=sys.stderr)
+        return None
+
+
+def fmt_wow_price(name: str, value: float) -> str:
+    """Format a closing price for the week-over-week table."""
+    if name in ("EUR / USD", "GBP / USD"):
+        return f"{value:.4f}"
+    if name == "USD / PKR":
+        return f"{value:.2f}"
+    # Equity indices: no currency prefix
+    if name in ("S&P 500", "KSE-100"):
+        return f"{value:,.0f}"
+    if value >= 1000:
+        return f"${value:,.0f}"
+    return f"${value:.2f}"
+
+
+def parse_preserved_wow_row(content: str, name: str) -> dict | None:
+    """Read an existing weekOverWeek row from the file by instrument name."""
+    pattern = (
+        r'name:\s*"' + re.escape(name) + r'",\s*'
+        r'prev:\s*"([^"]+)",\s*'
+        r'current:\s*"([^"]+)",\s*'
+        r'change:\s*"([^"]+)",\s*'
+        r'direction:\s*"([^"]+)"'
+    )
+    m = re.search(pattern, content)
+    if not m:
+        return None
+    return {
+        "name":      name,
+        "prev":      m.group(1),
+        "current":   m.group(2),
+        "change":    m.group(3),
+        "direction": m.group(4),
+    }
+
+
+def build_wow_rows(weekly: dict, preserved: dict) -> list[dict]:
+    """Assemble the full weekOverWeek row list in display order."""
+    rows = []
+    for name in WOW_ROW_ORDER:
+        if name in MANUAL_WOW_NAMES:
+            row = preserved.get(name)
+            if row:
+                rows.append(row)
+        else:
+            d = weekly.get(name)
+            if d:
+                change_str, direction = fmt_pct(d["current"], d["prev"])
+                rows.append({
+                    "name":      name,
+                    "prev":      fmt_wow_price(name, d["prev"]),
+                    "current":   fmt_wow_price(name, d["current"]),
+                    "change":    change_str,
+                    "direction": direction,
+                })
+    return rows
 
 
 # ----------------------------------------------------------------------------
@@ -438,6 +540,16 @@ def main():
     else:
         print(f"  STALE USD/PKR (SBP)        (will keep previous value)")
 
+    print("  Fetching weekly OHLC for week-over-week table...")
+    wow_weekly = {}
+    for name, ticker in WOW_TICKERS.items():
+        d = fetch_weekly_prev(ticker)
+        if d:
+            wow_weekly[name] = d
+            print(f"  OK    {name:20s} prev={d['prev']:.2f}  curr={d['current']:.2f}")
+        else:
+            print(f"  STALE {name:20s} (will keep existing row)")
+
     # ---- Step 2: build new data structures ----
     print("\n[2/5] Building updated data blocks...")
     prev_snapshot = load_prev_snapshot()
@@ -524,6 +636,13 @@ def main():
     # ---- Step 3: read current markets.js, do targeted edits ----
     print("\n[3/5] Updating markets.js...")
     content = read_current_markets_js()
+
+    # Parse manually-maintained wow rows before we overwrite the block
+    wow_preserved = {}
+    for name in MANUAL_WOW_NAMES:
+        row = parse_preserved_wow_row(content, name)
+        if row:
+            wow_preserved[name] = row
 
     # Extract current KSE-100 from the existing file (it's in ticker[0])
     kse_match = re.search(
@@ -646,6 +765,15 @@ def main():
         "// -- /AUTO:international-rows --",
         new_international_block,
     )
+    wow_rows = build_wow_rows(wow_weekly, wow_preserved)
+    new_wow_block = render_wow_rows(wow_rows)
+    content = replace_between_markers(
+        content,
+        "// -- AUTO:wow-rows --",
+        "// -- /AUTO:wow-rows --",
+        new_wow_block,
+    )
+
     content = replace_simple_field(
         content,
         "lastUpdated",
