@@ -41,7 +41,7 @@ jobs:
         run: |
           git config user.name  "Pulse Markets Bot"
           git config user.email "bot@thepulsepaper.com"
-          git add src/data/markets.js src/data/markets-alerts.json src/data/.markets-prev.json
+          git add src/data/markets.js src/data/markets-alerts.json src/data/.markets-prev.json src/data/.markets-weekly-kse.json
           if git diff --cached --quiet; then
             echo "No data changes; nothing to commit."
           else

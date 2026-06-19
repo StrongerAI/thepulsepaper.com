@@ -44,6 +44,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 MARKETS_JS_PATH = REPO_ROOT / "src" / "data" / "markets.js"
 ALERTS_JSON_PATH = REPO_ROOT / "src" / "data" / "markets-alerts.json"
 PREV_SNAPSHOT_PATH = REPO_ROOT / "src" / "data" / ".markets-prev.json"
+WEEKLY_KSE_PATH = REPO_ROOT / "src" / "data" / ".markets-weekly-kse.json"
 
 PKT = ZoneInfo("Asia/Karachi")
 TIMEOUT = 12
@@ -103,6 +104,29 @@ WOW_ROW_ORDER = [
     "KSE-100", "Brent crude", "WTI crude", "Dubai Platts",
     "Gold", "Silver", "Natural Gas", "USD / PKR", "EUR / USD",
     "S&P 500", "Petrol (MS)", "SPI (YoY)",
+]
+
+# PSX scraper: ticker code -> display name, grouped for page layout
+PSX_HEADLINE = [
+    ("KSE100",  "KSE-100"),
+    ("KSE30",   "KSE-30"),
+    ("KMI30",   "KMI-30"),
+    ("ALLSHR",  "All Share"),
+]
+PSX_SECTOR = [
+    ("BKTI",    "BKTI (Banks)"),
+    ("OGTI",    "OGTI (Oil & Gas)"),
+    ("ACI",     "ACI (Consumer)"),
+    ("JSGBKTI", "JSGBKTI"),
+]
+PSX_THEMATIC = [
+    ("KMIALLSHR", "KMI All Share"),
+    ("PSXDIV20",  "PSX Div 20"),
+    ("MZNPI",     "Meezan Pak (MZNPI)"),
+    ("MII30",     "MII-30 (Islamic)"),
+    ("NITPGI",    "NIT Gateway"),
+    ("NBPPGI",    "NBP Growth"),
+    ("JSMFI",     "JS Momentum"),
 ]
 
 # Alert thresholds: anything moving by more than this triggers an alert
@@ -209,6 +233,110 @@ def fmt_wow_price(name: str, value: float) -> str:
     if value >= 1000:
         return f"${value:,.0f}"
     return f"${value:.2f}"
+
+
+def fetch_psx_indices() -> dict:
+    """Scrape dps.psx.com.pk/indices for all PSX index values.
+    Returns {ticker: {value, abs_change, direction}} or {} on failure."""
+    url = "https://dps.psx.com.pk/indices"
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+        )
+    }
+    try:
+        r = requests.get(url, headers=headers, timeout=TIMEOUT)
+        r.raise_for_status()
+    except Exception as e:
+        print(f"  [PSX fail] {e}", file=sys.stderr)
+        return {}
+
+    pattern = (
+        r'topIndices__item__name[^>]*>([^<]+)</div>'
+        r'<div class="topIndices__item__val">([\d,\.]+)</div>'
+        r'</div><div class="change__text--([^"]+)">'
+        r'<div class="topIndices__item__change">'
+        r'<i class="icon-([^"]+)"></i>\s*([-\d,\.]+)</div>'
+    )
+    result = {}
+    for m in re.finditer(pattern, r.text):
+        ticker = m.group(1).strip()
+        value  = float(m.group(2).replace(",", ""))
+        cls    = m.group(3)   # "pos" or "neg"
+        change = float(m.group(5).replace(",", ""))
+        result[ticker] = {
+            "value":      value,
+            "abs_change": change,
+            "direction":  "up" if "pos" in cls else "down",
+        }
+    return result
+
+
+def fmt_psx_value(value: float) -> str:
+    return f"{value:,.0f}"
+
+
+def fmt_psx_change(abs_change: float, value: float) -> str:
+    """Format as '+2,305 (+1.34%)' matching the existing PSX section style."""
+    prev = value - abs_change
+    pct  = (abs_change / prev * 100) if prev else 0.0
+    if abs_change >= 0:
+        return f"+{abs_change:,.0f} (+{pct:.2f}%)"
+    return f"{abs_change:,.0f} ({pct:.2f}%)"
+
+
+def update_weekly_kse(kse_value: float, now: datetime) -> tuple[float | None, float]:
+    """Maintain a week-over-week KSE-100 snapshot.
+    Shifts prev←curr whenever the ISO week number changes.
+    Returns (prev_week_close, curr_week_close)."""
+    data: dict = {}
+    if WEEKLY_KSE_PATH.exists():
+        try:
+            data = json.loads(WEEKLY_KSE_PATH.read_text())
+        except Exception:
+            pass
+
+    current_week = now.strftime("%Y-W%W")
+    if data.get("week") != current_week:
+        data = {
+            "week":       current_week,
+            "prev_close": data.get("curr_close"),
+            "curr_close": kse_value,
+        }
+    else:
+        data["curr_close"] = kse_value
+
+    WEEKLY_KSE_PATH.write_text(json.dumps(data, indent=2))
+    return data.get("prev_close"), data["curr_close"]
+
+
+def render_psx_indexed_rows(rows: list[dict]) -> str:
+    """Render PSX headline or sector rows (with high/low fields)."""
+    lines = []
+    for d in rows:
+        lines.append(
+            f'      {{ name: {render_js_string(d["name"])}, '
+            f'value: {render_js_string(d["value"])}, '
+            f'change: {render_js_string(d["change"])}, '
+            f'high: {render_js_string(d.get("high", ""))}, '
+            f'low: {render_js_string(d.get("low", ""))}, '
+            f'direction: {render_js_string(d["direction"])} }},'
+        )
+    return "\n".join(lines)
+
+
+def render_psx_thematic_rows(rows: list[dict]) -> str:
+    """Render PSX thematic rows (no high/low)."""
+    lines = []
+    for d in rows:
+        lines.append(
+            f'      {{ name: {render_js_string(d["name"])}, '
+            f'value: {render_js_string(d["value"])}, '
+            f'change: {render_js_string(d["change"])}, '
+            f'direction: {render_js_string(d["direction"])} }},'
+        )
+    return "\n".join(lines)
 
 
 def parse_preserved_wow_row(content: str, name: str) -> dict | None:
@@ -540,6 +668,13 @@ def main():
     else:
         print(f"  STALE USD/PKR (SBP)        (will keep previous value)")
 
+    print("  Fetching PSX indices from dps.psx.com.pk...")
+    psx_data = fetch_psx_indices()
+    if psx_data:
+        print(f"  OK    PSX ({len(psx_data)} indices scraped)")
+    else:
+        print("  STALE PSX (will keep existing values)")
+
     print("  Fetching weekly OHLC for week-over-week table...")
     wow_weekly = {}
     for name, ticker in WOW_TICKERS.items():
@@ -626,12 +761,8 @@ def main():
     )
 
     # --- ticker strip ---
-    # KSE-100 stays manual until Commit 4. Others auto-update.
     ticker_data = []
-    # KSE: read from previous markets.js (will preserve below)
-
-    # We'll build ticker after reading current markets.js so we can preserve
-    # the KSE-100 and Dubai Platts entries.
+    # KSE-100 and Dubai Platts are resolved after reading markets.js below
 
     # ---- Step 3: read current markets.js, do targeted edits ----
     print("\n[3/5] Updating markets.js...")
@@ -644,20 +775,43 @@ def main():
         if row:
             wow_preserved[name] = row
 
-    # Extract current KSE-100 from the existing file (it's in ticker[0])
-    kse_match = re.search(
-        r'name:\s*"KSE-100",\s*value:\s*"([^"]+)",\s*'
-        r'changePct:\s*"([^"]+)",\s*direction:\s*"([^"]+)"',
-        content,
-    )
+    # Build live KSE-100 ticker entry from PSX scrape (or fall back to existing)
     kse_entry = None
-    if kse_match:
+    kse_raw = psx_data.get("KSE100") if psx_data else None
+    if kse_raw:
+        prev_val = kse_raw["value"] - kse_raw["abs_change"]
+        change_str, direction = fmt_pct(kse_raw["value"], prev_val if prev_val else None)
         kse_entry = {
-            "name": "KSE-100",
-            "value": kse_match.group(1),
-            "changePct": kse_match.group(2),
-            "direction": kse_match.group(3),
+            "name":      "KSE-100",
+            "value":     fmt_psx_value(kse_raw["value"]),
+            "changePct": change_str,
+            "direction": direction,
         }
+        # Update weekly KSE snapshot and auto-populate wow row
+        prev_week, curr_week = update_weekly_kse(kse_raw["value"], now)
+        if prev_week is not None:
+            wk_change, wk_dir = fmt_pct(curr_week, prev_week)
+            wow_preserved["KSE-100"] = {
+                "name":      "KSE-100",
+                "prev":      fmt_psx_value(prev_week),
+                "current":   fmt_psx_value(curr_week),
+                "change":    wk_change,
+                "direction": wk_dir,
+            }
+    else:
+        # Fall back: preserve existing KSE-100 ticker entry from file
+        kse_match = re.search(
+            r'name:\s*"KSE-100",\s*value:\s*"([^"]+)",\s*'
+            r'changePct:\s*"([^"]+)",\s*direction:\s*"([^"]+)"',
+            content,
+        )
+        if kse_match:
+            kse_entry = {
+                "name":      "KSE-100",
+                "value":     kse_match.group(1),
+                "changePct": kse_match.group(2),
+                "direction": kse_match.group(3),
+            }
 
     # Extract current Dubai Platts row from commodities to preserve it
     platts_match = re.search(
@@ -741,6 +895,28 @@ def main():
                 "low": m.group(5),
             }
 
+    # --- PSX blocks ---
+    def _psx_rows(group: list, include_hl: bool) -> list[dict]:
+        rows = []
+        for ticker, display_name in group:
+            d = psx_data.get(ticker)
+            if not d:
+                continue
+            row = {
+                "name":      display_name,
+                "value":     fmt_psx_value(d["value"]),
+                "change":    fmt_psx_change(d["abs_change"], d["value"]),
+                "direction": d["direction"],
+            }
+            if include_hl:
+                row.update({"high": "", "low": ""})
+            rows.append(row)
+        return rows
+
+    psx_headline_rows  = _psx_rows(PSX_HEADLINE,  include_hl=True)  if psx_data else []
+    psx_sector_rows    = _psx_rows(PSX_SECTOR,    include_hl=True)  if psx_data else []
+    psx_thematic_rows  = _psx_rows(PSX_THEMATIC,  include_hl=False) if psx_data else []
+
     # ---- Step 4: write updated markets.js ----
     print("\n[4/5] Writing markets.js...")
     new_ticker_block = render_ticker(ticker_data)
@@ -773,6 +949,28 @@ def main():
         "// -- /AUTO:wow-rows --",
         new_wow_block,
     )
+
+    if psx_headline_rows:
+        content = replace_between_markers(
+            content,
+            "// -- AUTO:psx-headline --",
+            "// -- /AUTO:psx-headline --",
+            render_psx_indexed_rows(psx_headline_rows),
+        )
+    if psx_sector_rows:
+        content = replace_between_markers(
+            content,
+            "// -- AUTO:psx-sector --",
+            "// -- /AUTO:psx-sector --",
+            render_psx_indexed_rows(psx_sector_rows),
+        )
+    if psx_thematic_rows:
+        content = replace_between_markers(
+            content,
+            "// -- AUTO:psx-thematic --",
+            "// -- /AUTO:psx-thematic --",
+            render_psx_thematic_rows(psx_thematic_rows),
+        )
 
     content = replace_simple_field(
         content,

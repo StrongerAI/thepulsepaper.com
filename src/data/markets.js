@@ -13,12 +13,12 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "19 June 2026, 10:46 PM PKT",
+  lastUpdated: "19 June 2026, 11:02 PM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
     // -- AUTO:ticker --
-    { name: "KSE-100", value: "173,963", changePct: "+1.34%", direction: "up" },
+    { name: "KSE-100", value: "178,923", changePct: "-1.36%", direction: "down" },
     { name: "Brent", value: "$80.59", changePct: "+0.93%", direction: "up" },
     { name: "Dubai Platts", value: "$103.15", changePct: "Flat", direction: "flat" },
     { name: "Gold", value: "$4,173", changePct: "-1.21%", direction: "down" },
@@ -64,29 +64,34 @@ export const marketsData = {
   },
 
   // -- PSX indices, grouped, with commentary --
-  // (PSX data is manual until Commit 4 brings the scraper online.)
+  // headline, sector, thematic rows auto-managed by pull_markets.py (scraped from dps.psx.com.pk)
   psx: {
     headline: [
-      { name: "KSE-100",    value: "173,963",  change: "+2,305 (1.34%)", high: "174,088", low: "171,545", direction: "up" },
-      { name: "KSE-30",     value: "52,237",   change: "+720 (1.40%)",   high: "52,255",  low: "51,439",  direction: "up" },
-      { name: "KMI-30",     value: "250,242",  change: "+3,676 (1.49%)", high: "250,295", low: "246,334", direction: "up" },
-      { name: "All Share",  value: "104,308",  change: "+1,094 (1.06%)", high: "104,373", low: "103,047", direction: "up" },
+      // -- AUTO:psx-headline --
+      { name: "KSE-100", value: "178,923", change: "-2,475 (-1.36%)", high: "", low: "", direction: "down" },
+      { name: "KSE-30", value: "53,309", change: "-790 (-1.46%)", high: "", low: "", direction: "down" },
+      { name: "KMI-30", value: "255,193", change: "-3,790 (-1.46%)", high: "", low: "", direction: "down" },
+      { name: "All Share", value: "107,850", change: "-1,357 (-1.24%)", high: "", low: "", direction: "down" },
+    // -- /AUTO:psx-headline --
     ],
     sector: [
-      { name: "BKTI (Banks)",     value: "47,534",  change: "+235 (0.50%)",  high: "47,581", low: "46,973", direction: "up" },
-      { name: "OGTI (Oil & Gas)", value: "36,384",  change: "+42 (0.12%)",   high: "36,554", low: "36,100", direction: "up" },
-      { name: "ACI (Consumer)",   value: "22,835",  change: "+438 (1.96%)",  high: "22,879", low: "22,503", direction: "up" },
-      { name: "JSGBKTI",          value: "72,793",  change: "+359 (0.50%)",  high: "72,848", low: "72,006", direction: "up" },
+      // -- AUTO:psx-sector --
+      { name: "BKTI (Banks)", value: "48,840", change: "-594 (-1.20%)", high: "", low: "", direction: "down" },
+      { name: "OGTI (Oil & Gas)", value: "36,450", change: "-694 (-1.87%)", high: "", low: "", direction: "down" },
+      { name: "ACI (Consumer)", value: "23,980", change: "-329 (-1.35%)", high: "", low: "", direction: "down" },
+      { name: "JSGBKTI", value: "74,345", change: "-906 (-1.20%)", high: "", low: "", direction: "down" },
+    // -- /AUTO:psx-sector --
     ],
     thematic: [
-      { name: "KMI All Share",     value: "67,845",  change: "+803 (1.20%)",  direction: "up" },
-      { name: "PSX Div 20",        value: "79,714",  change: "+794 (1.01%)",  direction: "up" },
-      { name: "Meezan Pak (MZNPI)",value: "30,801",  change: "+525 (1.73%)",  direction: "up" },
-      { name: "MII-30 (Islamic)",  value: "22,711",  change: "+405 (1.81%)",  direction: "up" },
-      { name: "NIT Gateway",       value: "46,406",  change: "+588 (1.28%)",  direction: "up" },
-      { name: "NBP Growth",        value: "50,491",  change: "+568 (1.14%)",  direction: "up" },
-      { name: "JS Momentum",       value: "41,584",  change: "+221 (0.54%)",  direction: "up" },
-      { name: "HBLTT Index",       value: "18,439",  change: "+26 (0.14%)",   direction: "up" },
+      // -- AUTO:psx-thematic --
+      { name: "KMI All Share", value: "69,956", change: "-930 (-1.31%)", direction: "down" },
+      { name: "PSX Div 20", value: "82,872", change: "-858 (-1.02%)", direction: "down" },
+      { name: "Meezan Pak (MZNPI)", value: "31,375", change: "-454 (-1.43%)", direction: "down" },
+      { name: "MII-30 (Islamic)", value: "23,251", change: "-362 (-1.53%)", direction: "down" },
+      { name: "NIT Gateway", value: "47,235", change: "-704 (-1.47%)", direction: "down" },
+      { name: "NBP Growth", value: "51,323", change: "-805 (-1.54%)", direction: "down" },
+      { name: "JS Momentum", value: "42,561", change: "-864 (-1.99%)", direction: "down" },
+    // -- /AUTO:psx-thematic --
     ],
     commentary: "All 18 indices closed green, but the leadership is telling. Consumer (ACI +1.96%) and Islamic funds (MII-30 +1.81%, MZNPI +1.73%) led; banks (BKTI +0.50%) and oil and gas (OGTI +0.12%) lagged. Consumer outperforming makes sense if cheaper fuel is feeding through to margins. Banks lagging despite a tight SBP rate suggests the market is pricing the budget risk (windfall taxes, sector exposure to government securities). KSE-100 is now within 1% of an all-time high. The 175,000 level is the technical zone where the broader rally either confirms with volume or rolls over into profit-taking.",
   },
@@ -122,9 +127,9 @@ export const marketsData = {
       { name: "Nikkei 225", close: "69,902", open: "69,006", range: "68,986 – 70,126", region: "Asia" },
       { name: "Sensex", close: "76,803", open: "76,853", range: "76,470 – 76,902", region: "Asia" },
       { name: "Shanghai Comp.", close: "4,108", open: "4,074", range: "4,074 – 4,110", region: "Asia" },
-      { name: "EUR / USD", close: "1.1478", open: "1.1465", range: "1.1422 – 1.1478", region: "Currencies" },
-      { name: "GBP / USD", close: "1.3238", open: "1.3206", range: "1.3164 – 1.3240", region: "Currencies" },
-      { name: "USD / CNY", close: "6.7681", open: "6.7681", range: "6.7675 – 6.7681", region: "Currencies" },
+      { name: "EUR / USD", close: "1.1478", open: "1.1465", range: "1.1422 – 1.1480", region: "Currencies" },
+      { name: "GBP / USD", close: "1.3232", open: "1.3206", range: "1.3164 – 1.3240", region: "Currencies" },
+      { name: "USD / CNY", close: "6.7686", open: "6.7681", range: "6.7675 – 6.7686", region: "Currencies" },
       { name: "USD / PKR", close: "277.98", open: "", range: "SBP interbank", region: "Currencies", muted: true },
     // -- /AUTO:international-rows --
     ],
