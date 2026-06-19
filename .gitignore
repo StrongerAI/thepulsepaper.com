@@ -5,3 +5,6 @@ dist/
 
 # Weekly draft working files — local only, not published content
 scripts/weekly_drafts/
+
+# Local secrets — never commit
+.env

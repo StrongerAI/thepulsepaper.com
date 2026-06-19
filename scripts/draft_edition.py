@@ -4,25 +4,29 @@ scripts/draft_edition.py
 ========================
 Generates a draft weekly edition HTML using the Claude API.
 
+The template HTML is split into three parts:
+  - shell_head  : <head> block + dot-trail nav  (copied verbatim, title updated)
+  - content     : TOC + heatmap + 10 sections   (Claude generates, two calls)
+  - shell_foot  : <footer> onwards               (copied verbatim)
+
+Two Claude calls keep output well within token limits:
+  Call A → TOC labels + heatmap + sections 01–05
+  Call B → sections 06–10
+
 Prerequisites:
-  1. Run gather_weekly.py
-  2. Open scripts/weekly_drafts/weekly_brief_YYYY-MM-DD.md
-     and fill in every FILL_ME field in weekly_data_YYYY-MM-DD.json
-  3. Set ANTHROPIC_API_KEY in your environment
+  1. Run gather_weekly.py and fill in all FILL_ME fields in the JSON
+  2. Create .env in repo root with ANTHROPIC_API_KEY=sk-ant-...
 
 Usage:
-  python3 scripts/draft_edition.py                         # most recent data file
+  python3 scripts/draft_edition.py                         # most recent data
   python3 scripts/draft_edition.py 2026-06-21              # specific date
-  python3 scripts/draft_edition.py --model claude-opus-4-8 # use Opus (slower, costlier)
-
-Output:
-  scripts/weekly_drafts/draft-YYYY-MM-DD.html
-  Open this file in a browser to review, then iterate here until ready to publish.
+  python3 scripts/draft_edition.py --model claude-opus-4-8 # use Opus
 """
 
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -30,19 +34,33 @@ from zoneinfo import ZoneInfo
 
 import anthropic
 
-REPO_ROOT    = Path(__file__).resolve().parent.parent
-SCRIPTS_DIR  = Path(__file__).resolve().parent
-DRAFTS_DIR   = SCRIPTS_DIR / "weekly_drafts"
-EDITIONS_DIR = REPO_ROOT / "public" / "editions"
-STYLE_PROMPT = SCRIPTS_DIR / "style_prompt.md"
-
+REPO_ROOT     = Path(__file__).resolve().parent.parent
+SCRIPTS_DIR   = Path(__file__).resolve().parent
+DRAFTS_DIR    = SCRIPTS_DIR / "weekly_drafts"
+EDITIONS_DIR  = REPO_ROOT / "public" / "editions"
+STYLE_PROMPT  = SCRIPTS_DIR / "style_prompt.md"
 DEFAULT_MODEL = "claude-sonnet-4-6"
-PKT = ZoneInfo("Asia/Karachi")
+PKT           = ZoneInfo("Asia/Karachi")
+
+# Markers used to split the template HTML into shell / content / footer
+TOC_MARKER    = '<nav class="toc">'
+FOOTER_MARKER = "<footer"
+S06_MARKER    = '<section class="section" id="s06">'
 
 
 # ---------------------------------------------------------------------------
-# HELPERS
+# UTILITIES
 # ---------------------------------------------------------------------------
+
+def load_dotenv():
+    env_path = REPO_ROOT / ".env"
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, _, v = line.partition("=")
+                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
 
 def find_data_file(date_slug: str | None) -> Path:
     if date_slug:
@@ -50,14 +68,13 @@ def find_data_file(date_slug: str | None) -> Path:
         if not p.exists():
             sys.exit(f"Error: {p} not found. Run gather_weekly.py first.")
         return p
-    # Find most recent
     files = sorted(DRAFTS_DIR.glob("weekly_data_*.json"))
     if not files:
-        sys.exit("Error: no weekly_data_*.json found in scripts/weekly_drafts/. Run gather_weekly.py first.")
+        sys.exit("Error: no weekly_data_*.json found. Run gather_weekly.py first.")
     return files[-1]
 
 
-def find_template_html() -> Path:
+def find_template() -> Path:
     editions = sorted(EDITIONS_DIR.glob("*.html"))
     if not editions:
         sys.exit(f"Error: no edition HTML files found in {EDITIONS_DIR}")
@@ -65,29 +82,77 @@ def find_template_html() -> Path:
 
 
 def check_fill_me(data: dict) -> list[str]:
-    """Return a list of fields still marked FILL_ME."""
-    unfilled = []
-    for k, v in data.get("manual", {}).items():
-        if isinstance(v, str) and v.startswith("FILL_ME"):
-            unfilled.append(k)
-    return unfilled
+    return [k for k, v in data.get("manual", {}).items()
+            if isinstance(v, str) and v.startswith("FILL_ME")]
 
+
+# ---------------------------------------------------------------------------
+# TEMPLATE SPLITTER
+# ---------------------------------------------------------------------------
+
+def split_template(html: str) -> tuple[str, str, str, str]:
+    """Split edition HTML into four pieces:
+      shell_head  — everything before <nav class="toc">
+      toc_to_s05  — from TOC through end of section 05
+      s06_to_end_of_sections — section 06 through section 10
+      shell_foot  — <footer> onwards
+    Returns (shell_head, toc_to_s05, s06_to_end_of_sections, shell_foot)
+    """
+    toc_pos    = html.find(TOC_MARKER)
+    footer_pos = html.find(FOOTER_MARKER)
+    s06_pos    = html.find(S06_MARKER)
+
+    if toc_pos == -1:
+        sys.exit("Error: could not find TOC marker in template. Template may have changed.")
+    if footer_pos == -1:
+        sys.exit("Error: could not find footer marker in template.")
+    if s06_pos == -1:
+        sys.exit("Error: could not find section 06 marker in template.")
+
+    shell_head        = html[:toc_pos]
+    toc_to_s05        = html[toc_pos:s06_pos]
+    s06_to_sections   = html[s06_pos:footer_pos]
+    shell_foot        = html[footer_pos:]
+
+    return shell_head, toc_to_s05, s06_to_sections, shell_foot
+
+
+def update_shell_head(shell_head: str, edition_n: str, ed_date: str, title_phrase: str) -> str:
+    """Update edition-specific fields in the <head> block."""
+    # Update <title>
+    shell_head = re.sub(
+        r"<title>[^<]+</title>",
+        f"<title>{edition_n} | The Pulse Paper</title>",
+        shell_head,
+    )
+    # Update meta description
+    shell_head = re.sub(
+        r'<meta name="description" content="[^"]*"',
+        f'<meta name="description" content="{title_phrase} | The Pulse Paper weekly economic intelligence for Pakistan."',
+        shell_head,
+    )
+    return shell_head
+
+
+# ---------------------------------------------------------------------------
+# DATA FORMATTERS
+# ---------------------------------------------------------------------------
 
 def fmt_markets(data: dict) -> str:
-    lines = ["MARKET DATA (auto-fetched via yfinance — verify before publishing):"]
+    lines = ["MARKET DATA (auto-fetched, verify before publishing):"]
     for name, d in data.get("markets", {}).items():
         if d:
             close = d["close"]
             prev  = d.get("prev_close")
             if prev and prev != 0:
-                pct = ((close - prev) / prev) * 100
+                pct  = ((close - prev) / prev) * 100
                 sign = "+" if pct > 0 else ""
-                change = f"{sign}{pct:.2f}% vs prev session"
+                chg  = f"{sign}{pct:.2f}%"
             else:
-                change = "no prev close"
-            lines.append(f"  {name}: {close:.6g}  ({change}, as of {d['date']})")
+                chg = "n/a"
+            lines.append(f"  {name}: {close:.6g}  ({chg} vs prev session, {d['date']})")
         else:
-            lines.append(f"  {name}: STALE — fetch failed")
+            lines.append(f"  {name}: STALE")
     return "\n".join(lines)
 
 
@@ -95,33 +160,11 @@ def fmt_psx(data: dict) -> str:
     psx = data.get("psx", {})
     if not psx:
         return "PSX INDICES: not available"
-    lines = ["PSX INDICES (scraped from dps.psx.com.pk — verify before publishing):"]
-    priority = ["KSE100", "KSE30", "KMI30", "ALLSHR", "BKTI", "OGTI", "ACI", "KMIALLSHR"]
-    for name in priority:
+    lines = ["PSX INDICES (verify against dps.psx.com.pk):"]
+    for name in ["KSE100", "KSE30", "KMI30", "ALLSHR", "BKTI", "OGTI", "ACI"]:
         if name in psx:
             d = psx[name]
             lines.append(f"  {name}: {d['current']}  {d['change']} ({d['change_pct']})  H:{d['high']} L:{d['low']}")
-    return "\n".join(lines)
-
-
-def fmt_news(data: dict, max_per_theme: int = 6) -> str:
-    lines = ["NEWS BY THEME (curated from RSS + Google News — pick the stories that matter):"]
-    for theme, items in data.get("news_by_theme", {}).items():
-        if not items or theme == "Unsorted":
-            continue
-        lines.append(f"\n{theme}:")
-        seen = set()
-        count = 0
-        for it in items:
-            title = it.get("title", "").strip()
-            if title in seen or not title:
-                continue
-            seen.add(title)
-            src = it.get("source", "")
-            lines.append(f"  - {title}  [{src}]")
-            count += 1
-            if count >= max_per_theme:
-                break
     return "\n".join(lines)
 
 
@@ -132,48 +175,123 @@ def fmt_manual(data: dict) -> str:
     return "\n".join(lines)
 
 
-def build_user_prompt(data: dict, template_html: str, template_name: str) -> str:
-    run_date  = data.get("run_date", "unknown")
-    manual    = data.get("manual", {})
-    edition_n = manual.get("Edition number", "FILL_ME")
-    ed_date   = manual.get("Edition date", data.get("date_slug", ""))
-    theme     = manual.get("Edition theme / through-line", "")
+def fmt_news(data: dict, max_per_theme: int = 5) -> str:
+    lines = ["NEWS BY THEME (pick the stories that matter for this edition):"]
+    for theme, items in data.get("news_by_theme", {}).items():
+        if not items or theme == "Unsorted":
+            continue
+        lines.append(f"\n{theme}:")
+        seen, count = set(), 0
+        for it in items:
+            t = it.get("title", "").strip()
+            if t in seen or not t:
+                continue
+            seen.add(t)
+            lines.append(f"  - {t}  [{it.get('source', '')}]")
+            count += 1
+            if count >= max_per_theme:
+                break
+    return "\n".join(lines)
 
-    return f"""You are generating a new weekly edition of The Pulse Paper.
 
-EDITION: {edition_n}
-DATE: {ed_date}
-THROUGH-LINE: {theme}
-DATA GATHERED: {run_date}
+# ---------------------------------------------------------------------------
+# CLAUDE CALLER
+# ---------------------------------------------------------------------------
 
----
+def call_claude(client, model: str, system: str, prompt: str, label: str) -> str:
+    print(f"  {label} ", end="", flush=True)
+    chunks = []
+    with client.messages.stream(
+        model=model,
+        max_tokens=16000,
+        system=system,
+        messages=[{"role": "user", "content": prompt}],
+    ) as stream:
+        for i, chunk in enumerate(stream.text_stream):
+            chunks.append(chunk)
+            if i % 80 == 0:
+                print(".", end="", flush=True)
+    text = "".join(chunks)
+    print(f" {len(text):,} chars")
+    return text
+
+
+def strip_code_fence(text: str) -> str:
+    """Remove markdown code fences if the model wrapped the output."""
+    if "```html" in text:
+        start = text.find("```html") + 7
+        end   = text.rfind("```")
+        if end > start:
+            return text[start:end].strip()
+    if text.strip().startswith("```"):
+        text = text.strip()[3:]
+        if text.endswith("```"):
+            text = text[:-3]
+        return text.strip()
+    return text
+
+
+# ---------------------------------------------------------------------------
+# PROMPTS
+# ---------------------------------------------------------------------------
+
+def prompt_call_a(data: dict, template_a: str, edition_n: str, ed_date: str, theme: str) -> str:
+    return f"""Generate the first half of {edition_n} of The Pulse Paper, dated {ed_date}.
+Through-line this week: {theme}
 
 {fmt_manual(data)}
 
----
-
 {fmt_markets(data)}
 
----
-
 {fmt_psx(data)}
-
----
 
 {fmt_news(data)}
 
 ---
 
-STRUCTURAL TEMPLATE:
-The following is the previous edition HTML ({template_name}). Use it as your exact structural and visual template — same HTML skeleton, same CSS classes, same section order (01 PKR & Macro, 02 Oil & Energy, 03 Economic Watchout, 04 Commodity Watch, 05 Logistics & Ports, 06 Regulatory & Policy, 07 Weather & Agriculture, 08 Political & Disruption Risk, 09 Global Supply Chain Signals, 10 Action Items), same callout box structure, same data card layout. Replace ALL content with new data and analysis for this edition. Do not reuse any prose, figures, or analysis from the template — it is there only to show you the HTML structure.
+TEMPLATE STRUCTURE (previous edition, sections 01–05 plus TOC and heatmap):
+Use this as your exact HTML structure — same CSS classes, same data-card layout, same callout-box pattern. Replace ALL content with fresh data and analysis for this edition. Do not reuse any prose or figures from the template.
 
-Where the editor has left a field as FILL_ME, insert a clearly visible HTML comment placeholder: <!-- EDITOR: fill in [field name] here --> so it is easy to find and complete.
+Where data is FILL_ME, insert an HTML comment: <!-- EDITOR: fill in [field] -->
 
-{template_html}
+{template_a}
 
 ---
 
-Now generate the complete HTML for {edition_n} ({ed_date}). Follow the template structure exactly. Write all prose in The Pulse Paper style as defined in your system prompt. Produce a complete, self-contained HTML file ready to open in a browser.
+Generate the following HTML fragment for {edition_n} ({ed_date}):
+1. <nav class="toc"> ... </nav>  — update the section short-titles to match this edition's section headings
+2. The heatmap <div class="container"> block — updated with this week's data
+3. The opening <div class="container"> and sections s01 through s05 (complete <section> elements)
+
+Output raw HTML only. No markdown, no explanation, no code fences.
+"""
+
+
+def prompt_call_b(data: dict, template_b: str, edition_n: str, ed_date: str, theme: str) -> str:
+    return f"""Generate the second half of {edition_n} of The Pulse Paper, dated {ed_date}.
+Through-line this week: {theme}
+
+{fmt_manual(data)}
+
+{fmt_markets(data)}
+
+{fmt_news(data)}
+
+---
+
+TEMPLATE STRUCTURE (previous edition, sections 06–10):
+Use this as your exact HTML structure. Replace ALL content with fresh data and analysis.
+
+{template_b}
+
+---
+
+Generate the following HTML fragment for {edition_n} ({ed_date}):
+Sections s06 through s10 (complete <section> elements) — matching the template structure exactly.
+Section 10 is "The Week Ahead: Action Items" — include prioritised action items with red/amber/green urgency markers.
+End with the closing </div> that closes the container opened before section 01.
+
+Output raw HTML only. No markdown, no explanation, no code fences.
 """
 
 
@@ -183,30 +301,30 @@ Now generate the complete HTML for {edition_n} ({ed_date}). Follow the template 
 
 def main():
     parser = argparse.ArgumentParser(description="Generate a draft Pulse Paper edition")
-    parser.add_argument("date", nargs="?", help="Date slug e.g. 2026-06-21 (default: most recent)")
-    parser.add_argument("--model", default=DEFAULT_MODEL, help=f"Claude model (default: {DEFAULT_MODEL})")
+    parser.add_argument("date", nargs="?", help="Date slug e.g. 2026-06-21")
+    parser.add_argument("--model", default=DEFAULT_MODEL)
     args = parser.parse_args()
 
+    load_dotenv()
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         sys.exit(
             "Error: ANTHROPIC_API_KEY not set.\n"
-            "Export it first:  export ANTHROPIC_API_KEY=sk-ant-..."
+            "Create a .env file in the repo root:\n"
+            "  echo 'ANTHROPIC_API_KEY=sk-ant-...' > .env"
         )
 
-    # Load files
-    data_path    = find_data_file(args.date)
-    template_path = find_template_html()
-    style_path   = STYLE_PROMPT
+    data_path     = find_data_file(args.date)
+    template_path = find_template()
+    style_text    = STYLE_PROMPT.read_text(encoding="utf-8") if STYLE_PROMPT.exists() else ""
+
+    data          = json.loads(data_path.read_text(encoding="utf-8"))
+    template_html = template_path.read_text(encoding="utf-8")
 
     print(f"=== Pulse Draft Generator ===")
-    print(f"  Data file:  {data_path.name}")
-    print(f"  Template:   {template_path.name}")
-    print(f"  Model:      {args.model}")
-
-    data         = json.loads(data_path.read_text(encoding="utf-8"))
-    template_html = template_path.read_text(encoding="utf-8")
-    style_prompt = style_path.read_text(encoding="utf-8") if style_path.exists() else ""
+    print(f"  Data:      {data_path.name}")
+    print(f"  Template:  {template_path.name}")
+    print(f"  Model:     {args.model}")
 
     # Warn on unfilled fields
     unfilled = check_fill_me(data)
@@ -214,53 +332,56 @@ def main():
         print(f"\n⚠  {len(unfilled)} field(s) still marked FILL_ME:")
         for f in unfilled:
             print(f"     - {f}")
-        resp = input("\nProceed anyway? Placeholders will appear in the draft. [y/N] ").strip().lower()
+        resp = input("\nProceed anyway? [y/N] ").strip().lower()
         if resp != "y":
-            sys.exit("Aborted. Fill in the fields and re-run.")
+            sys.exit("Aborted.")
 
-    user_prompt = build_user_prompt(data, template_html, template_path.stem)
+    manual     = data.get("manual", {})
+    edition_n  = manual.get("Edition number", "Edition No. ?")
+    ed_date    = manual.get("Edition date", data.get("date_slug", ""))
+    theme      = manual.get("Edition theme / through-line", "")
 
-    # Estimate token count roughly (4 chars ≈ 1 token)
-    approx_input_tokens = (len(style_prompt) + len(user_prompt)) // 4
-    print(f"\n  Approx input tokens: ~{approx_input_tokens:,}")
-    print(f"  Calling {args.model}...\n")
+    # Split template
+    shell_head, template_a, template_b, shell_foot = split_template(template_html)
+    shell_head = update_shell_head(shell_head, edition_n, ed_date, theme or edition_n)
 
-    # Call Claude API with streaming
+    print(f"\n  Shell head: {len(shell_head):,} chars")
+    print(f"  Template A (TOC+heatmap+s01-05): {len(template_a):,} chars")
+    print(f"  Template B (s06-10): {len(template_b):,} chars")
+    print(f"  Shell foot: {len(shell_foot):,} chars")
+
     client = anthropic.Anthropic(api_key=api_key)
-    output_chunks = []
 
-    with client.messages.stream(
-        model=args.model,
-        max_tokens=16000,
-        system=style_prompt,
-        messages=[{"role": "user", "content": user_prompt}],
-    ) as stream:
-        for i, chunk in enumerate(stream.text_stream):
-            output_chunks.append(chunk)
-            if i % 100 == 0:
-                print(".", end="", flush=True)
+    print(f"\n  Generating content (2 API calls)...")
 
-    print(f"\n  Done. {sum(len(c) for c in output_chunks):,} chars generated.")
+    part_a = strip_code_fence(call_claude(
+        client, args.model, style_text,
+        prompt_call_a(data, template_a, edition_n, ed_date, theme),
+        "Call A (TOC + heatmap + s01-05):"
+    ))
 
-    draft_html = "".join(output_chunks)
+    part_b = strip_code_fence(call_claude(
+        client, args.model, style_text,
+        prompt_call_b(data, template_b, edition_n, ed_date, theme),
+        "Call B (s06-10 + action items): "
+    ))
 
-    # Extract just the HTML if the model wrapped it in markdown code blocks
-    if "```html" in draft_html:
-        start = draft_html.find("```html") + 7
-        end   = draft_html.rfind("```")
-        if end > start:
-            draft_html = draft_html[start:end].strip()
+    # Stitch
+    draft_html = shell_head + part_a + "\n" + part_b + "\n" + shell_foot
 
-    date_slug  = data.get("date_slug", datetime.now(PKT).strftime("%Y-%m-%d"))
+    date_slug   = data.get("date_slug", datetime.now(PKT).strftime("%Y-%m-%d"))
     output_path = DRAFTS_DIR / f"draft-{date_slug}.html"
     output_path.write_text(draft_html, encoding="utf-8")
 
-    print(f"\n  ✓  Draft written to: {output_path}")
+    total = len(shell_head) + len(part_a) + len(part_b) + len(shell_foot)
+    print(f"\n  Total: {total:,} chars")
+    print(f"  ✓  {output_path}")
     print(f"\nNext steps:")
-    print(f"  1. Open {output_path} in your browser to review")
-    print(f"  2. Paste any sections you want to revise into Claude Code for iteration")
-    print(f"  3. When satisfied: cp {output_path} {EDITIONS_DIR / f'{date_slug}.html'}")
-    print(f"     Then add the edition to src/data/editions.js and commit.")
+    print(f"  1. Open the draft in your browser and review")
+    print(f"  2. Iterate on any section here until satisfied")
+    print(f"  3. To publish:")
+    print(f"       cp '{output_path}' '{EDITIONS_DIR / f'{date_slug}.html'}'")
+    print(f"     Then update src/data/editions.js and commit.")
 
 
 if __name__ == "__main__":
