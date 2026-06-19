@@ -2,7 +2,7 @@
 """
 scripts/pull_markets.py
 =======================
-Pulls market data from stooq (free, no API key) and SBP, then rewrites
+Pulls market data from yfinance (free, no API key) and SBP, then rewrites
 src/data/markets.js with fresh values.
 
 What this script DOES update:
@@ -36,6 +36,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
+import yfinance as yf
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MARKETS_JS_PATH = REPO_ROOT / "src" / "data" / "markets.js"
@@ -48,36 +49,36 @@ TIMEOUT = 12
 # ----------------------------------------------------------------------------
 # DATA SOURCE DEFINITIONS
 # ----------------------------------------------------------------------------
-# Format: display_name -> stooq ticker
+# Format: display_name -> yfinance ticker
 # If a ticker stops working, edit it here and that's all.
 
 COMMODITIES_TICKERS = {
-    "Brent Crude":   "cb.f",
-    "WTI Crude Oil": "cl.f",
-    "Natural Gas":   "ng.f",
-    "Gold":          "gc.f",
-    "Silver":        "si.f",
+    "Brent Crude":   "BZ=F",
+    "WTI Crude Oil": "CL=F",
+    "Natural Gas":   "NG=F",
+    "Gold":          "GC=F",
+    "Silver":        "SI=F",
 }
 
 EQUITIES_TICKERS = {
-    "S&P 500":        "^spx",
-    "Nasdaq":         "^ndq",
-    "Dow Jones":      "^dji",
-    "FTSE 100":       "^ftm",
-    "DAX":            "^dax",
-    "CAC 40":         "^cac",
-    "Stoxx 600":      "^stoxx",
-    "Nikkei 225":     "^nkx",
-    "Shanghai Comp.": "^shc",
-    "Hang Seng":      "^hsi",
-    "Sensex":         "^snx",
-    "KOSPI":          "^kos",
+    "S&P 500":        "^GSPC",
+    "Nasdaq":         "^IXIC",
+    "Dow Jones":      "^DJI",
+    "FTSE 100":       "^FTSE",
+    "DAX":            "^GDAXI",
+    "CAC 40":         "^FCHI",
+    "Stoxx 600":      "^STOXX",
+    "Nikkei 225":     "^N225",
+    "Shanghai Comp.": "000001.SS",
+    "Hang Seng":      "^HSI",
+    "Sensex":         "^BSESN",
+    "KOSPI":          "^KS11",
 }
 
 FX_TICKERS = {
-    "EUR / USD": "eurusd",
-    "GBP / USD": "gbpusd",
-    "USD / CNY": "usdcny",
+    "EUR / USD": "EURUSD=X",
+    "GBP / USD": "GBPUSD=X",
+    "USD / CNY": "CNY=X",
 }
 
 # Alert thresholds: anything moving by more than this triggers an alert
@@ -90,49 +91,30 @@ ALERT_THRESHOLDS = {
 
 
 # ----------------------------------------------------------------------------
-# STOOQ FETCHER
+# YFINANCE FETCHER
 # ----------------------------------------------------------------------------
 
-def fetch_stooq(ticker: str) -> dict | None:
+def fetch_yfinance(ticker: str) -> dict | None:
     """Returns {'close': float, 'open': float, 'high': float, 'low': float,
-    'date': str, 'prev_close': float | None} or None if fetch failed."""
-    url = f"https://stooq.com/q/d/l/?s={ticker}&i=d"
+    'date': str, 'prev_close': float | None} or None if fetch failed.
+    Uses the last two valid (non-NaN) trading days so holidays are handled."""
     try:
-        r = requests.get(
-            url,
-            timeout=TIMEOUT,
-            headers={"User-Agent": "Mozilla/5.0 (Pulse Markets Bot)"},
-        )
-        r.raise_for_status()
-        text = r.text.strip()
-        if not text or "Date" not in text[:50]:
+        hist = yf.Ticker(ticker).history(period="10d")
+        hist = hist.dropna(subset=["Close"])
+        if hist.empty:
             return None
-        lines = text.split("\n")
-        if len(lines) < 2:
-            return None
-        # Last line is the most recent trading day
-        last = lines[-1].split(",")
-        if len(last) < 5:
-            return None
+        last = hist.iloc[-1]
         result = {
-            "date":  last[0],
-            "open":  float(last[1]),
-            "high":  float(last[2]),
-            "low":   float(last[3]),
-            "close": float(last[4]),
-            "prev_close": None,
+            "date":       str(last.name.date()),
+            "open":       float(last["Open"]),
+            "high":       float(last["High"]),
+            "low":        float(last["Low"]),
+            "close":      float(last["Close"]),
+            "prev_close": float(hist.iloc[-2]["Close"]) if len(hist) >= 2 else None,
         }
-        # Get yesterday's close for change calculation
-        if len(lines) >= 3:
-            try:
-                prev = lines[-2].split(",")
-                if len(prev) >= 5:
-                    result["prev_close"] = float(prev[4])
-            except (ValueError, IndexError):
-                pass
         return result
     except Exception as e:
-        print(f"  [stooq fail] {ticker}: {e}", file=sys.stderr)
+        print(f"  [yfinance fail] {ticker}: {e}", file=sys.stderr)
         return None
 
 
@@ -141,9 +123,8 @@ def fetch_stooq(ticker: str) -> dict | None:
 # ----------------------------------------------------------------------------
 
 def fetch_sbp_pkr() -> float | None:
-    """Fetches the latest USD/PKR interbank rate from SBP.
-    SBP publishes a daily rates table; we extract the USD selling rate.
-    """
+    """Fetches USD/PKR interbank rate. Tries SBP first (official), falls
+    back to yfinance PKR=X if SBP page is unavailable."""
     url = "https://www.sbp.org.pk/ecodata/rates/eer/index.asp"
     try:
         r = requests.get(
@@ -152,25 +133,23 @@ def fetch_sbp_pkr() -> float | None:
             headers={"User-Agent": "Mozilla/5.0 (Pulse Markets Bot)"},
         )
         r.raise_for_status()
-        # SBP page contains rows like: <td>USD</td><td>...</td><td>278.55</td>
-        # We search for a USD line and pull the nearest numeric value that
-        # looks like a PKR rate (200-400 range).
-        # This is fragile by design — SBP page changes shape occasionally.
-        text = r.text
-        # Find USD row
-        m = re.search(
-            r"USD.*?(\d{3}\.\d{1,4})",
-            text,
-            re.DOTALL,
-        )
+        m = re.search(r"USD.*?(\d{3}\.\d{1,4})", r.text, re.DOTALL)
         if m:
             rate = float(m.group(1))
-            if 200 < rate < 400:  # sanity check
+            if 200 < rate < 400:
                 return rate
-        return None
     except Exception as e:
-        print(f"  [SBP fail] {e}", file=sys.stderr)
-        return None
+        print(f"  [SBP fail] {e} — trying yfinance fallback", file=sys.stderr)
+
+    # Fallback: yfinance PKR=X (Yahoo Finance interbank rate)
+    try:
+        d = fetch_yfinance("PKR=X")
+        if d and 200 < d["close"] < 400:
+            print("  [PKR] using yfinance fallback", file=sys.stderr)
+            return d["close"]
+    except Exception as e:
+        print(f"  [PKR yfinance fail] {e}", file=sys.stderr)
+    return None
 
 
 # ----------------------------------------------------------------------------
@@ -428,7 +407,7 @@ def main():
     print("\n[1/5] Fetching data...")
     fetched_commodities = {}
     for name, ticker in COMMODITIES_TICKERS.items():
-        d = fetch_stooq(ticker)
+        d = fetch_yfinance(ticker)
         if d:
             fetched_commodities[name] = d
             print(f"  OK    {name:20s} close={d['close']}")
@@ -437,7 +416,7 @@ def main():
 
     fetched_equities = {}
     for name, ticker in EQUITIES_TICKERS.items():
-        d = fetch_stooq(ticker)
+        d = fetch_yfinance(ticker)
         if d:
             fetched_equities[name] = d
             print(f"  OK    {name:20s} close={d['close']}")
@@ -446,7 +425,7 @@ def main():
 
     fetched_fx = {}
     for name, ticker in FX_TICKERS.items():
-        d = fetch_stooq(ticker)
+        d = fetch_yfinance(ticker)
         if d:
             fetched_fx[name] = d
             print(f"  OK    {name:20s} close={d['close']}")

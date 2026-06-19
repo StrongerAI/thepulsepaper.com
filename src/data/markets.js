@@ -13,13 +13,17 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "18 June 2026, 7:59 PM PKT",
+  lastUpdated: "19 June 2026, 10:30 AM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
     // -- AUTO:ticker --
     { name: "KSE-100", value: "173,963", changePct: "+1.34%", direction: "up" },
+    { name: "Brent", value: "$79.92", changePct: "+0.09%", direction: "up" },
     { name: "Dubai Platts", value: "$103.15", changePct: "Flat", direction: "flat" },
+    { name: "Gold", value: "$4,145", changePct: "-1.88%", direction: "down" },
+    { name: "USD/PKR", value: "278.08", changePct: "Flat", direction: "flat" },
+    { name: "S&P 500", value: "7,420", changePct: "-1.21%", direction: "down" },
     // -- /AUTO:ticker --
   ],
 
@@ -89,7 +93,11 @@ export const marketsData = {
   commodities: {
     rows: [
       // -- AUTO:commodities-rows --
-
+      { name: "Brent Crude", value: "$79.92", unit: "/bbl", open: "79.34", high: "80.02", low: "78.81" },
+      { name: "WTI Crude Oil", value: "$76.08", unit: "/bbl", open: "75.40", high: "76.21", low: "74.98" },
+      { name: "Natural Gas", value: "$3.2030", unit: "/MMBtu", open: "3.2160", high: "3.2190", low: "3.1980" },
+      { name: "Gold", value: "$4,145", unit: "/oz", open: "4,231", high: "4,231", low: "4,139" },
+      { name: "Silver", value: "$63.38", unit: "/oz", open: "65.79", high: "65.94", low: "63.35" },
     // -- /AUTO:commodities-rows --
     ],
     commentary: "Brent at $92 is $17 below the $109 peak three weeks ago. The fear premium has bled out of crude. But Dubai Platts at $103.15 is what Pakistan actually pays, and the $11 gap to Brent means the import bill has eased less than the headline crash suggests. Gold and silver moving up while equities rally is unusual: typically they trade inversely. The signal is that institutional money is hedging the rally, not buying into it. Natural gas easing is consistent with the broader energy de-escalation. Dubai Platts is sourced manually pending a reliable free feed.",
@@ -100,7 +108,22 @@ export const marketsData = {
   international: {
     rows: [
       // -- AUTO:international-rows --
-
+      { name: "Dow Jones", close: "51,493", open: "51,938", range: "51,393 – 52,281", region: "Americas" },
+      { name: "Nasdaq", close: "26,022", open: "26,494", range: "25,960 – 26,512", region: "Americas" },
+      { name: "S&P 500", close: "7,420", open: "7,524", range: "7,403 – 7,532", region: "Americas" },
+      { name: "CAC 40", close: "8,431", open: "8,435", range: "8,409 – 8,477", region: "Europe" },
+      { name: "DAX", close: "24,935", open: "24,817", range: "24,764 – 24,956", region: "Europe" },
+      { name: "FTSE 100", close: "10,509", open: "10,494", range: "10,468 – 10,509", region: "Europe" },
+      { name: "Stoxx 600", close: "639.31", open: "635.94", range: "635.39 – 639.31", region: "Europe" },
+      { name: "Hang Seng", close: "24,312", open: "24,496", range: "24,254 – 24,560", region: "Asia" },
+      { name: "KOSPI", close: "8,914", open: "9,289", range: "8,875 – 9,386", region: "Asia" },
+      { name: "Nikkei 225", close: "70,769", open: "71,551", range: "70,518 – 71,953", region: "Asia" },
+      { name: "Sensex", close: "76,670", open: "76,853", range: "76,578 – 76,859", region: "Asia" },
+      { name: "Shanghai Comp.", close: "4,108", open: "4,074", range: "4,074 – 4,110", region: "Asia" },
+      { name: "EUR / USD", close: "1.1429", open: "1.1465", range: "1.1422 – 1.1472", region: "Currencies" },
+      { name: "GBP / USD", close: "1.3172", open: "1.3206", range: "1.3164 – 1.3213", region: "Currencies" },
+      { name: "USD / CNY", close: "6.7675", open: "6.7681", range: "6.7675 – 6.7681", region: "Currencies" },
+      { name: "USD / PKR", close: "278.08", open: "", range: "SBP interbank", region: "Currencies", muted: true },
     // -- /AUTO:international-rows --
     ],
     commentary: "Asia rallied with the ceasefire trade: Nikkei, Hang Seng and Sensex all firmed on softer oil. China is the exception: Shanghai is the slowest mover, consistent with the manufacturing PMI stalling at 50.0 in May. Europe is at multi-year highs across FTSE, DAX, and the broad Stoxx 600 as Bund yields stabilise. The dollar is weakening (EUR/USD at 1.1642, GBP/USD at 1.3520), which is the standard pattern when oil falls because the petrodollar bid eases. For Pakistan, the weaker dollar is a marginal positive on rupee terms, but it is dwarfed by the fact SBP is managing USD/PKR flat at 278.55.",
