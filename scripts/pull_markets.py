@@ -44,7 +44,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 MARKETS_JS_PATH = REPO_ROOT / "src" / "data" / "markets.js"
 ALERTS_JSON_PATH = REPO_ROOT / "src" / "data" / "markets-alerts.json"
 PREV_SNAPSHOT_PATH = REPO_ROOT / "src" / "data" / ".markets-prev.json"
-WEEKLY_KSE_PATH = REPO_ROOT / "src" / "data" / ".markets-weekly-kse.json"
+WEEKLY_KSE_PATH  = REPO_ROOT / "src" / "data" / ".markets-weekly-kse.json"
+PETROL_PATH      = REPO_ROOT / "src" / "data" / ".markets-petrol.json"
 
 PKT = ZoneInfo("Asia/Karachi")
 TIMEOUT = 12
@@ -96,8 +97,8 @@ WOW_TICKERS = {
     "S&P 500":      "^GSPC",
 }
 
-# These rows have no free yfinance source — preserved from the existing file
-MANUAL_WOW_NAMES = {"KSE-100", "Dubai Platts", "Petrol (MS)", "SPI (YoY)"}
+# These rows have no automatable source — preserved from the existing file
+MANUAL_WOW_NAMES = {"KSE-100", "Dubai Platts", "SPI (YoY)"}
 
 # Display order in the table
 WOW_ROW_ORDER = [
@@ -273,6 +274,55 @@ def fetch_psx_indices() -> dict:
     return result
 
 
+def fetch_pso_petrol() -> float | None:
+    """Scrape PSO homepage for Euro5 Premier price (= government-regulated Motor Spirit MS).
+    PSO labels RON92 petrol as 'Euro5 Premier' under the Euro5 fuel branding.
+    Price is set fortnightly by OGRA (1st and 16th of each month)."""
+    url = "https://www.psopk.com/"
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+        )
+    }
+    try:
+        r = requests.get(url, headers=headers, timeout=TIMEOUT)
+        r.raise_for_status()
+        m = re.search(
+            r'premier5\.png.*?<p class="fptitle">Rs\.([\d,\.]+)/Ltr',
+            r.text, re.DOTALL
+        )
+        if m:
+            return float(m.group(1).replace(",", ""))
+        print("  [PSO] price pattern not found in page", file=sys.stderr)
+        return None
+    except Exception as e:
+        print(f"  [PSO fail] {e}", file=sys.stderr)
+        return None
+
+
+def update_petrol_snapshot(curr_price: float) -> tuple[float | None, float]:
+    """Track petrol price across fortnightly OGRA revisions.
+    Shifts prev←curr only when the price actually changes.
+    Returns (prev_price, curr_price)."""
+    data: dict = {}
+    if PETROL_PATH.exists():
+        try:
+            data = json.loads(PETROL_PATH.read_text())
+        except Exception:
+            pass
+
+    stored = data.get("curr_price")
+    if stored is None:
+        data = {"prev_price": None, "curr_price": curr_price}
+    elif abs(curr_price - stored) > 0.005:
+        data = {"prev_price": stored, "curr_price": curr_price}
+    # else: price unchanged — leave data as-is
+
+    PETROL_PATH.write_text(json.dumps(data, indent=2))
+    return data.get("prev_price"), data["curr_price"]
+
+
 def fmt_psx_value(value: float) -> str:
     return f"{value:,.0f}"
 
@@ -361,10 +411,16 @@ def parse_preserved_wow_row(content: str, name: str) -> dict | None:
 
 
 def build_wow_rows(weekly: dict, preserved: dict) -> list[dict]:
-    """Assemble the full weekOverWeek row list in display order."""
+    """Assemble the full weekOverWeek row list in display order.
+
+    Routing:
+      - MANUAL_WOW_NAMES or not in WOW_TICKERS → use preserved dict
+        (covers: manual editor rows, PSX-scraped KSE-100, PSO-scraped Petrol)
+      - in WOW_TICKERS → compute from yfinance weekly OHLC
+    """
     rows = []
     for name in WOW_ROW_ORDER:
-        if name in MANUAL_WOW_NAMES:
+        if name in MANUAL_WOW_NAMES or name not in WOW_TICKERS:
             row = preserved.get(name)
             if row:
                 rows.append(row)
@@ -668,6 +724,12 @@ def main():
     else:
         print(f"  STALE USD/PKR (SBP)        (will keep previous value)")
 
+    petrol_price = fetch_pso_petrol()
+    if petrol_price:
+        print(f"  OK    Petrol (MS/PSO)      Rs.{petrol_price:.2f}/Ltr")
+    else:
+        print("  STALE Petrol (MS/PSO)      (will keep existing row)")
+
     print("  Fetching PSX indices from dps.psx.com.pk...")
     psx_data = fetch_psx_indices()
     if psx_data:
@@ -811,6 +873,34 @@ def main():
                 "value":     kse_match.group(1),
                 "changePct": kse_match.group(2),
                 "direction": kse_match.group(3),
+            }
+
+    # Build Petrol (MS) wow row from PSO scrape + fortnightly snapshot
+    if petrol_price:
+        prev_p, curr_p = update_petrol_snapshot(petrol_price)
+        if prev_p is not None:
+            diff = curr_p - prev_p
+            if abs(diff) < 0.005:
+                petrol_change, petrol_dir = "Flat", "flat"
+            else:
+                sign = "+" if diff > 0 else "-"
+                petrol_change = f"{sign}Rs {abs(diff):.2f}"
+                petrol_dir    = "up" if diff > 0 else "down"
+            wow_preserved["Petrol (MS)"] = {
+                "name":      "Petrol (MS)",
+                "prev":      f"Rs {prev_p:.2f}",
+                "current":   f"Rs {curr_p:.2f}",
+                "change":    petrol_change,
+                "direction": petrol_dir,
+            }
+        else:
+            # First run — no prev yet; show current, flag as pending
+            wow_preserved["Petrol (MS)"] = {
+                "name":      "Petrol (MS)",
+                "prev":      "–",
+                "current":   f"Rs {curr_p:.2f}",
+                "change":    "–",
+                "direction": "flat",
             }
 
     # Extract current Dubai Platts row from commodities to preserve it
