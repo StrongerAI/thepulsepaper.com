@@ -13,7 +13,7 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "19 June 2026, 11:21 PM PKT",
+  lastUpdated: "20 June 2026, 12:54 PM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
@@ -54,9 +54,9 @@ export const marketsData = {
       { name: "Silver", prev: "$67.86", current: "$64.91", change: "-4.35%", direction: "down" },
       { name: "Natural Gas", prev: "$3.12", current: "$3.20", change: "+2.50%", direction: "up" },
       { name: "USD / PKR", prev: "278.05", current: "277.98", change: "Flat", direction: "flat" },
-      { name: "EUR / USD", prev: "1.1577", current: "1.1480", change: "-0.84%", direction: "down" },
+      { name: "EUR / USD", prev: "1.1577", current: "1.1469", change: "-0.93%", direction: "down" },
       { name: "S&P 500", prev: "7,431", current: "7,501", change: "+0.93%", direction: "up" },
-      { name: "Petrol (MS)", prev: "–", current: "Rs 373.78", change: "–", direction: "flat" },
+      { name: "Petrol (MS)", prev: "Rs 373.78", current: "Rs 299.50", change: "-Rs 74.28", direction: "down" },
       { name: "SPI (YoY)", prev: "14.47%", current: "14.47%", change: "Flat", direction: "flat" },
     // -- /AUTO:wow-rows --
     ],
@@ -123,13 +123,13 @@ export const marketsData = {
       { name: "FTSE 100", close: "10,363", open: "10,400", range: "10,353 – 10,419", region: "Europe" },
       { name: "Stoxx 600", close: "635.61", open: "637.10", range: "635.21 – 638.49", region: "Europe" },
       { name: "Hang Seng", close: "24,312", open: "24,496", range: "24,254 – 24,560", region: "Asia" },
-      { name: "KOSPI", close: "8,864", open: "8,622", range: "8,606 – 8,872", region: "Asia" },
-      { name: "Nikkei 225", close: "69,902", open: "69,006", range: "68,986 – 70,126", region: "Asia" },
+      { name: "KOSPI", close: "9,052", open: "9,289", range: "8,832 – 9,386", region: "Asia" },
+      { name: "Nikkei 225", close: "71,250", open: "71,551", range: "70,518 – 71,953", region: "Asia" },
       { name: "Sensex", close: "76,803", open: "76,853", range: "76,470 – 76,902", region: "Asia" },
       { name: "Shanghai Comp.", close: "4,108", open: "4,074", range: "4,074 – 4,110", region: "Asia" },
-      { name: "EUR / USD", close: "1.1480", open: "1.1465", range: "1.1422 – 1.1480", region: "Currencies" },
-      { name: "GBP / USD", close: "1.3235", open: "1.3206", range: "1.3164 – 1.3240", region: "Currencies" },
-      { name: "USD / CNY", close: "6.7686", open: "6.7681", range: "6.7675 – 6.7686", region: "Currencies" },
+      { name: "EUR / USD", close: "1.1469", open: "1.1465", range: "1.1422 – 1.1485", region: "Currencies" },
+      { name: "GBP / USD", close: "1.3237", open: "1.3237", range: "1.3237 – 1.3237", region: "Currencies" },
+      { name: "USD / CNY", close: "6.7681", open: "6.7681", range: "6.7675 – 6.7686", region: "Currencies" },
       { name: "USD / PKR", close: "277.98", open: "", range: "SBP interbank", region: "Currencies", muted: true },
     // -- /AUTO:international-rows --
     ],
