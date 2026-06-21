@@ -46,6 +46,7 @@ ALERTS_JSON_PATH = REPO_ROOT / "src" / "data" / "markets-alerts.json"
 PREV_SNAPSHOT_PATH = REPO_ROOT / "src" / "data" / ".markets-prev.json"
 WEEKLY_KSE_PATH  = REPO_ROOT / "src" / "data" / ".markets-weekly-kse.json"
 PETROL_PATH      = REPO_ROOT / "src" / "data" / ".markets-petrol.json"
+CHART_HISTORY_PATH = REPO_ROOT / "src" / "data" / ".markets-chart-history.json"
 
 PKT = ZoneInfo("Asia/Karachi")
 TIMEOUT = 12
@@ -359,6 +360,63 @@ def update_weekly_kse(kse_value: float, now: datetime) -> tuple[float | None, fl
 
     WEEKLY_KSE_PATH.write_text(json.dumps(data, indent=2))
     return data.get("prev_close"), data["curr_close"]
+
+
+def update_chart_history(kse_close: float, brent_close: float, now: datetime) -> None:
+    """Append one data point per week to the KSE/Brent chart history.
+    Uses Friday as the weekly anchor. Only appends if the current week
+    is not already in the history."""
+    data: dict = {"kse": [], "brent": []}
+    if CHART_HISTORY_PATH.exists():
+        try:
+            data = json.loads(CHART_HISTORY_PATH.read_text())
+        except Exception:
+            pass
+
+    week_key = now.strftime("%Y-W%W")
+    date_label = now.strftime("%-d %b")
+
+    existing_kse_weeks = {e.get("week") for e in data.get("kse", [])}
+    existing_brent_weeks = {e.get("week") for e in data.get("brent", [])}
+
+    if week_key not in existing_kse_weeks:
+        data.setdefault("kse", []).append({
+            "week": week_key, "date": date_label, "value": int(round(kse_close))
+        })
+    else:
+        for e in data["kse"]:
+            if e.get("week") == week_key:
+                e["value"] = int(round(kse_close))
+                e["date"] = date_label
+
+    if week_key not in existing_brent_weeks:
+        data.setdefault("brent", []).append({
+            "week": week_key, "date": date_label, "value": round(brent_close, 2)
+        })
+    else:
+        for e in data["brent"]:
+            if e.get("week") == week_key:
+                e["value"] = round(brent_close, 2)
+                e["date"] = date_label
+
+    CHART_HISTORY_PATH.write_text(json.dumps(data, indent=2))
+
+
+def build_chart_history_block(marker_name: str) -> str:
+    """Build the JS array content for kse-history or brent-history from the JSON file."""
+    if not CHART_HISTORY_PATH.exists():
+        return ""
+    data = json.loads(CHART_HISTORY_PATH.read_text())
+    key = "kse" if "kse" in marker_name else "brent"
+    entries = data.get(key, [])
+    lines = []
+    for e in entries:
+        val = e["value"]
+        if key == "brent":
+            lines.append(f'    {{ date: "{e["date"]}", value: {val} }},')
+        else:
+            lines.append(f'    {{ date: "{e["date"]}", value: {val} }},')
+    return "\n".join(lines)
 
 
 def render_psx_indexed_rows(rows: list[dict]) -> str:
@@ -1061,6 +1119,28 @@ def main():
             "// -- /AUTO:psx-thematic --",
             render_psx_thematic_rows(psx_thematic_rows),
         )
+
+    # Update chart history (weekly KSE + Brent)
+    kse_close = kse_raw["value"] if kse_raw else None
+    brent_close = ticker_data.get("Brent Crude", {}).get("close") if ticker_data else None
+    if kse_close and brent_close:
+        update_chart_history(kse_close, brent_close, now)
+        kse_hist_block = build_chart_history_block("kse-history")
+        brent_hist_block = build_chart_history_block("brent-history")
+        if kse_hist_block:
+            content = replace_between_markers(
+                content,
+                "// -- AUTO:kse-history --",
+                "// -- /AUTO:kse-history --",
+                kse_hist_block,
+            )
+        if brent_hist_block:
+            content = replace_between_markers(
+                content,
+                "// -- AUTO:brent-history --",
+                "// -- /AUTO:brent-history --",
+                brent_hist_block,
+            )
 
     content = replace_simple_field(
         content,
