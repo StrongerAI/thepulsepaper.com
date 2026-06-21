@@ -13,7 +13,7 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "21 June 2026, 1:37 PM PKT",
+  lastUpdated: "21 June 2026, 7:01 PM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
@@ -23,7 +23,7 @@ export const marketsData = {
     { name: "Dubai Platts", value: "$103.15", changePct: "Flat", direction: "flat" },
     { name: "Gold", value: "$4,173", changePct: "-1.21%", direction: "down" },
     { name: "USD/PKR", value: "277.98", changePct: "Flat", direction: "flat" },
-    { name: "S&P 500", value: "7,420", changePct: "-1.21%", direction: "down" },
+    { name: "S&P 500", value: "7,501", changePct: "+1.08%", direction: "up" },
     // -- /AUTO:ticker --
   ],
 
@@ -116,8 +116,8 @@ export const marketsData = {
     rows: [
       // -- AUTO:international-rows --
       { name: "Dow Jones", close: "51,565", open: "51,572", range: "51,555 – 51,949", region: "Americas" },
-      { name: "Nasdaq", close: "26,022", open: "26,494", range: "25,960 – 26,512", region: "Americas" },
-      { name: "S&P 500", close: "7,420", open: "7,524", range: "7,403 – 7,532", region: "Americas" },
+      { name: "Nasdaq", close: "26,518", open: "26,411", range: "26,189 – 26,560", region: "Americas" },
+      { name: "S&P 500", close: "7,501", open: "7,487", range: "7,468 – 7,511", region: "Americas" },
       { name: "CAC 40", close: "8,421", open: "8,474", range: "8,419 – 8,501", region: "Europe" },
       { name: "DAX", close: "24,986", open: "25,075", range: "24,952 – 25,173", region: "Europe" },
       { name: "FTSE 100", close: "10,363", open: "10,400", range: "10,353 – 10,419", region: "Europe" },
