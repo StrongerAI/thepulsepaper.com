@@ -1,0 +1,22 @@
+{
+  "2026-06-21": {
+    "sbp_reserves": 17.22,
+    "policy_rate": 11.5,
+    "tbill_3m": 12.5,
+    "tbill_6m": 12.49,
+    "tbill_12m": 12.99,
+    "pib_2y": null,
+    "pib_3y": null,
+    "fbr_ytd": 11230.0,
+    "fbr_target": 13980.0,
+    "spi_yoy": 15.28,
+    "cpi_yoy": 11.7,
+    "petrol": 299.78,
+    "diesel": 311.78,
+    "tarbela": null,
+    "mangla": null,
+    "brent_dubai": 81.29,
+    "cpo": null,
+    "wheat": null
+  }
+}

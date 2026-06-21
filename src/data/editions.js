@@ -8,6 +8,16 @@
 
 export const editionsList = [
 {
+   no: '06',
+   slug: '2026-06-22',
+   date: '21 June 2026',
+   dateShort: '21 Jun',
+   pubDate: '2026-06-22',
+   access: 'free',
+   title: 'The relief arrived. The structure did not change.',
+   summary: "Oil crashed on the US-Iran ceasefire framework mediated with Pakistan and Qatar in the room. Petrol fell below Rs 300 for the first time in the conflict cycle. But CPI accelerated to 11.7%, SPI hit 15.28%, the SBP held at 11.50%, and the FBR carries an Rs 868B structural shortfall. The pump price fell; the planning environment did not.",
+  },
+{
    no: '05',
    slug: '2026-06-08',
    date: '07 June 2026',

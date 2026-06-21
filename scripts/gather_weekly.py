@@ -233,6 +233,43 @@ def fetch_gnews(queries: list, max_per_query: int = 5) -> list:
     return items
 
 
+def parse_pub_date(date_str: str) -> datetime | None:
+    """Try to parse a published date from RSS/Google News into a datetime."""
+    if not date_str:
+        return None
+    from email.utils import parsedate_to_datetime
+    try:
+        return parsedate_to_datetime(date_str)
+    except Exception:
+        pass
+    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%d", "%d %b %Y"):
+        try:
+            return datetime.strptime(date_str, fmt)
+        except ValueError:
+            continue
+    return None
+
+
+def filter_stale_news(items: list, max_age_days: int = 14) -> list:
+    """Remove news items older than max_age_days. Tag each item with date_parsed."""
+    cutoff = datetime.now(tz=None) - __import__("datetime").timedelta(days=max_age_days)
+    filtered = []
+    stale_count = 0
+    for item in items:
+        dt = parse_pub_date(item.get("published", ""))
+        if dt:
+            item["date_parsed"] = dt.strftime("%Y-%m-%d")
+            if dt.replace(tzinfo=None) < cutoff:
+                stale_count += 1
+                continue
+        else:
+            item["date_parsed"] = ""
+        filtered.append(item)
+    if stale_count:
+        print(f"  [filter] Removed {stale_count} article(s) older than {max_age_days} days")
+    return filtered
+
+
 def classify(item: dict) -> list:
     blob = (item.get("title", "") + " " + item.get("summary", "")).lower()
     hits = [theme for theme, kws in THEMES.items() if any(kw in blob for kw in kws)]
@@ -292,7 +329,9 @@ def build_md(data: dict) -> str:
                 continue
             seen.add(title)
             src = it.get("source", "")
-            lines.append(f"- [{title}]({it.get('link', '')})  _{src}_")
+            pub = it.get("date_parsed", "")
+            date_tag = f" ({pub})" if pub else ""
+            lines.append(f"- [{title}]({it.get('link', '')})  _{src}{date_tag}_")
             count += 1
             if count >= 8:
                 break
@@ -334,8 +373,8 @@ def main():
     print("\n[3/4] Gathering news...")
     rss_items   = fetch_rss(RSS_FEEDS)
     gnews_items = fetch_gnews(GNEWS_QUERIES)
-    all_news    = rss_items + gnews_items
-    print(f"  Total: {len(all_news)} items ({len(rss_items)} RSS + {len(gnews_items)} Google News)")
+    all_news    = filter_stale_news(rss_items + gnews_items, max_age_days=14)
+    print(f"  Total: {len(all_news)} items ({len(rss_items)} RSS + {len(gnews_items)} Google News, after date filter)")
 
     themed: dict[str, list] = {t: [] for t in list(THEMES.keys()) + ["Unsorted"]}
     for item in all_news:
@@ -372,16 +411,39 @@ def main():
         "Wheat (international, $/MT)":     "FILL_ME — CBOT or broker report",
         "Disruption calendar":             "FILL_ME — upcoming events: strikes, protests, political dates, elections",
         "Key regulatory actions this week":"FILL_ME — SROs, OGRA notifications, SBP circulars issued this week",
+        "Biggest Pakistan story this week": "FILL_ME — the single most important Pakistan-specific story (not a market move — a political, diplomatic, or institutional event)",
         "Editorial notes":                 "FILL_ME — anything the auto-fetch missed that matters this week",
     }
 
+    # Auto-include prior edition data for dashboard "prev" column
+    prior_edition = {}
+    prev_files = sorted(OUTPUT_DIR.glob("weekly_data_*.json"))
+    prev_files = [f for f in prev_files if f.name != f"weekly_data_{date_slug}.json"]
+    if prev_files:
+        try:
+            prev_data = json.loads(prev_files[-1].read_text(encoding="utf-8"))
+            prev_manual = prev_data.get("manual", {})
+            if not any(str(v).startswith("FILL_ME") for v in prev_manual.values()):
+                prior_edition = {
+                    "date_slug": prev_data.get("date_slug", ""),
+                    "edition":   prev_manual.get("Edition number", ""),
+                    "manual":    prev_manual,
+                    "markets":   {k: {"close": v.get("close")} for k, v in prev_data.get("markets", {}).items() if v},
+                }
+                print(f"  ✓  Prior edition data loaded from {prev_files[-1].name}")
+            else:
+                print(f"  ⚠  Prior edition {prev_files[-1].name} has unfilled fields — skipping")
+        except Exception as e:
+            print(f"  ⚠  Could not load prior edition: {e}")
+
     output = {
-        "run_date":      run_date,
-        "date_slug":     date_slug,
-        "markets":       markets,
-        "psx":           psx,
-        "news_by_theme": themed,
-        "manual":        manual,
+        "run_date":       run_date,
+        "date_slug":      date_slug,
+        "markets":        markets,
+        "psx":            psx,
+        "news_by_theme":  themed,
+        "manual":         manual,
+        "prior_edition":  prior_edition,
     }
 
     json_path = OUTPUT_DIR / f"weekly_data_{date_slug}.json"

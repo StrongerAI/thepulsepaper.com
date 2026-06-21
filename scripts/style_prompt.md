@@ -101,6 +101,16 @@ In Signal articles: `## What to watch` with bolded leads — **"For businesses w
 - Bullet points inside prose paragraphs (only in structured callout boxes)
 - Summaries of what was just said
 - "It is worth noting" (just note it)
+- Em-dashes (—) in prose. Use colons, semicolons, parentheses, or periods instead. The only permitted use is in data labels and table cells.
+- Named media outlets in body text. Never write "Reuters reported," "Dawn reports," "Al Jazeera documented," "Fitch stated." Paraphrase the fact directly. Push all sourcing to the Methodology box at the end of the edition.
+
+---
+
+## Structural devices
+
+Every section MUST end with a **So What?** callout box: a single concrete implication or action for the reader's business. Use `<div class="callout-box">` with a `<strong>So What?</strong>` lead. This is a signature device — never skip it.
+
+The edition MUST include a **Methodology** block before the footer (`<div class="methodology">`). List all data sources, their dates, and any caveats. This is where media outlet names and source attributions belong — not in the body text.
 
 ---
 

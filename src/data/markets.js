@@ -138,9 +138,9 @@ export const marketsData = {
 
   // -- Latest edition callout (manual, updated weekly when a new edition publishes) --
   latestEdition: {
-    number: "04",
-    title: "The ceasefire trade, priced in, not signed",
-    summary: "Full analysis across all ten sections: the oil crash, the FY27 budget with FBR Rs 864B miss, El Ni\u00f1o agricultural risk, and three global divergences to watch.",
-    url: "/editions/2026-05-31.html",
+    number: "06",
+    title: "The relief arrived. The structure did not change.",
+    summary: "Oil crashed on the US-Iran ceasefire framework. Petrol below Rs 300. But CPI 11.7%, SBP held at 11.50%, FBR Rs 868B short, and T-bills at 12.99% say the structure did not move.",
+    url: "/editions/2026-06-22.html",
   },
 };
