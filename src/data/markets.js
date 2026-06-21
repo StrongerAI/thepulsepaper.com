@@ -13,7 +13,7 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "20 June 2026, 6:53 PM PKT",
+  lastUpdated: "21 June 2026, 1:37 PM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
@@ -115,21 +115,21 @@ export const marketsData = {
   international: {
     rows: [
       // -- AUTO:international-rows --
-      { name: "Dow Jones", close: "51,493", open: "51,938", range: "51,393 – 52,281", region: "Americas" },
+      { name: "Dow Jones", close: "51,565", open: "51,572", range: "51,555 – 51,949", region: "Americas" },
       { name: "Nasdaq", close: "26,022", open: "26,494", range: "25,960 – 26,512", region: "Americas" },
       { name: "S&P 500", close: "7,420", open: "7,524", range: "7,403 – 7,532", region: "Americas" },
       { name: "CAC 40", close: "8,421", open: "8,474", range: "8,419 – 8,501", region: "Europe" },
       { name: "DAX", close: "24,986", open: "25,075", range: "24,952 – 25,173", region: "Europe" },
       { name: "FTSE 100", close: "10,363", open: "10,400", range: "10,353 – 10,419", region: "Europe" },
       { name: "Stoxx 600", close: "635.61", open: "637.10", range: "635.21 – 638.49", region: "Europe" },
-      { name: "Hang Seng", close: "24,312", open: "24,496", range: "24,254 – 24,560", region: "Asia" },
+      { name: "Hang Seng", close: "23,925", open: "24,145", range: "23,750 – 24,163", region: "Asia" },
       { name: "KOSPI", close: "9,052", open: "9,289", range: "8,832 – 9,386", region: "Asia" },
       { name: "Nikkei 225", close: "71,250", open: "71,551", range: "70,518 – 71,953", region: "Asia" },
       { name: "Sensex", close: "76,803", open: "76,853", range: "76,470 – 76,902", region: "Asia" },
-      { name: "Shanghai Comp.", close: "4,108", open: "4,074", range: "4,074 – 4,110", region: "Asia" },
+      { name: "Shanghai Comp.", close: "4,090", open: "4,094", range: "4,080 – 4,117", region: "Asia" },
       { name: "EUR / USD", close: "1.1469", open: "1.1465", range: "1.1422 – 1.1485", region: "Currencies" },
-      { name: "GBP / USD", close: "1.3237", open: "1.3237", range: "1.3237 – 1.3237", region: "Currencies" },
-      { name: "USD / CNY", close: "6.7681", open: "6.7681", range: "6.7675 – 6.7686", region: "Currencies" },
+      { name: "GBP / USD", close: "1.3237", open: "1.3234", range: "1.3234 – 1.3237", region: "Currencies" },
+      { name: "USD / CNY", close: "6.7647", open: "6.7647", range: "6.7647 – 6.7647", region: "Currencies" },
       { name: "USD / PKR", close: "277.98", open: "", range: "SBP interbank", region: "Currencies", muted: true },
     // -- /AUTO:international-rows --
     ],
