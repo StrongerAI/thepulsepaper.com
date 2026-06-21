@@ -268,4 +268,95 @@ export const glossary = {
     label: 'Circular Debt',
     def: "The accumulation of unpaid bills between entities in Pakistan's power sector — power generators are owed by distribution companies, which are owed by the government. Each unpaid link blocks the next, creating a structural financial liability that constrains power supply and discourages investment. It is a recurring item in budget discussions and IMF negotiations.",
   },
+
+  // --- Added for Edition 06 coverage ---
+
+  imf: {
+    label: 'IMF (International Monetary Fund)',
+    def: "A global financial institution that lends to countries facing balance-of-payments or fiscal crises, in exchange for economic reform commitments. Pakistan's current Extended Fund Facility programme sets binding conditions on fiscal targets, tax collection, and structural reforms.",
+  },
+  opec: {
+    label: 'OPEC (Organisation of the Petroleum Exporting Countries)',
+    def: "A cartel of major oil-producing nations that coordinates production levels to influence global crude prices. Its decisions on output cuts or increases directly affect what Pakistan pays for imported oil.",
+  },
+  psx: {
+    label: 'PSX (Pakistan Stock Exchange)',
+    def: "The country's sole stock exchange, based in Karachi, where equities, debt instruments, and derivatives are traded. The KSE-100 index is its benchmark.",
+  },
+  mpc: {
+    label: 'MPC (Monetary Policy Committee)',
+    def: "The SBP committee that meets roughly every six weeks to decide whether to raise, lower, or hold the policy rate. Its decisions set the cost of borrowing across the economy.",
+  },
+  fmcg: {
+    label: 'FMCG (Fast-Moving Consumer Goods)',
+    def: "Everyday products sold quickly at relatively low cost — packaged food, beverages, toiletries, cleaning products. In Pakistan, FMCG supply chains are highly sensitive to fuel prices, currency moves, and commodity input costs.",
+  },
+  lc: {
+    label: 'LC (Letter of Credit)',
+    def: "A bank guarantee used in international trade: the importer's bank promises to pay the exporter once shipping documents are presented. LC financing costs track KIBOR and the policy rate, so rate changes directly affect import costs.",
+  },
+  cpo: {
+    label: 'CPO (Crude Palm Oil)',
+    def: "The unrefined oil extracted from palm fruit, widely used in cooking oil, soaps, margarine, and processed food. Pakistan is a major importer; CPO prices are set on Malaysia's Bursa exchange and are sensitive to biodiesel mandates and El Nino weather patterns.",
+  },
+  hdpe: {
+    label: 'HDPE (High-Density Polyethylene)',
+    def: "A plastic resin used in flexible packaging, bottles, and containers. Its price tracks crude oil because it is derived from petroleum feedstock. HDPE at $1,030/MT or below is considered a favourable procurement window for packaging manufacturers.",
+  },
+  pet: {
+    label: 'PET (Polyethylene Terephthalate)',
+    def: "A plastic resin primarily used in beverage bottles and food packaging. Like HDPE, its price is oil-linked. Most of Pakistan's PET resin is imported from Southeast Asia.",
+  },
+  psdp: {
+    label: 'PSDP (Public Sector Development Programme)',
+    def: "The federal government's annual allocation for development spending — roads, dams, power, social infrastructure. It is often the first item compressed when fiscal space tightens, making it a leading indicator of how much room the budget actually has.",
+  },
+  disco: {
+    label: 'DISCO (Distribution Company)',
+    def: "One of Pakistan's regional electricity distribution companies responsible for delivering power to end consumers. DISCOs are at the centre of the circular-debt problem and are frequent candidates for privatisation or reform under IMF programmes.",
+  },
+  irsa: {
+    label: 'IRSA (Indus River System Authority)',
+    def: "The federal body that allocates water from the Indus river system among Pakistan's provinces. Its decisions on dam filling, canal releases, and provincial shares directly affect agricultural output, hydropower generation, and inter-provincial politics.",
+  },
+  pmd: {
+    label: 'PMD (Pakistan Meteorological Department)',
+    def: "The national weather forecasting agency. Its seasonal monsoon outlooks and weekly weather advisories are critical inputs for agricultural planning, flood preparedness, and commodity-price risk assessment.",
+  },
+  ndma: {
+    label: 'NDMA (National Disaster Management Authority)',
+    def: "Pakistan's federal agency for disaster preparedness and response. Its alerts and damage assessments during floods, earthquakes, and extreme weather events are the primary official source for operational disruption planning.",
+  },
+  wapda: {
+    label: 'WAPDA (Water and Power Development Authority)',
+    def: "The federal authority responsible for Pakistan's major dams, hydropower stations, and water infrastructure. WAPDA's dam-filling decisions and hydropower output directly affect electricity supply and irrigation availability.",
+  },
+  maf: {
+    label: 'MAF (Million Acre Feet)',
+    def: "The unit used to measure water storage in Pakistan's reservoirs. One MAF is roughly 1.23 billion cubic metres. Reservoir levels in MAF are tracked to assess irrigation availability and hydropower capacity through the agricultural season.",
+  },
+  cbot: {
+    label: 'CBOT (Chicago Board of Trade)',
+    def: "One of the world's oldest commodity exchanges, now part of CME Group. Wheat, corn, and soybean futures traded on CBOT set the global reference prices that influence Pakistan's grain import costs.",
+  },
+  b15: {
+    label: 'B15 (Biodiesel Blend)',
+    def: "Malaysia's mandate requiring diesel fuel to contain 15% palm oil-based biodiesel, effective from June 2026. B15 structurally increases palm oil demand and puts a floor under CPO prices, directly affecting Pakistan's edible-oil import costs.",
+  },
+  mou: {
+    label: 'MoU (Memorandum of Understanding)',
+    def: "A formal but typically non-binding agreement between parties outlining the terms and framework of a deal. In diplomatic contexts, an MoU signals intent and framework without carrying the full legal weight of a treaty.",
+  },
+  mpoc: {
+    label: 'MPOC (Malaysian Palm Oil Council)',
+    def: "Malaysia's government body responsible for promoting and marketing Malaysian palm oil globally. Its price forecasts and market outlooks are closely watched by edible-oil importers including Pakistan.",
+  },
+  fob: {
+    label: 'FOB (Free On Board)',
+    def: "A trade term meaning the seller's price includes delivery to the port of shipment. The buyer pays freight and insurance from there. FOB pricing is the basis for most export quotes and determines the landed-cost calculation.",
+  },
+  cif: {
+    label: 'CIF (Cost, Insurance, Freight)',
+    def: "A trade term meaning the seller's price includes the cost of the goods, insurance, and freight to the destination port. CIF pricing gives the importer a clearer picture of total landed cost before duties and local charges.",
+  },
 };

@@ -769,6 +769,16 @@ body {
 .sf-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .sf-btn svg{flex-shrink:0;pointer-events:none}
 @media(max-width:640px){.sf-bar{top:auto;bottom:20px;right:0;transform:translateX(100%);flex-direction:row}.sf-bar.sf-show{transform:translateX(0)}.sf-btn{border:1px solid var(--border);border-right:none}.sf-btn+.sf-btn{border-left:none}.sf-btn:first-child{border-radius:4px 0 0 4px}.sf-btn:last-child{border-radius:0 4px 4px 0}}
+
+/* GLOSSARY TOOLTIPS */
+.term{border-bottom:1.5px dotted var(--muted);cursor:help;transition:border-color .15s}
+.term:hover{border-bottom-color:var(--accent)}
+.g-tip{position:fixed;z-index:300;max-width:340px;background:var(--card-bg);border:1px solid var(--border);border-left:3px solid var(--accent);padding:14px 16px;box-shadow:0 4px 16px rgba(0,0,0,.12);opacity:0;pointer-events:none;transition:opacity .18s ease}
+.g-tip.g-show{opacity:1;pointer-events:auto}
+.g-tip-label{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.g-tip-def{font-family:'Crimson Pro',serif;font-size:13.5px;line-height:1.55;color:var(--ink)}
+.g-tip-close{position:absolute;top:6px;right:8px;background:none;border:none;font-size:14px;color:var(--muted);cursor:pointer;line-height:1}
+@media(max-width:600px){.g-tip{max-width:calc(100vw - 40px);left:20px!important;right:20px!important}}
 </style>
 <meta name="description" content="The relief is real. The foundations are not. A US-Iran ceasefire framework mediated with Pakistan and Qatar in the room crashed oil, Platts converged with Brent, and the government delivered one of the largest fuel cuts in recent memory, petrol below Rs 300. But inflation is accelerating (CPI 11.7%, SPI 15.28%), the SBP held at 11.50%, FBR carries an Rs 868B structural shortfall, T-bills at 12.99% suggest no near-term cut, and the FY27 budget rests on the same arithmetic. The follow-up technical talks convened in Switzerland on June 21, mediated by Pakistan and Qatar. Edition 6 verdict: the pump price fell, the structure did not. | The Pulse Paper weekly economic intelligence for Pakistan." />
 <link rel="canonical" href="https://thepulsepaper.com/editions/2026-06-22.html" />
@@ -971,8 +981,8 @@ body {
         <div style="font-family: 'IBM Plex Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px;">This week&rsquo;s watch</div>
         <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
           <tr style="border-bottom: 1px solid var(--border);">
-            <td style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 12px 7px 0; vertical-align: top; white-space: nowrap; width: 130px;">T-bill 12M</td>
-            <td style="font-family: 'Crimson Pro', serif; font-size: 13px; color: var(--ink); padding: 7px 0; line-height: 1.45;">12.99%; 149bps above the policy rate. Your floating-rate debt is unlikely to get cheaper in the next MPC cycle.</td>
+            <td style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 12px 7px 0; vertical-align: top; white-space: nowrap; width: 130px;"><span class="term" data-key="tbill">T-bill</span> 12M</td>
+            <td style="font-family: 'Crimson Pro', serif; font-size: 13px; color: var(--ink); padding: 7px 0; line-height: 1.45;">12.99%; 149bps above the policy rate. Your floating-rate debt is unlikely to get cheaper in the next <span class="term" data-key="mpc">MPC</span> cycle.</td>
           </tr>
           <tr style="border-bottom: 1px solid var(--border);">
             <td style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 12px 7px 0; vertical-align: top; white-space: nowrap;">T-bill 3M</td>
@@ -984,7 +994,7 @@ body {
           </tr>
           <tr>
             <td style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 12px 7px 0; vertical-align: top; white-space: nowrap;">Wheat intl.</td>
-            <td style="font-family: 'Crimson Pro', serif; font-size: 13px; color: var(--ink); padding: 7px 0; line-height: 1.45;">~$223/MT (CBOT Jul 605.75&cent;/bu); import procurement window open while rupee holds.</td>
+            <td style="font-family: 'Crimson Pro', serif; font-size: 13px; color: var(--ink); padding: 7px 0; line-height: 1.45;">~$223/MT (<span class="term" data-key="cbot">CBOT</span> Jul 605.75&cent;/bu); import procurement window open while rupee holds.</td>
           </tr>
         </table>
       </div>
@@ -995,7 +1005,7 @@ body {
         <span class="leg-green">Improving / favourable</span>
         <span class="leg-neutral">Stable / unchanged</span>
       </div>
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 8px; line-height: 1.5;">Note: Petrol and diesel changes versus Edition 05 (&minus;Rs 78, &minus;Rs 69) are measured against the Edition 05 dashboard baseline. The OGRA-notified cuts were &minus;Rs 74 and &minus;Rs 67 respectively, measured from the prior fortnightly notification price. Both figures are correct; the difference reflects intermediate price changes between editions.</p>
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 8px; line-height: 1.5;">Note: Petrol and diesel changes versus Edition 05 (&minus;Rs 78, &minus;Rs 69) are measured against the Edition 05 dashboard baseline. The <span class="term" data-key="ogra">OGRA</span>-notified cuts were &minus;Rs 74 and &minus;Rs 67 respectively, measured from the prior fortnightly notification price. Both figures are correct; the difference reflects intermediate price changes between editions.</p>
     </div>
   </div>
 </div>
@@ -1070,7 +1080,7 @@ body {
 
   <p>The current account underlines the point. It printed a $459 million surplus in May, reversing April's $276 million deficit as the oil bill eased. But the cumulative July to May surplus of roughly $0.26 billion is down sharply from a $1.62 billion surplus in the same period a year earlier. That is the structural read: even with the oil relief flattering the monthly print, this year's external balance is materially thinner than last year's, and the improvement you can see is cyclical, not a repair of the underlying account.</p>
 
-  <p>The REER rose to 106.2 in May from 105.8 in April, meaning Pakistan's rupee is still more expensive in real trade-weighted terms than its trading partners' currencies, and getting more so. A flat or slightly firmer nominal rate during a period of above-target domestic inflation mechanically pushes the REER higher, not lower. The overvaluation is widening on the food-inflation trajectory, not correcting. For any business pricing exports or competing with imports, the REER is the number that matters, not the nominal rate the market quotes.</p>
+  <p>The <span class="term" data-key="reer">REER</span> rose to 106.2 in May from 105.8 in April, meaning Pakistan's rupee is still more expensive in real trade-weighted terms than its trading partners' currencies, and getting more so. A flat or slightly firmer nominal rate during a period of above-target domestic inflation mechanically pushes the REER higher, not lower. The overvaluation is widening on the food-inflation trajectory, not correcting. For any business pricing exports or competing with imports, the REER is the number that matters, not the nominal rate the market quotes.</p>
 
   <div class="sub-heading">Why the MPC Held, and Why the T-Bills Tell the Real Story</div>
 
@@ -1110,7 +1120,7 @@ body {
 
   <div class="callout-red">
     <strong>So What?</strong>
-    Plan your financing environment around 11.50% holding through at least Q1 FY27. Floating-rate exposure tied to KIBOR or T-bill benchmarks, working-capital lines, and LC financing will not see meaningful relief in the next cycle. The fuel cut is consumer-facing relief; it does not translate into cheaper money. Budget term debt and treasury assumptions at current rates, and treat any easing as upside, not base case.
+    Plan your financing environment around 11.50% holding through at least Q1 FY27. Floating-rate exposure tied to <span class="term" data-key="kibor">KIBOR</span> or T-bill benchmarks, working-capital lines, and LC financing will not see meaningful relief in the next cycle. The fuel cut is consumer-facing relief; it does not translate into cheaper money. Budget term debt and treasury assumptions at current rates, and treat any easing as upside, not base case.
   </div>
 
   <div class="sub-heading">Inflation: The Headline Is a Trap</div>
@@ -1252,7 +1262,7 @@ body {
 
   <p>OGRA notified the new pump prices effective June 20: petrol at Rs 299.78 per litre, down Rs 74 from Rs 373.78; diesel at Rs 311.78, down Rs 67 from Rs 378.78; kerosene also reduced. This is one of several successive notification-period cuts and one of the largest single reductions in recent memory. Petrol has broken below Rs 300 for the first time since the conflict-driven price cycle began.</p>
 
-  <p>The cumulative descent from the April peak is now significant. Petrol has fallen from approximately Rs 458 at its highest to Rs 299.78, a reduction of roughly Rs 158 per litre, or 34%, in under three months. For a distribution fleet running 100,000 litres per month, that is approximately Rs 15.8 million in monthly fuel cost reduction from peak. For an FMCG manufacturer whose primary and secondary distribution is diesel-denominated, the diesel cut of Rs 67 is the number that matters: the last two fortnights delivered Rs 67 on diesel after the earlier flat period, which is roughly a 17.7% reduction from the pre-cut level of Rs 378.78.</p>
+  <p>The cumulative descent from the April peak is now significant. Petrol has fallen from approximately Rs 458 at its highest to Rs 299.78, a reduction of roughly Rs 158 per litre, or 34%, in under three months. For a distribution fleet running 100,000 litres per month, that is approximately Rs 15.8 million in monthly fuel cost reduction from peak. For an <span class="term" data-key="fmcg">FMCG</span> manufacturer whose primary and secondary distribution is diesel-denominated, the diesel cut of Rs 67 is the number that matters: the last two fortnights delivered Rs 67 on diesel after the earlier flat period, which is roughly a 17.7% reduction from the pre-cut level of Rs 378.78.</p>
 
   <svg viewBox="0 0 740 280" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:740px; margin:18px auto 0; display:block;">
     <text x="10" y="18" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="var(--muted)">Domestic Fuel: Spike and Descent Since Feb 28</text>
@@ -1341,7 +1351,7 @@ body {
 
   <div class="sub-heading">How the FY26 Numbers Were Assembled</div>
 
-  <p>The FY26 fiscal position shows a primary surplus, and the ratings endorsement is accurate in that narrow sense. But examine where the non-tax and one-off revenues came from. The SBP profit transfer to government was approximately Rs 2.42 trillion, a direct consequence of the SBP holding a large balance sheet at high policy rates, generating interest income that flowed to the exchequer. Petroleum levy collection ran approximately Rs 823 billion, a figure that depends on per-litre levy policy, volumes, and the government's willingness to retain part of any global oil-price fall rather than pass it fully through. And development expenditure was deferred by approximately Rs 173 billion relative to the PSDP allocation, a standard fiscal compression tool.</p>
+  <p>The FY26 fiscal position shows a primary surplus, and the ratings endorsement is accurate in that narrow sense. But examine where the non-tax and one-off revenues came from. The SBP profit transfer to government was approximately Rs 2.42 trillion, a direct consequence of the SBP holding a large balance sheet at high policy rates, generating interest income that flowed to the exchequer. Petroleum levy collection ran approximately Rs 823 billion, a figure that depends on per-litre levy policy, volumes, and the government's willingness to retain part of any global oil-price fall rather than pass it fully through. And development expenditure was deferred by approximately Rs 173 billion relative to the <span class="term" data-key="psdp">PSDP</span> allocation, a standard fiscal compression tool.</p>
 
   <p>None of these three items recur automatically at the same level in FY27. The SBP profit transfer falls as the policy rate eventually comes down and the balance sheet normalises. The petroleum levy faces headwinds from lower crude only if the government uses the price fall to reduce or cap per-litre charges, or if fuel volumes weaken. The fiscal risk is not a mechanical base effect; it is the political and pricing choice over how much of the international price relief the state keeps versus passes through. Development compression cannot be repeated indefinitely without growth consequences. The new FY27 target must be met through genuine tax collection, not transfers and deferrals.</p>
 
@@ -1391,7 +1401,7 @@ body {
   <table class="mini-table">
     <thead><tr><th>Commodity</th><th>Price</th><th>Signal</th><th>Planning implication</th></tr></thead>
     <tbody>
-      <tr><td><strong>Crude Palm Oil</strong></td><td class="num">MYR 4,500–4,646/MT</td><td><span class="risk-tag risk-medium">Volatile, El Niño bid</span></td><td>Malaysia B15 biodiesel mandate is live from June 1, this is a structural demand addition, not a seasonal one. MPOC forecasts ~MYR 4,400 for June but the range this week touched MYR 4,646. El Niño development during monsoon (PMD confirmation) tightens the supply outlook through H2. The pre-B15 soft procurement window is less attractive now. Model CPO at MYR 4,400–4,700 for H2 planning; the downside is cushioned by the mandate.</td></tr>
+      <tr><td><strong>Crude Palm Oil</strong></td><td class="num">MYR 4,500–4,646/MT</td><td><span class="risk-tag risk-medium">Volatile, El Niño bid</span></td><td>Malaysia <span class="term" data-key="b15">B15</span> biodiesel mandate is live from June 1, this is a structural demand addition, not a seasonal one. <span class="term" data-key="mpoc">MPOC</span> forecasts ~MYR 4,400 for June but the range this week touched MYR 4,646. El Niño development during monsoon (PMD confirmation) tightens the supply outlook through H2. The pre-B15 soft procurement window is less attractive now. Model <span class="term" data-key="cpo">CPO</span> at MYR 4,400–4,700 for H2 planning; the downside is cushioned by the mandate.</td></tr>
       <tr><td><strong>Wheat (international)</strong></td><td class="num">~$223/MT (CBOT Jul)</td><td><span class="risk-tag risk-medium">IMF bench: $220.88</span></td><td>International wheat is relatively benign, with the IMF May benchmark at $220.88/MT and CBOT July at approximately $223/MT. Pakistan's domestic wheat situation is complicated by monsoon-season logistics rather than price, local procurement and milling costs are driven more by storage and transport disruption than by Chicago futures. The import procurement window is open while the rupee holds at 277–278; act on it before any depreciation closes the landed-cost advantage.</td></tr>
       <tr><td><strong>Rice (Pakistan)</strong></td><td class="num">Monsoon-exposed</td><td><span class="risk-tag risk-medium">Below-normal monsoon risk</span></td><td>See Section 07. The Kharif rice crop is being sown now, so the exposure is forward, not realized: a below-normal monsoon with El Ni&ntilde;o would compress the FY27 harvest and the exportable Basmati surplus. For food manufacturers using rice derivatives and for exporters reliant on Basmati revenue, treat this as a probability-weighted downside to H2 supply and export earnings, updated with each PMD bulletin rather than priced as a fixed loss today.</td></tr>
       <tr><td><strong>Sugar (local)</strong></td><td class="num">~Rs 145–150/kg</td><td><span class="risk-tag risk-medium">Inter-season firm</span></td><td>Crushing season ended. Summer demand peak. Punjab retail ~Rs 150, national average ~Rs 145. The monsoon and El Ni&ntilde;o risk to the sugarcane crop (Section 07) is a forward input-cost risk to the next crushing season. Model H2 sugar at Rs 150&ndash;165 as a scenario if the monsoon underperforms.</td></tr>
@@ -1404,7 +1414,7 @@ body {
   <table class="mini-table">
     <thead><tr><th style="width: 14%;">Commodity</th><th style="width: 14%;">Price</th><th style="width: 16%;">Trend</th><th>Industry Relevance</th></tr></thead>
     <tbody>
-      <tr><td><strong>HDPE Resin</strong></td><td class="num">~$1,030/MT</td><td><span class="risk-tag risk-low">Best since pre-war</span></td><td>All flexible packaging. Holding at the best level since before the conflict cycle. With Brent and Platts now converged lower, evaluate coverage at this price before any bull-case oil reversal.</td></tr>
+      <tr><td><strong><span class="term" data-key="hdpe">HDPE</span> Resin</strong></td><td class="num">~$1,030/MT</td><td><span class="risk-tag risk-low">Best since pre-war</span></td><td>All flexible packaging. Holding at the best level since before the conflict cycle. With Brent and Platts now converged lower, evaluate coverage at this price before any bull-case oil reversal.</td></tr>
       <tr><td><strong>PET Resin</strong></td><td class="num">~$1,100&ndash;1,200/MT</td><td><span class="risk-tag risk-medium">Easing</span></td><td>Beverage bottles. SE Asia import basis. The window lasts only as long as the oil de-escalation holds.</td></tr>
       <tr><td><strong>HSD Diesel</strong></td><td class="num">Rs 311.78/L</td><td><span class="risk-tag risk-medium">Cut, levy pending</span></td><td>Transport input cost. Down Rs 67 on June 20. If the proposed Rs 10/L SPR levy is implemented from July 1, effective cost rises to ~Rs 321.78. Lock freight contracts at the current rate and build the levy into your sensitivity.</td></tr>
       <tr><td><strong>Corrugated Board</strong></td><td class="num">~Rs 87/kg</td><td><span class="risk-tag risk-medium">Firm</span></td><td>Secondary packaging. Local Pakistan reference. Kraft paper imports still carry residual freight premium.</td></tr>
@@ -1447,7 +1457,7 @@ body {
       <div class="cost-index-bar-value" style="color: var(--amber);">124.3</div>
     </div>
     <div class="cost-index-bar-row">
-      <div class="cost-index-bar-label">Tea (CIF)</div>
+      <div class="cost-index-bar-label">Tea (<span class="term" data-key="cif">CIF</span>)</div>
       <div class="cost-index-bar-track"><div class="cost-index-bar-fill" style="width: 50%; background: var(--amber);"></div></div>
       <div class="cost-index-bar-value" style="color: var(--amber);">121.0</div>
     </div>
@@ -1489,7 +1499,7 @@ body {
   <p>Karachi Port has crossed a record FY26 container-throughput level, an operational milestone that tells you trade flows are moving. But Pakistan's Jul-May trade deficit widened 17.48% year-on-year to $34.76 billion, even though the May monthly deficit narrowed sharply from April. The divergence is not a contradiction, but it should not be overread. Record KPT throughput shows that trade and transshipment flows are moving through Karachi, not that domestic import demand alone has surged. The deficit number still reflects weak export performance and elevated import values; the oil relief should show more clearly only in later trade data.</p>
 
   <div class="sub-heading">Freight and Route Risk</div>
-  <p>The Hormuz war-risk premium that inflated container shipping and tanker rates through May is easing on the US-Iran ceasefire framework. This is a direct cost relief for importers whose LC terms include freight, and for exporters whose FOB margins were being compressed by elevated route costs. The relief is not yet fully priced into forward freight agreements, which means there is a window to lock rates. But the ceasefire is a framework, not a treaty. If talks stall or collapse, the premium returns within days. Hedge accordingly.</p>
+  <p>The Hormuz war-risk premium that inflated container shipping and tanker rates through May is easing on the US-Iran ceasefire framework. This is a direct cost relief for importers whose LC terms include freight, and for exporters whose <span class="term" data-key="fob">FOB</span> margins were being compressed by elevated route costs. The relief is not yet fully priced into forward freight agreements, which means there is a window to lock rates. But the ceasefire is a framework, not a treaty. If talks stall or collapse, the premium returns within days. Hedge accordingly.</p>
 
   <div class="sub-heading">Karachi Transport Strike</div>
   <p>The Karachi Transport Alliance called a citywide wheel-jam strike after negotiations with the provincial government over the Traffic Ordinance 2025 broke down. For any business with last-mile distribution in Karachi, this is an immediate operational disruption. The ordinance dispute is structural, it concerns commercial vehicle licensing and public land usage, and the deadlock suggests this is not a one-day event.</p>
@@ -1556,7 +1566,7 @@ body {
   <p>The distinction matters for planning discipline. A below-normal monsoon during the Kharif window is a scenario risk to rice, cotton, and sugarcane, not a loss already on the books. The structural cotton position is the exception: independent estimates have run near 5.0 to 5.3 million bales against a 9.64 million target for two seasons, so cotton input-cost pressure is a base case regardless of this monsoon. For rice and sugarcane, model the monsoon as a probability-weighted downside to the FY27 harvest. A materially reduced rice harvest would compress the exportable surplus and dollar inflows at the same time the fuel-cost relief supports the import bill, so the two effects partially offset in the current account. Update the weighting with each PMD bulletin through July rather than pricing a fixed loss now.</p>
 
   <div class="sub-heading">Reservoir Position: The Filling Season Paradox</div>
-  <p>IRSA started filling Tarbela after a WAPDA go-ahead, and is retaining water preferentially in Mangla. Total system water exceeds 4.019 MAF across the three main reservoirs (IRSA data as of mid-June; verify against latest daily bulletin). This looks reassuring until you read it against the Sindh 45% shortage claim and the seasonal context: reservoirs in mid-June are in the filling phase, not at peak. The useful question is not the current level but whether the fill will be sufficient to meet late-Kharif irrigation demand if the PMD monsoon outlook, below-normal rainfall for most of Pakistan, July through September, materialises.</p>
+  <p><span class="term" data-key="irsa">IRSA</span> started filling Tarbela after a <span class="term" data-key="wapda">WAPDA</span> go-ahead, and is retaining water preferentially in Mangla. Total system water exceeds 4.019 <span class="term" data-key="maf">MAF</span> across the three main reservoirs (IRSA data as of mid-June; verify against latest daily bulletin). This looks reassuring until you read it against the Sindh 45% shortage claim and the seasonal context: reservoirs in mid-June are in the filling phase, not at peak. The useful question is not the current level but whether the fill will be sufficient to meet late-Kharif irrigation demand if the PMD monsoon outlook, below-normal rainfall for most of Pakistan, July through September, materialises.</p>
 
   <p>PMD seasonal weather signals and regional El Ni&ntilde;o forecasts point to below-normal monsoon risk for the majority of Pakistan, with above-normal temperatures through July to September. Northern regions, Kashmir, upper KP, Gilgit-Baltistan, may see above-normal precipitation, which increases flash flood and landslide risk in the mountains without providing meaningful relief to the cropping plains. Urban flooding risk is flagged for Sindh, Punjab, and KP. The pattern is the worst combination: too much water in the wrong places, too little in the right ones.</p>
 
@@ -1826,5 +1836,72 @@ body {
   <a class="sf-btn" id="sf-em" href="#" title="Share via email" aria-label="Share via email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></a>
 </div>
 <script>(function(){var bar=document.getElementById('sf-bar'),wa=document.getElementById('sf-wa'),li=document.getElementById('sf-li'),x=document.getElementById('sf-x'),em=document.getElementById('sf-em'),copy=document.getElementById('sf-copy');if(!bar)return;var url=window.location.href,title=document.title,enc=encodeURIComponent;if(wa)wa.href='https://wa.me/?text='+enc(title+' '+url);if(li)li.href='https://www.linkedin.com/sharing/share-offsite/?url='+enc(url);if(x)x.href='https://x.com/intent/tweet?url='+enc(url)+'&text='+enc(title);if(em)em.href='mailto:?subject='+enc(title)+'&body='+enc(url);if(copy)copy.addEventListener('click',function(){navigator.clipboard.writeText(url).then(function(){var icon=document.getElementById('sf-copy-icon');if(icon)icon.innerHTML='<polyline points="20 6 9 17 4 12"/>';setTimeout(function(){if(icon)icon.innerHTML='<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>';},2000);});});window.addEventListener('scroll',function(){if(window.scrollY>320)bar.classList.add('sf-show');else bar.classList.remove('sf-show');},{passive:true});})();</script>
+<script>
+(function(){
+var G={
+reer:["REER","A measure of the rupee’s value against a basket of trading-partner currencies, adjusted for inflation. A rising REER means the rupee is getting more expensive in real terms."],
+brent:["Brent Crude","The main global benchmark price for crude oil, based on oil from the North Sea. Most international oil is priced relative to it."],
+platts:["Dubai Platts","The crude oil price benchmark for the Middle East — the one most relevant to what Pakistan actually pays for imported crude."],
+cpi:["CPI","The standard measure of inflation — how much the prices of everyday goods and services have risen over a year."],
+spi:["SPI","A weekly Pakistani inflation gauge tracking prices of essential items like food, fuel and utilities. It moves faster than CPI and shows what households feel first."],
+sbp:["SBP","Pakistan’s central bank. It sets the policy rate, manages foreign exchange reserves, and oversees the banking system."],
+fbr:["FBR","Pakistan’s tax-collection authority. Its annual revenue target is one of the most-watched numbers in the budget."],
+mpc:["MPC","The SBP committee that meets roughly every six weeks to decide whether to raise, lower, or hold the policy rate."],
+kibor:["KIBOR","The rate at which Pakistani banks lend to each other. It tracks the SBP policy rate closely and benchmarks most corporate loans."],
+tbill:["T-bills","Short-term government debt securities with maturities of 3, 6, or 12 months. They benchmark short-term interest rates."],
+pib:["PIBs","Long-term government debt securities, typically 3, 5, or 10 years. The main instrument for government domestic borrowing at fixed rates."],
+imf:["IMF","A global financial institution that lends to countries facing balance-of-payments crises, in exchange for economic reform commitments."],
+psx:["PSX","Pakistan’s sole stock exchange, based in Karachi, where equities, debt instruments, and derivatives are traded."],
+kse:["KSE-100","The benchmark index of the Pakistan Stock Exchange, tracking the 100 largest companies by market capitalisation."],
+ogra:["OGRA","Pakistan’s regulator for the oil and gas sector. It recommends fuel price adjustments, usually on a fortnightly basis."],
+fmcg:["FMCG","Fast-Moving Consumer Goods — packaged food, beverages, toiletries. Supply chains are highly sensitive to fuel, currency, and commodity costs."],
+lc:["Letter of Credit","A bank guarantee used in international trade. LC financing costs track KIBOR and the policy rate."],
+cpo:["CPO","Crude Palm Oil — the unrefined oil from palm fruit, widely used in cooking oil, soaps, and processed food. Pakistan is a major importer."],
+hdpe:["HDPE","High-Density Polyethylene — a plastic resin used in flexible packaging. Its price tracks crude oil."],
+pet:["PET","Polyethylene Terephthalate — a plastic resin used in beverage bottles. Oil-linked; mostly imported from Southeast Asia."],
+hsd:["HSD","High Speed Diesel — the grade most widely used in Pakistan for transport, agriculture, and industry."],
+spr:["SPR","Strategic Petroleum Reserve — a government-held fuel stockpile to buffer against supply disruptions."],
+psdp:["PSDP","Public Sector Development Programme — the government’s annual allocation for development spending."],
+disco:["DISCO","Distribution Company — one of Pakistan’s regional electricity distribution companies. Central to the circular-debt problem."],
+irsa:["IRSA","Indus River System Authority — allocates water from the Indus system among provinces."],
+pmd:["PMD","Pakistan Meteorological Department — the national weather forecasting agency."],
+ndma:["NDMA","National Disaster Management Authority — Pakistan’s federal disaster response agency."],
+wapda:["WAPDA","Water and Power Development Authority — responsible for major dams and hydropower."],
+maf:["MAF","Million Acre Feet — the unit used to measure water storage in Pakistan’s reservoirs."],
+cbot:["CBOT","Chicago Board of Trade — where wheat, corn, and soybean futures set global reference prices."],
+b15:["B15","Malaysia’s mandate requiring diesel to contain 15% palm oil-based biodiesel. It structurally supports CPO prices."],
+mou:["MoU","Memorandum of Understanding — a formal but typically non-binding agreement outlining the framework of a deal."],
+mpoc:["MPOC","Malaysian Palm Oil Council — its price forecasts are closely watched by edible-oil importers."],
+fob:["FOB","Free On Board — the seller’s price includes delivery to the port of shipment. The buyer pays freight from there."],
+cif:["CIF","Cost, Insurance, Freight — the seller’s price includes goods, insurance, and freight to the destination port."],
+opec:["OPEC","Organisation of the Petroleum Exporting Countries — a cartel of oil producers that coordinates output to influence global crude prices."],
+"opec-plus":["OPEC+","The expanded alliance of oil producers including Russia and Kazakhstan. Its production decisions are the primary driver of international oil prices."],
+levy:["Petroleum Levy","A per-litre charge the government adds to fuel prices. A major revenue source."],
+hormuz:["Strait of Hormuz","A narrow waterway between Iran and Oman through which roughly 20% of the world’s traded oil passes daily."],
+yield:["Bond Yield","The effective return an investor earns on a bond. Rising yields signal that borrowing is getting more expensive."],
+"yield-curve":["Yield Curve","A line plotting bond yields across different maturities. Its shape signals market expectations for growth and interest rates."],
+reserves:["Foreign Exchange Reserves","The foreign currency a central bank holds — the country’s buffer for paying for imports and servicing external debt."],
+"current-account":["Current Account","A country’s balance of trade in goods and services plus income flows like remittances."],
+remittances:["Remittances","Money sent home by citizens working abroad. For Pakistan, a major and stable source of foreign currency."],
+gdp:["GDP","Gross Domestic Product — the total value of all goods and services produced in a country in a year."]
+};
+var tip=document.createElement('div');tip.className='g-tip';tip.innerHTML='<button class="g-tip-close">×</button><div class="g-tip-label"></div><div class="g-tip-def"></div>';document.body.appendChild(tip);
+var label=tip.querySelector('.g-tip-label'),def=tip.querySelector('.g-tip-def'),cls=tip.querySelector('.g-tip-close');
+function hide(){tip.classList.remove('g-show');}
+cls.addEventListener('click',hide);
+document.addEventListener('click',function(e){if(!tip.contains(e.target)&&!e.target.classList.contains('term'))hide();});
+document.addEventListener('click',function(e){
+  var t=e.target.closest('.term');if(!t)return;
+  var k=t.getAttribute('data-key');if(!k||!G[k])return;
+  e.preventDefault();e.stopPropagation();
+  label.textContent=G[k][0];def.textContent=G[k][1];
+  var r=t.getBoundingClientRect();
+  var top=r.bottom+8;if(top+200>window.innerHeight)top=r.top-200;
+  var left=Math.max(20,Math.min(r.left,window.innerWidth-360));
+  tip.style.top=top+'px';tip.style.left=left+'px';
+  tip.classList.add('g-show');
+});
+})();
+</script>
 </body>
 </html>
