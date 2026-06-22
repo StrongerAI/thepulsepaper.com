@@ -315,8 +315,8 @@ def fetch_local_bullion() -> dict | None:
     try:
         r = requests.get(url, headers=headers, timeout=TIMEOUT)
         r.raise_for_status()
-        gold_m = re.search(r'Gold\s*Rates\s*XAUP\s*(\d+)', r.text)
-        silver_m = re.search(r'Silver\s*Rates\s*XAGP\s*(\d+)', r.text)
+        gold_m = re.search(r"XAUP.*?column20[^>]*>(\d[\d,]+)", r.text, re.DOTALL)
+        silver_m = re.search(r"XAGP.*?column20[^>]*>(\d[\d,]+)", r.text, re.DOTALL)
         if gold_m and silver_m:
             return {
                 "gold_24k": float(gold_m.group(1)),
@@ -1189,7 +1189,7 @@ def main():
 
     # Update chart history (weekly KSE + Brent)
     kse_close = kse_raw["value"] if kse_raw else None
-    brent_close = ticker_data.get("Brent Crude", {}).get("close") if ticker_data else None
+    brent_close = fetched_commodities.get("Brent Crude", {}).get("close") if fetched_commodities else None
     if kse_close and brent_close:
         update_chart_history(kse_close, brent_close, now)
         kse_hist_block = build_chart_history_block("kse-history")
