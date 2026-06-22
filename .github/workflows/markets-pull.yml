@@ -1,16 +1,19 @@
 name: Markets data pull
 
-# Runs twice daily PKT to refresh the markets page data.
-# Morning: 09:00 PKT = 04:00 UTC
-# Evening: 17:00 PKT = 12:00 UTC
-#
-# Can also be triggered manually from the Actions tab.
+# Runs four times daily PKT (Mon-Sat) to refresh the markets page data.
+#   09:45 PKT = 04:45 UTC    (pre-market, overnight global closes)
+#   12:30 PKT = 07:30 UTC    (PSX mid-session)
+#   16:00 PKT = 11:00 UTC    (PSX just after close)
+#   21:00 PKT = 16:00 UTC    (US mid-session, evening refresh)
+# No Sunday runs. Can also be triggered manually from the Actions tab.
 
 on:
   schedule:
-    - cron: '0 4 * * *'    # 09:00 PKT
-    - cron: '0 12 * * *'   # 17:00 PKT
-  workflow_dispatch:        # manual trigger
+    - cron: '45 4 * * 1-6'   # 09:45 PKT, Mon-Sat
+    - cron: '30 7 * * 1-6'   # 12:30 PKT, Mon-Sat
+    - cron: '0 11 * * 1-6'   # 16:00 PKT, Mon-Sat
+    - cron: '0 16 * * 1-6'   # 21:00 PKT, Mon-Sat
+  workflow_dispatch:          # manual trigger
 
 # Allow the workflow to push commits back to the repo
 permissions:
