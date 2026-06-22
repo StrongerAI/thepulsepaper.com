@@ -105,7 +105,7 @@ MANUAL_WOW_NAMES = {"KSE-100", "Dubai Platts", "SPI (YoY)"}
 WOW_ROW_ORDER = [
     "KSE-100", "Brent crude", "WTI crude", "Dubai Platts",
     "Gold", "Silver", "Natural Gas", "USD / PKR", "EUR / USD",
-    "S&P 500", "Petrol (MS)", "SPI (YoY)",
+    "S&P 500", "Petrol (MS)", "Gold 24K (tola)", "Silver (tola)", "SPI (YoY)",
 ]
 
 # PSX scraper: ticker code -> display name, grouped for page layout
@@ -299,6 +299,33 @@ def fetch_pso_petrol() -> float | None:
         return None
     except Exception as e:
         print(f"  [PSO fail] {e}", file=sys.stderr)
+        return None
+
+
+def fetch_local_bullion() -> dict | None:
+    """Scrape gold.pk for local gold 24K per tola and silver per tola (PKR).
+    Returns {"gold_24k": float, "silver": float} or None on failure."""
+    url = "https://gold.pk/"
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+        )
+    }
+    try:
+        r = requests.get(url, headers=headers, timeout=TIMEOUT)
+        r.raise_for_status()
+        gold_m = re.search(r'Gold\s*Rates\s*XAUP\s*(\d+)', r.text)
+        silver_m = re.search(r'Silver\s*Rates\s*XAGP\s*(\d+)', r.text)
+        if gold_m and silver_m:
+            return {
+                "gold_24k": float(gold_m.group(1)),
+                "silver": float(silver_m.group(1)),
+            }
+        print("  [Bullion] price pattern not found on gold.pk", file=sys.stderr)
+        return None
+    except Exception as e:
+        print(f"  [Bullion fail] {e}", file=sys.stderr)
         return None
 
 
@@ -788,6 +815,13 @@ def main():
     else:
         print("  STALE Petrol (MS/PSO)      (will keep existing row)")
 
+    bullion = fetch_local_bullion()
+    if bullion:
+        print(f"  OK    Gold 24K (tola)      Rs.{bullion['gold_24k']:,.0f}")
+        print(f"  OK    Silver (tola)        Rs.{bullion['silver']:,.0f}")
+    else:
+        print("  STALE Bullion              (will keep existing rows)")
+
     print("  Fetching PSX indices from dps.psx.com.pk...")
     psx_data = fetch_psx_indices()
     if psx_data:
@@ -960,6 +994,39 @@ def main():
                 "change":    "–",
                 "direction": "flat",
             }
+
+    # Build Gold 24K and Silver (local tola) wow rows from gold.pk scrape
+    if bullion:
+        for bname, bkey, bprefix in [("Gold 24K (tola)", "gold_24k", "Rs "), ("Silver (tola)", "silver", "Rs ")]:
+            curr_val = bullion[bkey]
+            # Parse prev from existing file
+            prev_row = parse_preserved_wow_row(content, bname)
+            if prev_row:
+                try:
+                    prev_val = float(prev_row["current"].replace("Rs ", "").replace(",", ""))
+                except (ValueError, AttributeError):
+                    prev_val = None
+            else:
+                prev_val = None
+            if prev_val is not None:
+                diff = curr_val - prev_val
+                if abs(diff) < 1:
+                    b_change, b_dir = "Flat", "flat"
+                else:
+                    pct = (diff / prev_val) * 100 if prev_val else 0
+                    b_change = f"{pct:+.1f}%"
+                    b_dir = "up" if diff > 0 else "down"
+                wow_preserved[bname] = {
+                    "name": bname, "prev": f"{bprefix}{prev_val:,.0f}",
+                    "current": f"{bprefix}{curr_val:,.0f}",
+                    "change": b_change, "direction": b_dir,
+                }
+            else:
+                wow_preserved[bname] = {
+                    "name": bname, "prev": "–",
+                    "current": f"{bprefix}{curr_val:,.0f}",
+                    "change": "–", "direction": "flat",
+                }
 
     # Extract current Dubai Platts row from commodities to preserve it
     platts_match = re.search(
