@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import { marketsData as m } from '../data/markets.js';
 
 const title = "Pakistan Markets | The Pulse Paper";
-const description = "End-of-day Pakistan market data and editorial analysis. KSE-100, PSX indices, Brent crude, rupee rate, global commodities, and what the numbers mean for Pakistan.";
+const description = "Pakistan market data updated throughout the trading day. KSE-100, PSX indices, Brent crude, rupee rate, global commodities, and what the numbers mean for Pakistan.";
 
 // Region order for international exchanges
 const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
@@ -43,19 +43,21 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
     </div>
   </div>
 
-  <!-- ===== WEEK-OVER-WEEK ===== -->
+  <!-- ===== PAKISTAN MACRO TRACKER ===== -->
   <div class="section">
     <div class="section-header">
       <span class="section-num">02</span>
-      <h2 class="section-title">Week-over-week snapshot</h2>
+      <h2 class="section-title">Pakistan macro tracker</h2>
     </div>
-    <p class="muted" style="margin-bottom:16px;">Key indicators compared to the previous edition</p>
+    <p class="muted" style="margin-bottom:16px;">Domestic indicators that set the planning environment</p>
     <table class="mini-table">
       <thead>
-        <tr><th>Indicator</th><th style="text-align:right;">Previous</th><th style="text-align:right;">Current</th><th style="text-align:right;">Change</th></tr>
+        <tr><th>Indicator</th><th style="text-align:right;">Prior</th><th style="text-align:right;">Current</th><th style="text-align:right;">Change</th></tr>
       </thead>
       <tbody>
-        {m.weekOverWeek.rows.map(row => (
+        {m.weekOverWeek.rows.filter(row =>
+          ['KSE-100', 'USD / PKR', 'EUR / USD', 'Petrol (MS)', 'SPI (YoY)'].includes(row.name)
+        ).map(row => (
           <tr>
             <td style="font-weight:600;">{row.name}</td>
             <td style="text-align:right;">{row.prev}</td>
@@ -65,6 +67,26 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         ))}
       </tbody>
     </table>
+
+    <div class="sub-heading" style="margin-top:24px;">Commodities</div>
+    <table class="mini-table">
+      <thead>
+        <tr><th>Commodity</th><th style="text-align:right;">Prior</th><th style="text-align:right;">Current</th><th style="text-align:right;">Change</th></tr>
+      </thead>
+      <tbody>
+        {m.weekOverWeek.rows.filter(row =>
+          ['Brent crude', 'WTI crude', 'Dubai Platts', 'Gold', 'Silver', 'Natural Gas'].includes(row.name)
+        ).map(row => (
+          <tr>
+            <td style="font-weight:600;">{row.name}</td>
+            <td style="text-align:right;">{row.prev}</td>
+            <td style="text-align:right;">{row.current}</td>
+            <td style={`text-align:right;`} class={`delta-${row.direction === 'up' ? 'up' : row.direction === 'down' ? 'down' : 'flat'}`}>{row.change}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
     <div class="section-commentary">
       <p>{m.weekOverWeek.commentary}</p>
     </div>
