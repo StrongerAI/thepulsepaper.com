@@ -13,17 +13,17 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "22 June 2026, 6:12 PM PKT",
+  lastUpdated: "22 June 2026, 8:56 PM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
     // -- AUTO:ticker --
     { name: "KSE-100", value: "178,472", changePct: "-0.25%", direction: "down" },
-    { name: "Brent", value: "$78.80", changePct: "-1.31%", direction: "down" },
+    { name: "Brent", value: "$77.44", changePct: "-3.02%", direction: "down" },
     { name: "Dubai Platts", value: "$103.15", changePct: "Flat", direction: "flat" },
-    { name: "Gold", value: "$4,212", changePct: "-0.28%", direction: "down" },
-    { name: "USD/PKR", value: "278.09", changePct: "Flat", direction: "flat" },
-    { name: "S&P 500", value: "7,501", changePct: "+1.08%", direction: "up" },
+    { name: "Gold", value: "$4,196", changePct: "-0.66%", direction: "down" },
+    { name: "USD/PKR", value: "277.93", changePct: "-0.06%", direction: "down" },
+    { name: "S&P 500", value: "7,479", changePct: "-0.29%", direction: "down" },
     // -- /AUTO:ticker --
   ],
 
@@ -83,7 +83,7 @@ export const marketsData = {
     { date: "5 Jun", value: 93.1 },
     { date: "12 Jun", value: 79.55 },
     { date: "19 Jun", value: 80.59 },
-    { date: "22 Jun", value: 78.8 },
+    { date: "22 Jun", value: 77.44 },
     // -- /AUTO:brent-history --
   ],
 
@@ -93,18 +93,18 @@ export const marketsData = {
     rows: [
       // -- AUTO:wow-rows --
       { name: "KSE-100", prev: "178,923", current: "178,472", change: "-0.25%", direction: "down" },
-      { name: "Brent crude", prev: "$80.59", current: "$78.80", change: "-2.22%", direction: "down" },
-      { name: "WTI crude", prev: "$77.54", current: "$74.69", change: "-3.68%", direction: "down" },
+      { name: "Brent crude", prev: "$80.59", current: "$77.45", change: "-3.90%", direction: "down" },
+      { name: "WTI crude", prev: "$77.54", current: "$73.38", change: "-5.36%", direction: "down" },
       { name: "Dubai Platts", prev: "$110", current: "$103.15", change: "-6.2%", direction: "down" },
-      { name: "Gold", prev: "$4,145", current: "$4,213", change: "+1.64%", direction: "up" },
-      { name: "Silver", prev: "$66.25", current: "$66.61", change: "+0.53%", direction: "up" },
-      { name: "Natural Gas", prev: "$3.20", current: "$3.26", change: "+1.84%", direction: "up" },
+      { name: "Gold", prev: "$4,145", current: "$4,196", change: "+1.23%", direction: "up" },
+      { name: "Silver", prev: "$66.25", current: "$65.61", change: "-0.97%", direction: "down" },
+      { name: "Natural Gas", prev: "$3.20", current: "$3.30", change: "+3.19%", direction: "up" },
       { name: "USD / PKR", prev: "278.05", current: "278.00", change: "Flat", direction: "flat" },
       { name: "EUR / USD", prev: "1.1577", current: "1.1480", change: "-0.84%", direction: "down" },
-      { name: "S&P 500", prev: "7,431", current: "7,501", change: "+0.93%", direction: "up" },
+      { name: "S&P 500", prev: "7,501", current: "7,478", change: "-0.30%", direction: "down" },
       { name: "Petrol (MS)", prev: "Rs 373.78", current: "Rs 299.50", change: "-Rs 74.28", direction: "down" },
-      { name: "Gold 24K (tola)", prev: "Rs 445,500", current: "Rs 449,000", change: "+0.8%", direction: "up" },
-      { name: "Silver (tola)", prev: "Rs 6,780", current: "Rs 6,774", change: "-0.1%", direction: "down" },
+      { name: "Gold 24K (tola)", prev: "Rs 449,000", current: "Rs 448,000", change: "-0.2%", direction: "down" },
+      { name: "Silver (tola)", prev: "Rs 6,774", current: "Rs 6,774", change: "Flat", direction: "flat" },
       { name: "SPI (YoY)", prev: "14.47%", current: "14.47%", change: "Flat", direction: "flat" },
     // -- /AUTO:wow-rows --
     ],
@@ -148,11 +148,11 @@ export const marketsData = {
   commodities: {
     rows: [
       // -- AUTO:commodities-rows --
-      { name: "Brent Crude", value: "$78.80", unit: "/bbl", open: "82.21", high: "82.38", low: "78.34" },
-      { name: "WTI Crude Oil", value: "$74.71", unit: "/bbl", open: "78.00", high: "78.14", low: "74.43" },
-      { name: "Natural Gas", value: "$3.2610", unit: "/MMBtu", open: "3.2800", high: "3.3350", low: "3.1830" },
-      { name: "Gold", value: "$4,212", unit: "/oz", open: "4,164", high: "4,238", low: "4,139" },
-      { name: "Silver", value: "$66.64", unit: "/oz", open: "63.85", high: "67.23", low: "63.35" },
+      { name: "Brent Crude", value: "$77.44", unit: "/bbl", open: "82.21", high: "82.38", low: "77.27" },
+      { name: "WTI Crude Oil", value: "$73.40", unit: "/bbl", open: "78.00", high: "78.14", low: "73.24" },
+      { name: "Natural Gas", value: "$3.2990", unit: "/MMBtu", open: "3.2800", high: "3.3350", low: "3.1830" },
+      { name: "Gold", value: "$4,196", unit: "/oz", open: "4,164", high: "4,238", low: "4,139" },
+      { name: "Silver", value: "$65.61", unit: "/oz", open: "63.85", high: "67.23", low: "63.35" },
     // -- /AUTO:commodities-rows --
     ],
     commentary: "Brent at $92 is $17 below the $109 peak three weeks ago. The fear premium has bled out of crude. But Dubai Platts at $103.15 is what Pakistan actually pays, and the $11 gap to Brent means the import bill has eased less than the headline crash suggests. Gold and silver moving up while equities rally is unusual: typically they trade inversely. The signal is that institutional money is hedging the rally, not buying into it. Natural gas easing is consistent with the broader energy de-escalation. Dubai Platts is sourced manually pending a reliable free feed.",
@@ -163,22 +163,22 @@ export const marketsData = {
   international: {
     rows: [
       // -- AUTO:international-rows --
-      { name: "Dow Jones", close: "51,565", open: "51,572", range: "51,555 – 51,949", region: "Americas" },
-      { name: "Nasdaq", close: "26,518", open: "26,411", range: "26,189 – 26,560", region: "Americas" },
-      { name: "S&P 500", close: "7,501", open: "7,487", range: "7,468 – 7,511", region: "Americas" },
-      { name: "CAC 40", close: "8,378", open: "8,434", range: "8,353 – 8,436", region: "Europe" },
-      { name: "DAX", close: "25,031", open: "25,036", range: "24,896 – 25,083", region: "Europe" },
-      { name: "FTSE 100", close: "10,423", open: "10,364", range: "10,347 – 10,425", region: "Europe" },
-      { name: "Stoxx 600", close: "637.28", open: "635.85", range: "634.03 – 637.66", region: "Europe" },
+      { name: "Dow Jones", close: "51,768", open: "51,555", range: "51,555 – 51,888", region: "Americas" },
+      { name: "Nasdaq", close: "26,241", open: "26,483", range: "26,156 – 26,561", region: "Americas" },
+      { name: "S&P 500", close: "7,479", open: "7,500", range: "7,461 – 7,530", region: "Americas" },
+      { name: "CAC 40", close: "8,400", open: "8,434", range: "8,353 – 8,436", region: "Europe" },
+      { name: "DAX", close: "25,140", open: "25,036", range: "24,896 – 25,176", region: "Europe" },
+      { name: "FTSE 100", close: "10,438", open: "10,364", range: "10,347 – 10,443", region: "Europe" },
+      { name: "Stoxx 600", close: "639.27", open: "635.85", range: "634.03 – 639.81", region: "Europe" },
       { name: "Hang Seng", close: "23,769", open: "23,812", range: "23,445 – 23,864", region: "Asia" },
-      { name: "KOSPI", close: "9,115", open: "8,954", range: "8,901 – 9,253", region: "Asia" },
-      { name: "Nikkei 225", close: "72,354", open: "71,067", range: "71,010 – 72,832", region: "Asia" },
+      { name: "KOSPI", close: "9,052", open: "9,289", range: "8,832 – 9,386", region: "Asia" },
+      { name: "Nikkei 225", close: "71,250", open: "71,551", range: "70,518 – 71,953", region: "Asia" },
       { name: "Sensex", close: "77,094", open: "77,161", range: "77,008 – 77,326", region: "Asia" },
       { name: "Shanghai Comp.", close: "4,163", open: "4,094", range: "4,070 – 4,164", region: "Asia" },
-      { name: "EUR / USD", close: "1.1447", open: "1.1457", range: "1.1444 – 1.1476", region: "Currencies" },
-      { name: "GBP / USD", close: "1.3263", open: "1.3234", range: "1.3183 – 1.3273", region: "Currencies" },
-      { name: "USD / CNY", close: "6.7639", open: "6.7647", range: "6.7590 – 6.7788", region: "Currencies" },
-      { name: "USD / PKR", close: "278.09", open: "", range: "SBP interbank", region: "Currencies", muted: true },
+      { name: "EUR / USD", close: "1.1435", open: "1.1457", range: "1.1429 – 1.1476", region: "Currencies" },
+      { name: "GBP / USD", close: "1.3248", open: "1.3234", range: "1.3183 – 1.3273", region: "Currencies" },
+      { name: "USD / CNY", close: "6.7629", open: "6.7647", range: "6.7590 – 6.7788", region: "Currencies" },
+      { name: "USD / PKR", close: "277.93", open: "", range: "SBP interbank", region: "Currencies", muted: true },
     // -- /AUTO:international-rows --
     ],
     commentary: "Asia rallied with the ceasefire trade: Nikkei, Hang Seng and Sensex all firmed on softer oil. China is the exception: Shanghai is the slowest mover, consistent with the manufacturing PMI stalling at 50.0 in May. Europe is at multi-year highs across FTSE, DAX, and the broad Stoxx 600 as Bund yields stabilise. The dollar is weakening (EUR/USD at 1.1642, GBP/USD at 1.3520), which is the standard pattern when oil falls because the petrodollar bid eases. For Pakistan, the weaker dollar is a marginal positive on rupee terms, but it is dwarfed by the fact SBP is managing USD/PKR flat at 278.55.",
