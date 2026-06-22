@@ -111,19 +111,53 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; }
   color: var(--accent); margin: 22px 0 12px; padding-bottom: 6px; border-bottom: 1px dashed var(--border); font-weight: 600;
 }
 
-.data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 16px 0; }
-.data-card { background: var(--card-bg); border: 1px solid var(--border); padding: 16px 18px; position: relative; }
-.data-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
-.data-card.red::before { background: var(--red); }
-.data-card.amber::before { background: var(--amber); }
-.data-card.green::before { background: var(--green); }
-.data-card.neutral::before { background: var(--border); }
-.data-label { font-family: var(--font-sans); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
-.data-value { font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; color: var(--ink); }
-.data-delta { font-family: var(--font-mono); font-size: 11px; margin-top: 3px; }
-.delta-up { color: var(--red); }
-.delta-down { color: var(--green); }
-.delta-flat { color: var(--muted); }
+.data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 16px 0; }
+.data-card {
+  background: var(--card-bg);
+  padding: 16px 18px 15px;
+  border: 1px solid #d3c6b6;
+  border-left: 4px solid #ccc0b0;
+  display: flex;
+  flex-direction: column;
+}
+.data-card.red    { border-left-color: var(--red); }
+.data-card.amber  { border-left-color: var(--amber); }
+.data-card.green  { border-left-color: var(--green); }
+.data-card.neutral { border-left-color: #b8a896; }
+.data-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8a7866;
+  margin-bottom: 10px;
+}
+.data-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: 11px;
+}
+.data-card-rule {
+  height: 1px;
+  background: #e0d4c8;
+  margin-bottom: 10px;
+}
+.data-delta {
+  font-family: 'Crimson Pro', serif;
+  font-size: 14.5px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.35;
+  margin-top: auto;
+}
+.delta-up   { color: var(--red); font-weight: 500; }
+.delta-down { color: var(--green); font-weight: 500; }
+.delta-flat { color: #8a7866; font-style: normal; }
 
 .risk-tag { display: inline-block; font-family: var(--font-sans); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; font-weight: 600; }
 .risk-high { background: var(--tag-red); color: var(--red); }

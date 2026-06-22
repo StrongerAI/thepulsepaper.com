@@ -107,8 +107,8 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
           <div class="data-label">{idx.name}</div>
           <div class="data-value">{idx.value}</div>
+          <div class="data-card-rule"></div>
           <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
-          {idx.high && <div class="data-range">H {idx.high} / L {idx.low}</div>}
         </div>
       ))}
     </div>
@@ -119,8 +119,8 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
           <div class="data-label">{idx.name}</div>
           <div class="data-value">{idx.value}</div>
+          <div class="data-card-rule"></div>
           <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
-          {idx.high && <div class="data-range">H {idx.high} / L {idx.low}</div>}
         </div>
       ))}
     </div>
@@ -131,6 +131,7 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         <div class={`data-card ${idx.direction === 'up' ? 'green' : idx.direction === 'down' ? 'red' : 'neutral'}`}>
           <div class="data-label">{idx.name}</div>
           <div class="data-value" style="font-size:20px;">{idx.value}</div>
+          <div class="data-card-rule"></div>
           <div class={`data-delta delta-${idx.direction === 'up' ? 'up' : idx.direction === 'down' ? 'down' : 'flat'}`}>{idx.change}</div>
         </div>
       ))}
@@ -153,7 +154,8 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
         <div class="data-card neutral">
           <div class="data-label">{c.name}</div>
           <div class="data-value">{c.value} <span style="font-size:14px;font-weight:400;color:var(--muted);">{c.unit}</span></div>
-          <div class="data-range" style="margin-top:6px;">O {c.open} &middot; H {c.high} &middot; L {c.low}</div>
+          <div class="data-card-rule"></div>
+          <div class="data-delta delta-flat">O {c.open} · H {c.high} · L {c.low}</div>
         </div>
       ))}
     </div>
