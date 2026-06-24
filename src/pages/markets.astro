@@ -53,6 +53,21 @@ const fmtBrentTip = (v: number) => '$'+v.toFixed(2);
 
 const kse = computeChart(m.kseHistory, fmtKseAxis, fmtKseTip);
 const brent = computeChart(m.brentHistory, fmtBrentAxis, fmtBrentTip);
+
+function sparkPath(data: number[], w: number, h: number) {
+  if (!data || data.length < 2) return null;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+  const pad = 1;
+  const points = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * w;
+    const y = pad + (1 - (v - min) / range) * (h - pad * 2);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const midY = pad + (1 - (data[0] - min) / range) * (h - pad * 2);
+  return { points, midY };
+}
 ---
 <Base title={title} description={description}>
 
@@ -67,13 +82,23 @@ const brent = computeChart(m.brentHistory, fmtBrentAxis, fmtBrentTip);
 
   <!-- ===== TICKER STRIP ===== -->
   <div class="ticker-strip">
-    {m.ticker.map(t => (
-      <div class="ticker-cell">
-        <span class="data-label">{t.name}</span>
-        <span class="ticker-val">{t.value}</span>
-        <span class={`data-delta delta-${t.direction === 'up' ? 'up' : t.direction === 'down' ? 'down' : 'flat'}`}>{t.changePct}</span>
-      </div>
-    ))}
+    {m.ticker.map(t => {
+      const sp = sparkPath(t.spark, 80, 24);
+      const sparkColor = t.direction === 'up' ? 'var(--green)' : t.direction === 'down' ? 'var(--red)' : 'var(--muted)';
+      return (
+        <div class="ticker-cell">
+          <span class="data-label">{t.name}</span>
+          <span class="ticker-val">{t.value}</span>
+          <span class={`data-delta delta-${t.direction === 'up' ? 'up' : t.direction === 'down' ? 'down' : 'flat'}`}>{t.changePct}</span>
+          {sp && (
+            <svg viewBox="0 0 80 24" class="sparkline" aria-hidden="true">
+              <line x1="0" y1={sp.midY.toFixed(1)} x2="80" y2={sp.midY.toFixed(1)} stroke={sparkColor} stroke-width="0.5" stroke-dasharray="2,2" opacity="0.35"/>
+              <polyline points={sp.points} fill="none" stroke={sparkColor} stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+          )}
+        </div>
+      );
+    })}
   </div>
 
   <!-- ===== KSE-100 CHART ===== -->
@@ -363,9 +388,13 @@ const brent = computeChart(m.brentHistory, fmtBrentAxis, fmtBrentTip);
     font-family: 'Crimson Pro', serif;
     font-size: 13px;
     font-style: italic;
-    margin-top: auto;
     border-top: 1px solid #e0d4c8;
     padding-top: 6px;
+  }
+  .sparkline {
+    width: 100%;
+    height: 24px;
+    margin-top: 6px;
   }
 
   /* ===== DATA RANGE (high/low on cards) ===== */

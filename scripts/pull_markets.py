@@ -144,9 +144,54 @@ ALERT_THRESHOLDS = {
 }
 
 
+# Sparkline data: yfinance tickers for 5-day hourly price curves
+SPARKLINE_TICKERS = {
+    "Brent":   "BZ=F",
+    "Gold":    "GC=F",
+    "USD/PKR": "PKR=X",
+    "S&P 500": "^GSPC",
+}
+
+
 # ----------------------------------------------------------------------------
 # YFINANCE FETCHER
 # ----------------------------------------------------------------------------
+
+def fetch_sparkline(ticker: str) -> list[float]:
+    """Fetch 5-day hourly closes for sparkline rendering."""
+    try:
+        hist = yf.Ticker(ticker).history(period="5d", interval="1h")
+        hist = hist.dropna(subset=["Close"])
+        if len(hist) < 5:
+            return []
+        return [round(float(c), 2) for c in hist["Close"].tolist()]
+    except Exception as e:
+        print(f"  [sparkline fail] {ticker}: {e}", file=sys.stderr)
+        return []
+
+
+def fetch_kse_sparkline() -> list[float]:
+    """Fetch KSE-100 daily closes from PSX timeseries for sparkline.
+    API returns {data: [[timestamp, close, volume, adj_close], ...]}."""
+    url = "https://dps.psx.com.pk/timeseries/eod/KSE100"
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+        )
+    }
+    try:
+        r = requests.get(url, headers=headers, timeout=TIMEOUT)
+        r.raise_for_status()
+        entries = r.json().get("data", [])
+        recent = entries[:20]
+        recent.reverse()
+        closes = [float(e[1]) for e in recent]
+        return closes if len(closes) >= 5 else []
+    except Exception as e:
+        print(f"  [sparkline KSE fail] {e}", file=sys.stderr)
+        return []
+
 
 def fetch_yfinance(ticker: str) -> dict | None:
     """Returns {'close': float, 'open': float, 'high': float, 'low': float,
@@ -635,11 +680,13 @@ def render_ticker(ticker_data: list[dict]) -> str:
     """Render the ticker strip array."""
     lines = []
     for d in ticker_data:
+        spark = json.dumps(d.get("spark", []))
         lines.append(
             f'    {{ name: {render_js_string(d["name"])}, '
             f'value: {render_js_string(d["value"])}, '
             f'changePct: {render_js_string(d["changePct"])}, '
-            f'direction: {render_js_string(d["direction"])} }},'
+            f'direction: {render_js_string(d["direction"])}, '
+            f'spark: {spark} }},'
         )
     return "\n".join(lines)
 
@@ -957,6 +1004,22 @@ def main():
         else:
             print(f"  STALE {name:20s} (will keep existing row)")
 
+    print("  Fetching sparkline data...")
+    sparklines = {}
+    for name, ticker in SPARKLINE_TICKERS.items():
+        spark = fetch_sparkline(ticker)
+        if spark:
+            sparklines[name] = spark
+            print(f"  OK    {name:20s} ({len(spark)} points)")
+        else:
+            print(f"  SKIP  {name:20s} (no sparkline data)")
+    kse_spark = fetch_kse_sparkline()
+    if kse_spark:
+        sparklines["KSE-100"] = kse_spark
+        print(f"  OK    KSE-100              ({len(kse_spark)} points, PSX daily)")
+    else:
+        print("  SKIP  KSE-100              (no sparkline data)")
+
     # ---- Step 2: build new data structures ----
     print("\n[2/5] Building updated data blocks...")
     prev_snapshot = load_prev_snapshot()
@@ -1209,6 +1272,10 @@ def main():
             "changePct": change_str,
             "direction": direction,
         })
+
+    # Attach sparkline data to ticker entries
+    for entry in ticker_data:
+        entry["spark"] = sparklines.get(entry["name"], [])
 
     # Now stitch Dubai Platts back into commodities_data so renderer keeps it
     if platts_block_str:
