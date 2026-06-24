@@ -1052,6 +1052,108 @@
     .cost-index-bar-label { width: 70px; font-size: 10px; }
     .mini-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   }
+/* SIDEBAR NAV */
+.side-nav {
+  position: fixed;
+  right: max(calc((100vw - 820px) / 2 - 220px), 16px);
+  top: calc(50% + 150px);
+  width: 140px;
+  z-index: 80;
+  opacity: 0;
+  pointer-events: none;
+}
+.side-nav-inner {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  background: var(--paper);
+}
+.side-nav-heading {
+  font-family: 'Crimson Pro', serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.side-nav-group { margin-bottom: 8px; }
+.side-nav-label { display: none; }
+.side-nav-link {
+  display: block;
+  padding: 2px 0;
+  font-family: 'Crimson Pro', serif;
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.35;
+  transition: color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.side-nav-link:hover { color: var(--accent); }
+.side-nav-link .sn-no { font-weight: 600; color: var(--accent); }
+.side-nav-link .sn-date { display: none; }
+.side-nav-link.sn-current { color: var(--border); pointer-events: none; }
+.side-nav-page {
+  display: block;
+  padding: 2px 0;
+  font-family: 'Crimson Pro', serif;
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.35;
+  transition: color 0.15s;
+}
+.side-nav-page:hover { color: var(--accent); }
+.side-nav-divider { height: 1px; background: var(--border); margin: 6px 0; }
+@media (max-width: 1200px) {
+  .side-nav {
+    position: static !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none;
+    width: 100%;
+    max-width: 820px;
+    margin: 24px auto 0;
+    padding: 0 32px;
+  }
+  .side-nav-inner {
+    border-left: none;
+    border-top: 2px solid var(--border);
+    border-bottom: none;
+    border-right: none;
+    background: none;
+    padding: 12px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: baseline;
+  }
+  .side-nav-heading { width: 100%; margin-bottom: 8px; }
+  .side-nav-group, .side-nav-group-links { display: contents; }
+  .side-nav-label { display: none; }
+  .side-nav-divider {
+    display: inline;
+    width: auto;
+    height: auto;
+    background: none;
+    margin: 0 6px;
+    color: var(--border);
+    font-size: 11px;
+  }
+  .side-nav-divider::before { content: "\b7"; }
+  .side-nav-link, .side-nav-page {
+    padding: 0;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-right: 10px;
+    margin-bottom: 4px;
+  }
+  .side-nav-link .sn-no { font-size: 11px; }
+}
+
 .sf-bar{position:fixed;right:0;top:50%;transform:translateY(-50%) translateX(100%);z-index:90;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .28s ease,transform .28s ease}
 .sf-bar.sf-show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
 .sf-btn{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--card-bg);border:1px solid var(--border);border-right:none;color:var(--muted);text-decoration:none;cursor:pointer;transition:background .15s,color .15s,border-color .15s;box-shadow:-2px 2px 8px rgba(0,0,0,.07)}
@@ -1976,6 +2078,32 @@
   </div>
 </div>
 
+<nav class="side-nav" id="side-nav" aria-label="Site navigation">
+  <div class="side-nav-inner">
+    <div class="side-nav-heading">More from The Pulse Paper</div>
+    <div class="side-nav-group">
+      <div class="side-nav-label">Explore</div>
+      <div class="side-nav-group-links">
+        <a href="/markets" class="side-nav-page">Markets</a>
+        <a href="/signals" class="side-nav-page">Signals</a>
+        <a href="/specials" class="side-nav-page">Specials</a>
+        <a href="/glossary" class="side-nav-page">Glossary</a>
+      </div>
+    </div>
+    <span class="side-nav-divider"></span>
+    <div class="side-nav-group">
+      <div class="side-nav-label">Editions</div>
+      <div class="side-nav-group-links">
+    <a href="/editions/2026-05-24.html" class="side-nav-link sn-current"><span class="sn-no">03</span> The imported crisis&hellip;</a>
+    <a href="/editions/2026-05-31.html" class="side-nav-link"><span class="sn-no">04</span> The ceasefire trade&hellip;</a>
+    <a href="/editions/2026-06-08.html" class="side-nav-link"><span class="sn-no">05</span> The budget arrives&hellip;</a>
+    <a href="/editions/2026-06-22.html" class="side-nav-link"><span class="sn-no">06</span> The relief arrived&hellip;</a>
+        <a href="/editions" class="side-nav-page" style="color:var(--accent);font-weight:600;">All &rarr;</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <footer class="footer">
   <div>The Pulse &middot; Edition 03 &middot; Week of 25-31 May 2026</div>
   <div style="margin-top: 8px; color: rgba(245,241,235,0.25);">
@@ -2051,6 +2179,6 @@
   <a class="sf-btn" id="sf-x" href="#" target="_blank" rel="noopener noreferrer" title="Share on 𝕏" aria-label="Share on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
   <a class="sf-btn" id="sf-em" href="#" title="Share via email" aria-label="Share via email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></a>
 </div>
-<script>(function(){var bar=document.getElementById('sf-bar'),wa=document.getElementById('sf-wa'),li=document.getElementById('sf-li'),x=document.getElementById('sf-x'),em=document.getElementById('sf-em'),copy=document.getElementById('sf-copy');if(!bar)return;var url=window.location.href,title=document.title,enc=encodeURIComponent;if(wa)wa.href='https://wa.me/?text='+enc(title+' '+url);if(li)li.href='https://www.linkedin.com/sharing/share-offsite/?url='+enc(url);if(x)x.href='https://x.com/intent/tweet?url='+enc(url)+'&text='+enc(title);if(em)em.href='mailto:?subject='+enc(title)+'&body='+enc(url);if(copy)copy.addEventListener('click',function(){navigator.clipboard.writeText(url).then(function(){var icon=document.getElementById('sf-copy-icon');if(icon)icon.innerHTML='<polyline points="20 6 9 17 4 12"/>';setTimeout(function(){if(icon)icon.innerHTML='<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>';},2000);});});window.addEventListener('scroll',function(){if(window.scrollY>320)bar.classList.add('sf-show');else bar.classList.remove('sf-show');},{passive:true});})();</script>
+<script>(function(){var bar=document.getElementById('sf-bar'),wa=document.getElementById('sf-wa'),li=document.getElementById('sf-li'),x=document.getElementById('sf-x'),em=document.getElementById('sf-em'),copy=document.getElementById('sf-copy');if(!bar)return;var url=window.location.href,title=document.title,enc=encodeURIComponent;if(wa)wa.href='https://wa.me/?text='+enc(title+' '+url);if(li)li.href='https://www.linkedin.com/sharing/share-offsite/?url='+enc(url);if(x)x.href='https://x.com/intent/tweet?url='+enc(url)+'&text='+enc(title);if(em)em.href='mailto:?subject='+enc(title)+'&body='+enc(url);if(copy)copy.addEventListener('click',function(){navigator.clipboard.writeText(url).then(function(){var icon=document.getElementById('sf-copy-icon');if(icon)icon.innerHTML='<polyline points="20 6 9 17 4 12"/>';setTimeout(function(){if(icon)icon.innerHTML='<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>';},2000);});});var sn=document.getElementById('side-nav');window.addEventListener('scroll',function(){var y=window.scrollY;if(y>320)bar.classList.add('sf-show');else bar.classList.remove('sf-show');if(sn){var h=document.documentElement.scrollHeight-window.innerHeight;var pct=h>0?y/h:0;if(pct<0.3){sn.style.opacity='0';sn.style.pointerEvents='none';}else if(pct<0.55){var o=(pct-0.3)/0.25;sn.style.opacity=o.toFixed(2);sn.style.pointerEvents=o>0.3?'auto':'none';}else{sn.style.opacity='1';sn.style.pointerEvents='auto';}}},{passive:true});})();</script>
 </body>
 </html>
