@@ -44,6 +44,8 @@ jobs:
           pip install requests yfinance
 
       - name: Run markets pull
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           python scripts/pull_markets.py
 

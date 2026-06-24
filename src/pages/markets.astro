@@ -8,6 +8,51 @@ const description = "Pakistan market data updated throughout the trading day. KS
 
 // Region order for international exchanges
 const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
+
+// Build SVG chart data at build time (matches edition/specials aesthetic)
+function computeChart(data: {date:string, value:number}[], formatY: (v:number)=>string, formatTip?: (v:number)=>string) {
+  const tipFmt = formatTip || formatY;
+  const viewW = 720, viewH = 220;
+  const padL = 52, padR = 12, padT = 18, padB = 36;
+  const plotL = padL, plotR = viewW - padR;
+  const plotT = padT, plotB = viewH - padB;
+
+  const values = data.map(d => d.value);
+  const dataMin = Math.min(...values);
+  const dataMax = Math.max(...values);
+  const rawStep = (dataMax - dataMin) / 5;
+  const mag = Math.pow(10, Math.floor(Math.log10(rawStep)));
+  const res = rawStep / mag;
+  const niceStep = res <= 1 ? mag : res <= 2 ? 2*mag : res <= 5 ? 5*mag : 10*mag;
+  const niceMin = Math.floor(dataMin / niceStep) * niceStep;
+  const niceMax = Math.ceil(dataMax / niceStep) * niceStep;
+
+  const sy = (v:number) => plotT + (1 - (v - niceMin) / (niceMax - niceMin)) * (plotB - plotT);
+  const sx = (i:number) => plotL + (i / (data.length - 1)) * (plotR - plotL);
+
+  const pts = data.map((d, i) => ({ x: sx(i), y: sy(d.value), date: d.date, value: d.value, tip: d.date + ': ' + tipFmt(d.value) }));
+
+  const gridLines: {y:number, label:string}[] = [];
+  for (let v = niceMin; v <= niceMax + 0.001; v += niceStep) {
+    gridLines.push({ y: sy(v), label: formatY(v) });
+  }
+
+  const polyline = pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const polygon = `${pts[0].x.toFixed(1)},${plotB} ${polyline} ${pts[pts.length-1].x.toFixed(1)},${plotB}`;
+
+  const labelEvery = Math.max(1, Math.ceil(data.length / 12));
+  const xLabels = pts.filter((_, i) => i % labelEvery === 0);
+
+  return { pts, gridLines, polyline, polygon, xLabels, plotB, plotL, plotR, viewW, viewH };
+}
+
+const fmtKseAxis = (v: number) => Math.round(v/1000)+'k';
+const fmtKseTip = (v: number) => v.toLocaleString('en-US');
+const fmtBrentAxis = (v: number) => '$'+v.toFixed(0);
+const fmtBrentTip = (v: number) => '$'+v.toFixed(2);
+
+const kse = computeChart(m.kseHistory, fmtKseAxis, fmtKseTip);
+const brent = computeChart(m.brentHistory, fmtBrentAxis, fmtBrentTip);
 ---
 <Base title={title} description={description}>
 
@@ -38,9 +83,26 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
       <h2 class="section-title">KSE-100 trajectory</h2>
     </div>
     <p class="muted" style="margin-bottom:16px;">Weekly Friday close since 1 January 2026</p>
-    <div class="chart-container">
-      <canvas id="kseChart"></canvas>
-    </div>
+    <svg viewBox={`0 0 ${kse.viewW} ${kse.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="KSE-100 weekly trajectory since January 2026">
+      {kse.gridLines.map(gl => (<g>
+        <line x1={kse.plotL} y1={gl.y.toFixed(1)} x2={kse.plotR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x={kse.plotL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">{gl.label}</text>
+      </g>))}
+      <line x1={kse.plotL} y1={kse.plotB} x2={kse.plotR} y2={kse.plotB} stroke="var(--ink)" stroke-width="1"/>
+      <polygon points={kse.polygon} fill="var(--green)" fill-opacity="0.06"/>
+      <polyline points={kse.polyline} fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      {kse.pts.map(p => (<g class="chart-dot">
+        <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
+        <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--green)" class="chart-point"/>
+        <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
+          <rect x="-48" y="-12" width="96" height="16" rx="2" fill="var(--ink)" opacity="0.92"/>
+          <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="8.5" font-weight="600" fill="#fff">{p.tip}</text>
+        </g>
+      </g>))}
+      {kse.xLabels.map(p => (
+        <text x={p.x.toFixed(1)} y={(kse.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)">{p.date}</text>
+      ))}
+    </svg>
   </div>
 
   <!-- ===== PAKISTAN MACRO TRACKER ===== -->
@@ -211,9 +273,26 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
       <h2 class="section-title">Brent crude since 1 January 2026</h2>
     </div>
     <p class="muted" style="margin-bottom:16px;">Tracking the war premium, week by week</p>
-    <div class="chart-container">
-      <canvas id="brentChart"></canvas>
-    </div>
+    <svg viewBox={`0 0 ${brent.viewW} ${brent.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="Brent crude weekly price since January 2026">
+      {brent.gridLines.map(gl => (<g>
+        <line x1={brent.plotL} y1={gl.y.toFixed(1)} x2={brent.plotR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x={brent.plotL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">{gl.label}</text>
+      </g>))}
+      <line x1={brent.plotL} y1={brent.plotB} x2={brent.plotR} y2={brent.plotB} stroke="var(--ink)" stroke-width="1"/>
+      <polygon points={brent.polygon} fill="var(--accent)" fill-opacity="0.06"/>
+      <polyline points={brent.polyline} fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      {brent.pts.map(p => (<g class="chart-dot">
+        <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
+        <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--accent)" class="chart-point"/>
+        <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
+          <rect x="-48" y="-12" width="96" height="16" rx="2" fill="var(--ink)" opacity="0.92"/>
+          <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="8.5" font-weight="600" fill="#fff">{p.tip}</text>
+        </g>
+      </g>))}
+      {brent.xLabels.map(p => (
+        <text x={p.x.toFixed(1)} y={(brent.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)">{p.date}</text>
+      ))}
+    </svg>
   </div>
 
   <!-- ===== EDITION CALLOUT ===== -->
@@ -225,82 +304,6 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
 
 </div>
 
-<!-- ===== CHARTS ===== -->
-<script
-  is:inline
-  define:vars={{ kseHistory: JSON.stringify(m.kseHistory), brentHistory: JSON.stringify(m.brentHistory) }}
->
-  window.__pulseKSE = kseHistory;
-  window.__pulseBrent = brentHistory;
-</script>
-<script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', function () {
-    var kseData = JSON.parse(window.__pulseKSE);
-    var brentData = JSON.parse(window.__pulseBrent);
-
-    var gridColor = 'rgba(26,26,26,0.06)';
-    var textColor = 'rgba(26,26,26,0.4)';
-    var fontFamily = "'Inter', -apple-system, sans-serif";
-
-    function buildChart(id, data, color, bgColor, label, yFormat) {
-      new Chart(document.getElementById(id), {
-        type: 'line',
-        data: {
-          labels: data.map(function (d) { return d.date; }),
-          datasets: [{
-            label: label,
-            data: data.map(function (d) { return d.value; }),
-            borderColor: color,
-            backgroundColor: bgColor,
-            fill: true,
-            tension: 0.3,
-            pointRadius: 5,
-            pointBackgroundColor: color,
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            borderWidth: 2.5,
-          }],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#1a1a1a',
-              titleFont: { family: fontFamily, size: 12 },
-              bodyFont: { family: fontFamily, size: 13, weight: '600' },
-              padding: 10,
-              cornerRadius: 2,
-              callbacks: { label: function (c) { return label + ': ' + yFormat(c.parsed.y); } },
-            },
-          },
-          scales: {
-            y: {
-              grid: { color: gridColor, drawBorder: false },
-              ticks: { color: textColor, font: { family: fontFamily, size: 11 }, callback: yFormat, padding: 8 },
-              border: { display: false },
-            },
-            x: {
-              grid: { display: false },
-              ticks: { color: textColor, font: { family: fontFamily, size: 11 }, maxRotation: 0, padding: 8 },
-              border: { display: false },
-            },
-          },
-          layout: { padding: { top: 8, right: 12 } },
-        },
-      });
-    }
-
-    buildChart('kseChart', kseData, '#2e7d32', 'rgba(46,125,50,0.07)', 'KSE-100', function (v) {
-      return Math.round(v / 1000).toLocaleString() + 'k';
-    });
-    buildChart('brentChart', brentData, '#c0392b', 'rgba(192,57,43,0.07)', 'Brent', function (v) {
-      return '$' + Number(v).toFixed(0);
-    });
-  });
-</script>
 
 </Base>
 
@@ -374,16 +377,15 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
     letter-spacing: 0.3px;
   }
 
-  /* ===== CHART CONTAINER ===== */
-  .chart-container {
-    position: relative;
-    width: 100%;
-    height: 260px;
-    background: var(--card-bg);
-    border: 1px solid #d3c6b6;
-    border-left: 4px solid var(--accent);
-    padding: 16px 16px 8px;
+  /* ===== CHART (inline SVG) ===== */
+  .section svg[role="img"] {
+    margin-top: 4px;
   }
+  .chart-tip { opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
+  .chart-point { transition: r 0.15s ease; }
+  .chart-hit { cursor: pointer; }
+  .chart-dot:hover .chart-tip { opacity: 1; }
+  .chart-dot:hover .chart-point { r: 4; }
 
   /* ===== SECTION COMMENTARY (the editorial paragraph under each section's data) ===== */
   .section-commentary {
@@ -406,7 +408,7 @@ const regions = ['Americas', 'Europe', 'Asia', 'Currencies'];
     .markets-hero h1 { font-size: 26px; }
     .ticker-strip { grid-template-columns: repeat(3, 1fr); }
     .ticker-val { font-size: 18px; }
-    .chart-container { height: 200px; padding: 12px 8px 4px; }
+    .section svg[role="img"] { margin-top: 2px; }
     .section-commentary { padding: 14px 14px; }
     .section-commentary p { font-size: 14px; }
     .mini-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }

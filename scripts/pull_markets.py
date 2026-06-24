@@ -17,12 +17,16 @@ What this script DOES update:
   - lastUpdated timestamp
 
 What this script does NOT touch (editor-controlled):
-  - All four commentary paragraphs (weekOverWeek.commentary, psx.commentary,
-    commodities.commentary, international.commentary)
   - PSX indices (no reliable free feed)
   - Dubai Platts (paywalled)
   - KSE-100, Petrol (MS), SPI wow rows (no free yfinance source)
   - Latest edition callout
+
+Commentary auto-generation (evening 21:00 PKT run only):
+  All four commentary paragraphs are regenerated via Claude API on the
+  last daily run. Earlier runs leave commentary unchanged. Manual edits
+  via GitHub mobile persist until the next evening run. Force generation
+  at any time by setting GENERATE_COMMENTARY=true in the environment.
 
 Failure mode: if a single source fails, only that field is marked stale.
 Other fields update normally. The page never breaks because one ticker died.
@@ -765,6 +769,120 @@ def detect_alerts(current: dict, previous: dict, now: datetime) -> dict:
 
 
 # ----------------------------------------------------------------------------
+# COMMENTARY GENERATION (evening run only, via Claude API)
+# ----------------------------------------------------------------------------
+
+COMMENTARY_SYSTEM = """You are the markets analyst for The Pulse Paper, a weekly Pakistan economic newsletter.
+Write exactly 4 commentary paragraphs for the markets page sections listed below.
+
+Rules:
+- Each paragraph: 3-5 sentences, 60-90 words.
+- Always anchor analysis to Pakistan: what do these numbers mean for the import bill, monetary policy, consumer prices, or business planning?
+- No em-dashes in prose. Use commas, semicolons, or colons instead.
+- Only reference numbers from the data provided. Never invent or assume figures.
+- No media outlet names in the body.
+- Tone: conversational but authoritative, like a senior analyst briefing a CEO.
+- End each paragraph with one forward-looking signal or thing to watch.
+- No bullet points, no headers, no markdown. Just plain prose paragraphs.
+- Do not use the word "navigating" or the phrase "it remains to be seen".
+
+Respond in exactly this JSON format, no other text:
+{"wow": "...", "psx": "...", "commodities": "...", "international": "..."}
+
+wow = macro tracker + commodities week-over-week table commentary
+psx = Pakistan Stock Exchange indices commentary
+commodities = international commodities commentary
+international = global exchanges and currencies commentary"""
+
+
+def build_data_summary(
+    ticker_data: list,
+    wow_rows: list,
+    psx_headline: list, psx_sector: list, psx_thematic: list,
+    commodities_data: dict,
+    international: list,
+) -> str:
+    """Compile all fetched data into a text summary for the Claude prompt."""
+    lines = ["TODAY'S MARKET DATA", ""]
+
+    lines.append("TICKER STRIP:")
+    for t in ticker_data:
+        lines.append(f"  {t['name']}: {t['value']} ({t['changePct']})")
+
+    lines.append("\nWEEK-OVER-WEEK:")
+    for r in wow_rows:
+        lines.append(f"  {r['name']}: {r['prev']} -> {r['current']} ({r['change']})")
+
+    lines.append("\nPSX HEADLINE INDICES:")
+    for r in psx_headline:
+        lines.append(f"  {r['name']}: {r['value']} {r['change']}")
+    lines.append("PSX SECTOR:")
+    for r in psx_sector:
+        lines.append(f"  {r['name']}: {r['value']} {r['change']}")
+    lines.append("PSX THEMATIC:")
+    for r in psx_thematic:
+        lines.append(f"  {r['name']}: {r['value']} {r['change']}")
+
+    lines.append("\nCOMMODITIES:")
+    for name, d in commodities_data.items():
+        lines.append(f"  {name}: {d['value']}{d.get('unit','')} (O:{d.get('open','')} H:{d.get('high','')} L:{d.get('low','')})")
+
+    lines.append("\nINTERNATIONAL EXCHANGES:")
+    for region in ["Americas", "Europe", "Asia", "Currencies"]:
+        group = [r for r in international if r.get("region") == region]
+        if group:
+            entries = ", ".join(f"{r['name']} {r['close']}" for r in group)
+            lines.append(f"  {region}: {entries}")
+
+    return "\n".join(lines)
+
+
+def generate_commentary(data_summary: str) -> dict | None:
+    """Call Claude API to generate all 4 commentary paragraphs.
+    Returns {"wow": "...", "psx": "...", "commodities": "...", "international": "..."} or None."""
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        env_path = REPO_ROOT / ".env"
+        if env_path.exists():
+            for line in env_path.read_text().splitlines():
+                if line.startswith("ANTHROPIC_API_KEY="):
+                    api_key = line.split("=", 1)[1].strip().strip('"').strip("'")
+                    break
+    if not api_key:
+        print("  [commentary] No ANTHROPIC_API_KEY found, skipping", file=sys.stderr)
+        return None
+
+    try:
+        resp = requests.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": "claude-sonnet-4-6",
+                "max_tokens": 1024,
+                "system": COMMENTARY_SYSTEM,
+                "messages": [{"role": "user", "content": data_summary}],
+            },
+            timeout=30,
+        )
+        resp.raise_for_status()
+        text = resp.json()["content"][0]["text"]
+        m = re.search(r"\{.*\}", text, re.DOTALL)
+        if m:
+            result = json.loads(m.group(0))
+            if all(k in result for k in ("wow", "psx", "commodities", "international")):
+                return result
+        print("  [commentary] Could not parse expected JSON keys from response", file=sys.stderr)
+        return None
+    except Exception as e:
+        print(f"  [commentary] API call failed: {e}", file=sys.stderr)
+        return None
+
+
+# ----------------------------------------------------------------------------
 # MAIN
 # ----------------------------------------------------------------------------
 
@@ -1208,6 +1326,38 @@ def main():
                 "// -- /AUTO:brent-history --",
                 brent_hist_block,
             )
+
+    # Evening commentary generation (21:00 PKT run only)
+    is_evening = now.hour >= 20
+    force_commentary = os.environ.get("GENERATE_COMMENTARY", "").lower() == "true"
+    if is_evening or force_commentary:
+        print("\n[4b/5] Generating commentary via Claude API...")
+        summary = build_data_summary(
+            ticker_data, wow_rows,
+            psx_headline_rows, psx_sector_rows, psx_thematic_rows,
+            commodities_data, international,
+        )
+        commentary = generate_commentary(summary)
+        if commentary:
+            marker_map = {
+                "wow":           ("commentary-wow",           commentary["wow"]),
+                "psx":           ("commentary-psx",           commentary["psx"]),
+                "commodities":   ("commentary-commodities",   commentary["commodities"]),
+                "international": ("commentary-international", commentary["international"]),
+            }
+            for key, (marker, text) in marker_map.items():
+                escaped = render_js_string(text)
+                content = replace_between_markers(
+                    content,
+                    f"// -- AUTO:{marker} --",
+                    f"// -- /AUTO:{marker} --",
+                    f"    commentary: {escaped},",
+                )
+            print("  Commentary updated for all 4 sections.")
+        else:
+            print("  Commentary generation failed; keeping existing text.")
+    else:
+        print("\n[4b/5] Skipping commentary (not the evening run).")
 
     content = replace_simple_field(
         content,

@@ -108,7 +108,9 @@ export const marketsData = {
       { name: "SPI (YoY)", prev: "14.47%", current: "14.47%", change: "Flat", direction: "flat" },
     // -- /AUTO:wow-rows --
     ],
+    // -- AUTO:commentary-wow --
     commentary: "The big move this week is oil. Brent off 11.5% and Dubai Platts off 6.2% on the reported US-Iran ceasefire framework. The smaller Platts drop is the part that matters for Pakistan: the import bill eased less than the headlines suggest. Petrol cut Rs 22 in response, the third consecutive cut. Everything else moves in the second order: KSE rallied with oil, gold and silver pushed higher on safe-haven flows even as the equity rally suggests the opposite story, and the rupee held flat because SBP is intervening to keep it flat. Watch the gold-equity divergence: somebody is wrong.",
+    // -- /AUTO:commentary-wow --
   },
 
   // -- PSX indices, grouped, with commentary --
@@ -141,7 +143,9 @@ export const marketsData = {
       { name: "JS Momentum", value: "43,339", change: "+647 (+1.51%)", direction: "up" },
     // -- /AUTO:psx-thematic --
     ],
+    // -- AUTO:commentary-psx --
     commentary: "All 18 indices closed green, but the leadership is telling. Consumer (ACI +1.96%) and Islamic funds (MII-30 +1.81%, MZNPI +1.73%) led; banks (BKTI +0.50%) and oil and gas (OGTI +0.12%) lagged. Consumer outperforming makes sense if cheaper fuel is feeding through to margins. Banks lagging despite a tight SBP rate suggests the market is pricing the budget risk (windfall taxes, sector exposure to government securities). KSE-100 is now within 1% of an all-time high. The 175,000 level is the technical zone where the broader rally either confirms with volume or rolls over into profit-taking.",
+    // -- /AUTO:commentary-psx --
   },
 
   // -- International commodities + commentary --
@@ -155,7 +159,9 @@ export const marketsData = {
       { name: "Silver", value: "$60.78", unit: "/oz", open: "61.63", high: "62.44", low: "60.72" },
     // -- /AUTO:commodities-rows --
     ],
+    // -- AUTO:commentary-commodities --
     commentary: "Brent at $92 is $17 below the $109 peak three weeks ago. The fear premium has bled out of crude. But Dubai Platts at $103.15 is what Pakistan actually pays, and the $11 gap to Brent means the import bill has eased less than the headline crash suggests. Gold and silver moving up while equities rally is unusual: typically they trade inversely. The signal is that institutional money is hedging the rally, not buying into it. Natural gas easing is consistent with the broader energy de-escalation. Dubai Platts is sourced manually pending a reliable free feed.",
+    // -- /AUTO:commentary-commodities --
     footnote: "Dubai Platts and certain Pakistan-relevant commodities (CPO, HDPE, PET, SMP) are sourced manually pending reliable free data feeds.",
   },
 
@@ -181,7 +187,9 @@ export const marketsData = {
       { name: "USD / PKR", close: "278.04", open: "", range: "SBP interbank", region: "Currencies", muted: true },
     // -- /AUTO:international-rows --
     ],
+    // -- AUTO:commentary-international --
     commentary: "Asia rallied with the ceasefire trade: Nikkei, Hang Seng and Sensex all firmed on softer oil. China is the exception: Shanghai is the slowest mover, consistent with the manufacturing PMI stalling at 50.0 in May. Europe is at multi-year highs across FTSE, DAX, and the broad Stoxx 600 as Bund yields stabilise. The dollar is weakening (EUR/USD at 1.1642, GBP/USD at 1.3520), which is the standard pattern when oil falls because the petrodollar bid eases. For Pakistan, the weaker dollar is a marginal positive on rupee terms, but it is dwarfed by the fact SBP is managing USD/PKR flat at 278.55.",
+    // -- /AUTO:commentary-international --
   },
 
   // -- Latest edition callout (manual, updated weekly when a new edition publishes) --
