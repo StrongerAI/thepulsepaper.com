@@ -40,10 +40,7 @@ function computeChart(data: {date:string, value:number}[], formatY: (v:number)=>
   const polyline = pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
   const polygon = `${pts[0].x.toFixed(1)},${plotB} ${polyline} ${pts[pts.length-1].x.toFixed(1)},${plotB}`;
 
-  const labelEvery = Math.max(1, Math.ceil(data.length / 12));
-  const xLabels = pts.filter((_, i) => i % labelEvery === 0);
-
-  return { pts, gridLines, polyline, polygon, xLabels, plotB, plotL, plotR, viewW, viewH };
+  return { pts, gridLines, polyline, polygon, plotB, plotL, plotR, viewW, viewH };
 }
 
 const fmtKseAxis = (v: number) => Math.round(v/1000)+'k';
@@ -53,6 +50,102 @@ const fmtBrentTip = (v: number) => '$'+v.toFixed(2);
 
 const kse = computeChart(m.kseHistory, fmtKseAxis, fmtKseTip);
 const brent = computeChart(m.brentHistory, fmtBrentAxis, fmtBrentTip);
+// Gold dual-axis chart (COMEX USD/oz left, local PKR/tola right when available)
+const goldDual = (() => {
+  const intl = m.goldHistory;
+  const local = m.goldLocalHistory || [];
+  const hasLocal = local.length >= 2;
+  const viewW = 720, viewH = 220, padL = 52, padR = hasLocal ? 58 : 12, padT = 18, padB = 36;
+  const plotL = padL, plotR = viewW - padR;
+
+  const intlVals = intl.map((d: any) => d.value);
+  const intlMin = Math.floor(Math.min(...intlVals) / 500) * 500;
+  const intlMax = Math.ceil(Math.max(...intlVals) / 500) * 500;
+  const syIntl = (v: number) => padT + (1 - (v - intlMin) / (intlMax - intlMin)) * (viewH - padT - padB);
+  const sx = (i: number, len: number) => plotL + (i / (len - 1)) * (plotR - plotL);
+
+  const intlPts = intl.map((d: any, i: number) => ({
+    x: sx(i, intl.length), y: syIntl(d.value), date: d.date, tip: d.date + ': $' + d.value.toLocaleString('en-US')
+  }));
+  const intlLine = intlPts.map((p: any) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+
+  const leftGrid: {y: number, label: string}[] = [];
+  const intlStep = (intlMax - intlMin) / 4;
+  for (let v = intlMin; v <= intlMax + 1; v += intlStep) leftGrid.push({ y: syIntl(v), label: '$'+Math.round(v/1000)+'k' });
+
+  let localPts: any[] = [], localLine = '', rightGrid: {y: number, label: string}[] = [];
+  if (hasLocal) {
+    const localVals = local.map((d: any) => d.value);
+    const localMin = Math.floor(Math.min(...localVals) / 50000) * 50000;
+    const localMax = Math.ceil(Math.max(...localVals) / 50000) * 50000;
+    const syLocal = (v: number) => padT + (1 - (v - localMin) / (localMax - localMin)) * (viewH - padT - padB);
+    const intlDateIndex = new Map(intl.map((d: any, i: number) => [d.date, i]));
+    localPts = local.map((d: any) => {
+      const idx = intlDateIndex.get(d.date) ?? (intl.length - 1);
+      return { x: sx(idx, intl.length), y: syLocal(d.value), date: d.date, tip: d.date + ': Rs ' + d.value.toLocaleString('en-US') };
+    });
+    localLine = localPts.map((p: any) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+    const localStep = (localMax - localMin) / 4;
+    for (let v = localMin; v <= localMax + 1; v += localStep) rightGrid.push({ y: syLocal(v), label: Math.round(v/1000)+'k' });
+  }
+
+  const plotB = viewH - padB;
+  return { intlPts, localPts, intlLine, localLine, leftGrid, rightGrid, hasLocal, viewW, viewH, plotL, plotR, plotB };
+})();
+const pkr = computeChart(m.pkrHistory, v => v.toFixed(0), v => v.toFixed(2));
+
+// CPI vs SPI dual-line chart
+const cpiSpi = (() => {
+  const d = m.cpiSpiHistory;
+  const viewW = 720, viewH = 220, padL = 52, padR = 12, padT = 18, padB = 36;
+  const allVals = d.flatMap((e: any) => [e.cpi, e.spi]);
+  const min = Math.floor(Math.min(...allVals));
+  const max = Math.ceil(Math.max(...allVals));
+  const sy = (v: number) => padT + (1 - (v - min) / (max - min)) * (viewH - padT - padB);
+  const sx = (i: number) => padL + (i / (d.length - 1)) * (viewW - padL - padR);
+  const cpiPts = d.map((e: any, i: number) => ({ x: sx(i), y: sy(e.cpi), date: e.date, value: e.cpi }));
+  const spiPts = d.map((e: any, i: number) => ({ x: sx(i), y: sy(e.spi), date: e.date, value: e.spi }));
+  const cpiLine = cpiPts.map((p: any) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const spiLine = spiPts.map((p: any) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const step = max > 12 ? 4 : 2;
+  const gridLines: {y: number, label: string}[] = [];
+  for (let v = min; v <= max; v += step) gridLines.push({ y: sy(v), label: v+'%' });
+  const labelEvery = Math.max(1, Math.ceil(d.length / 8));
+  const xLabels = cpiPts.filter((_: any, i: number) => i % labelEvery === 0);
+  return { cpiLine, spiLine, cpiPts, spiPts, gridLines, xLabels, viewW, viewH, padL, padR: viewW - padR, plotB: viewH - padB };
+})();
+
+// SBP Policy Rate step chart
+const sbp = (() => {
+  const d = m.sbpRateHistory;
+  const viewW = 720, viewH = 220, padL = 52, padR = 12, padT = 18, padB = 36;
+  const vals = d.map((e: any) => e.rate);
+  const min = Math.floor(Math.min(...vals) / 2) * 2;
+  const max = Math.ceil(Math.max(...vals) / 2) * 2;
+  const sy = (v: number) => padT + (1 - (v - min) / (max - min)) * (viewH - padT - padB);
+  const sx = (i: number) => padL + (i / (d.length - 1)) * (viewW - padL - padR);
+  const pts = d.map((e: any, i: number) => ({ x: sx(i), y: sy(e.rate), date: e.date, rate: e.rate }));
+  // Step path: horizontal then vertical
+  let stepPath = '';
+  pts.forEach((p: any, i: number) => {
+    if (i === 0) { stepPath += `${p.x.toFixed(1)},${p.y.toFixed(1)}`; }
+    else { stepPath += ` ${p.x.toFixed(1)},${pts[i-1].y.toFixed(1)} ${p.x.toFixed(1)},${p.y.toFixed(1)}`; }
+  });
+  const gridLines: {y: number, label: string}[] = [];
+  for (let v = min; v <= max; v += 2) gridLines.push({ y: sy(v), label: v+'%' });
+  const labelEvery = Math.max(1, Math.ceil(d.length / 8));
+  const xLabels = pts.filter((_: any, i: number) => i % labelEvery === 0);
+  return { stepPath, pts, gridLines, xLabels, viewW, viewH, padL, padR: viewW - padR, plotB: viewH - padB };
+})();
+
+// Shared x-axis label cadence for auto charts
+const allLens = [m.kseHistory.length, m.brentHistory.length, m.goldHistory.length, m.pkrHistory.length];
+const maxLen = Math.max(...allLens);
+const labelEvery = Math.max(1, Math.ceil(maxLen / 8));
+const kseXLabels = kse.pts.filter((_: any, i: number) => i % labelEvery === 0);
+const brentXLabels = brent.pts.filter((_: any, i: number) => i % labelEvery === 0);
+const goldDualXLabels = goldDual.intlPts.filter((_: any, i: number) => i % labelEvery === 0);
+const pkrXLabels = pkr.pts.filter((_: any, i: number) => i % labelEvery === 0);
 
 function sparkPath(data: number[], w: number, h: number) {
   if (!data || data.length < 2) return null;
@@ -101,33 +194,159 @@ function sparkPath(data: number[], w: number, h: number) {
     })}
   </div>
 
-  <!-- ===== KSE-100 CHART ===== -->
+  <!-- ===== CHARTS ===== -->
   <div class="section">
     <div class="section-header">
       <span class="section-num">01</span>
-      <h2 class="section-title">KSE-100 trajectory</h2>
+      <h2 class="section-title">Weekly charts</h2>
     </div>
-    <p class="muted" style="margin-bottom:16px;">Weekly Friday close since 1 January 2026</p>
-    <svg viewBox={`0 0 ${kse.viewW} ${kse.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="KSE-100 weekly trajectory since January 2026">
-      {kse.gridLines.map(gl => (<g>
-        <line x1={kse.plotL} y1={gl.y.toFixed(1)} x2={kse.plotR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
-        <text x={kse.plotL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">{gl.label}</text>
-      </g>))}
-      <line x1={kse.plotL} y1={kse.plotB} x2={kse.plotR} y2={kse.plotB} stroke="var(--ink)" stroke-width="1"/>
-      <polygon points={kse.polygon} fill="var(--green)" fill-opacity="0.06"/>
-      <polyline points={kse.polyline} fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-      {kse.pts.map(p => (<g class="chart-dot">
-        <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
-        <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--green)" class="chart-point"/>
-        <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
-          <rect x="-48" y="-12" width="96" height="16" rx="2" fill="var(--ink)" opacity="0.92"/>
-          <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="8.5" font-weight="600" fill="#fff">{p.tip}</text>
-        </g>
-      </g>))}
-      {kse.xLabels.map(p => (
-        <text x={p.x.toFixed(1)} y={(kse.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)">{p.date}</text>
-      ))}
-    </svg>
+    <p class="muted" style="margin-bottom:16px;">Key indicators since January 2026</p>
+    <div class="chart-grid-2">
+      <div class="chart-panel">
+        <div class="sub-heading">KSE-100</div>
+        <svg viewBox={`0 0 ${kse.viewW} ${kse.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="KSE-100 weekly trajectory since January 2026">
+          {kse.gridLines.map(gl => (<g>
+            <line x1={kse.plotL} y1={gl.y.toFixed(1)} x2={kse.plotR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <text x={kse.plotL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)" opacity="0.6">{gl.label}</text>
+          </g>))}
+          <line x1={kse.plotL} y1={kse.plotB} x2={kse.plotR} y2={kse.plotB} stroke="var(--ink)" stroke-width="1"/>
+          <polygon points={kse.polygon} fill="var(--green)" fill-opacity="0.06"/>
+          <polyline points={kse.polyline} fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          {kse.pts.map(p => (<g class="chart-dot">
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--green)" class="chart-point"/>
+            <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
+              <rect x="-58" y="-14" width="116" height="20" rx="2" fill="var(--ink)" opacity="0.92"/>
+              <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#fff">{p.tip}</text>
+            </g>
+          </g>))}
+          {kseXLabels.map(p => (
+            <text x={p.x.toFixed(1)} y={(kse.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)">{p.date}</text>
+          ))}
+        </svg>
+      </div>
+      <div class="chart-panel">
+        <div class="sub-heading">Brent crude</div>
+        <svg viewBox={`0 0 ${brent.viewW} ${brent.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="Brent crude weekly price since January 2026">
+          {brent.gridLines.map(gl => (<g>
+            <line x1={brent.plotL} y1={gl.y.toFixed(1)} x2={brent.plotR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <text x={brent.plotL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)" opacity="0.6">{gl.label}</text>
+          </g>))}
+          <line x1={brent.plotL} y1={brent.plotB} x2={brent.plotR} y2={brent.plotB} stroke="var(--ink)" stroke-width="1"/>
+          <polygon points={brent.polygon} fill="var(--accent)" fill-opacity="0.06"/>
+          <polyline points={brent.polyline} fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          {brent.pts.map(p => (<g class="chart-dot">
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--accent)" class="chart-point"/>
+            <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
+              <rect x="-58" y="-14" width="116" height="20" rx="2" fill="var(--ink)" opacity="0.92"/>
+              <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#fff">{p.tip}</text>
+            </g>
+          </g>))}
+          {brentXLabels.map(p => (
+            <text x={p.x.toFixed(1)} y={(brent.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)">{p.date}</text>
+          ))}
+        </svg>
+      </div>
+      <div class="chart-panel">
+        <div class="sub-heading">{goldDual.hasLocal ? 'Gold — COMEX vs local 24K per tola' : 'Gold (COMEX)'}</div>
+        <svg viewBox={`0 0 ${goldDual.viewW} ${goldDual.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="Gold COMEX USD/oz versus local 24K PKR per tola">
+          {goldDual.leftGrid.map(gl => (<g>
+            <line x1={goldDual.plotL} y1={gl.y.toFixed(1)} x2={goldDual.plotR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <text x={goldDual.plotL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--gold)" opacity="0.7">{gl.label}</text>
+          </g>))}
+          {goldDual.hasLocal && goldDual.rightGrid.map(gl => (
+            <text x={goldDual.plotR + 8} y={(gl.y + 4).toFixed(1)} text-anchor="start" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--accent)" opacity="0.7">{gl.label}</text>
+          ))}
+          <line x1={goldDual.plotL} y1={goldDual.plotB} x2={goldDual.plotR} y2={goldDual.plotB} stroke="var(--ink)" stroke-width="1"/>
+          <polyline points={goldDual.intlLine} fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          {goldDual.hasLocal && <polyline points={goldDual.localLine} fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6,3"/>}
+          {goldDual.intlPts.map(p => (<g class="chart-dot">
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--gold)" class="chart-point"/>
+            <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
+              <rect x="-58" y="-14" width="116" height="20" rx="2" fill="var(--ink)" opacity="0.92"/>
+              <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#fff">{p.tip}</text>
+            </g>
+          </g>))}
+          {goldDual.hasLocal && goldDual.localPts.map(p => (<g class="chart-dot">
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--accent)" class="chart-point"/>
+            <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
+              <rect x="-58" y="-14" width="116" height="20" rx="2" fill="var(--ink)" opacity="0.92"/>
+              <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#fff">{p.tip}</text>
+            </g>
+          </g>))}
+          {goldDual.hasLocal && <text x={goldDual.plotR - 4} y={(goldDual.intlPts[goldDual.intlPts.length-1].y - 6).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="var(--gold)">USD/oz</text>}
+          {goldDual.hasLocal && <text x={goldDual.plotR - 4} y={(goldDual.localPts[goldDual.localPts.length-1].y - 6).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="var(--accent)">PKR/tola</text>}
+          {goldDualXLabels.map(p => (
+            <text x={p.x.toFixed(1)} y={(goldDual.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)">{p.date}</text>
+          ))}
+        </svg>
+      </div>
+      <div class="chart-panel">
+        <div class="sub-heading">USD / PKR</div>
+        <svg viewBox={`0 0 ${pkr.viewW} ${pkr.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="USD/PKR weekly rate since January 2026">
+          {pkr.gridLines.map(gl => (<g>
+            <line x1={pkr.plotL} y1={gl.y.toFixed(1)} x2={pkr.plotR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <text x={pkr.plotL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)" opacity="0.6">{gl.label}</text>
+          </g>))}
+          <line x1={pkr.plotL} y1={pkr.plotB} x2={pkr.plotR} y2={pkr.plotB} stroke="var(--ink)" stroke-width="1"/>
+          <polygon points={pkr.polygon} fill="var(--muted)" fill-opacity="0.05"/>
+          <polyline points={pkr.polyline} fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          {pkr.pts.map(p => (<g class="chart-dot">
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--muted)" class="chart-point"/>
+            <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
+              <rect x="-58" y="-14" width="116" height="20" rx="2" fill="var(--ink)" opacity="0.92"/>
+              <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#fff">{p.tip}</text>
+            </g>
+          </g>))}
+          {pkrXLabels.map(p => (
+            <text x={p.x.toFixed(1)} y={(pkr.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)">{p.date}</text>
+          ))}
+        </svg>
+      </div>
+      <div class="chart-panel">
+        <div class="sub-heading">CPI vs SPI (YoY %)</div>
+        <svg viewBox={`0 0 ${cpiSpi.viewW} ${cpiSpi.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="CPI versus SPI year-on-year inflation">
+          {cpiSpi.gridLines.map(gl => (<g>
+            <line x1={cpiSpi.padL} y1={gl.y.toFixed(1)} x2={cpiSpi.padR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <text x={cpiSpi.padL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)" opacity="0.6">{gl.label}</text>
+          </g>))}
+          <line x1={cpiSpi.padL} y1={cpiSpi.plotB} x2={cpiSpi.padR} y2={cpiSpi.plotB} stroke="var(--ink)" stroke-width="1"/>
+          <polyline points={cpiSpi.cpiLine} fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <polyline points={cpiSpi.spiLine} fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <text x={cpiSpi.padR - 4} y={(cpiSpi.cpiPts[cpiSpi.cpiPts.length-1].y - 6).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="var(--accent)">CPI</text>
+          <text x={cpiSpi.padR - 4} y={(cpiSpi.spiPts[cpiSpi.spiPts.length-1].y - 6).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="var(--amber)">SPI</text>
+          {cpiSpi.xLabels.map(p => (
+            <text x={p.x.toFixed(1)} y={(cpiSpi.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)">{p.date}</text>
+          ))}
+        </svg>
+      </div>
+      <div class="chart-panel">
+        <div class="sub-heading">SBP policy rate</div>
+        <svg viewBox={`0 0 ${sbp.viewW} ${sbp.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="SBP policy rate path">
+          {sbp.gridLines.map(gl => (<g>
+            <line x1={sbp.padL} y1={gl.y.toFixed(1)} x2={sbp.padR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <text x={sbp.padL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)" opacity="0.6">{gl.label}</text>
+          </g>))}
+          <line x1={sbp.padL} y1={sbp.plotB} x2={sbp.padR} y2={sbp.plotB} stroke="var(--ink)" stroke-width="1"/>
+          <polyline points={sbp.stepPath} fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="square"/>
+          {sbp.pts.map(p => (<g class="chart-dot">
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
+            <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="3" fill="var(--card-bg)" stroke="var(--muted)" stroke-width="2" class="chart-point"/>
+            <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
+              <rect x="-58" y="-14" width="116" height="20" rx="2" fill="var(--ink)" opacity="0.92"/>
+              <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#fff">{p.date}: {p.rate}%</text>
+            </g>
+          </g>))}
+          {sbp.xLabels.map(p => (
+            <text x={p.x.toFixed(1)} y={(sbp.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--muted)">{p.date}</text>
+          ))}
+        </svg>
+      </div>
+    </div>
   </div>
 
   <!-- ===== PAKISTAN MACRO TRACKER ===== -->
@@ -291,35 +510,6 @@ function sparkPath(data: number[], w: number, h: number) {
     </div>
   </div>
 
-  <!-- ===== BRENT CHART ===== -->
-  <div class="section" style="border-bottom:none;">
-    <div class="section-header">
-      <span class="section-num">06</span>
-      <h2 class="section-title">Brent crude since 1 January 2026</h2>
-    </div>
-    <p class="muted" style="margin-bottom:16px;">Tracking the war premium, week by week</p>
-    <svg viewBox={`0 0 ${brent.viewW} ${brent.viewH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="Brent crude weekly price since January 2026">
-      {brent.gridLines.map(gl => (<g>
-        <line x1={brent.plotL} y1={gl.y.toFixed(1)} x2={brent.plotR} y2={gl.y.toFixed(1)} stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
-        <text x={brent.plotL - 8} y={(gl.y + 4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">{gl.label}</text>
-      </g>))}
-      <line x1={brent.plotL} y1={brent.plotB} x2={brent.plotR} y2={brent.plotB} stroke="var(--ink)" stroke-width="1"/>
-      <polygon points={brent.polygon} fill="var(--accent)" fill-opacity="0.06"/>
-      <polyline points={brent.polyline} fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-      {brent.pts.map(p => (<g class="chart-dot">
-        <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="12" fill="transparent" class="chart-hit"/>
-        <circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="2" fill="var(--accent)" class="chart-point"/>
-        <g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y - 14).toFixed(1)})`}>
-          <rect x="-48" y="-12" width="96" height="16" rx="2" fill="var(--ink)" opacity="0.92"/>
-          <text x="0" y="0" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="8.5" font-weight="600" fill="#fff">{p.tip}</text>
-        </g>
-      </g>))}
-      {brent.xLabels.map(p => (
-        <text x={p.x.toFixed(1)} y={(brent.plotB + 18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)">{p.date}</text>
-      ))}
-    </svg>
-  </div>
-
   <!-- ===== EDITION CALLOUT ===== -->
   <div class="callout" style="margin:32px 0;border-left-color:var(--accent);">
     <strong>From the latest edition</strong>
@@ -355,6 +545,16 @@ function sparkPath(data: number[], w: number, h: number) {
     color: var(--muted);
     letter-spacing: 0.5px;
     margin-top: 12px;
+  }
+
+  /* ===== CHART GRID ===== */
+  .chart-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .chart-panel {
+    min-width: 0;
   }
 
   /* ===== TICKER STRIP ===== */
@@ -437,6 +637,7 @@ function sparkPath(data: number[], w: number, h: number) {
     .markets-hero h1 { font-size: 26px; }
     .ticker-strip { grid-template-columns: repeat(3, 1fr); }
     .ticker-val { font-size: 18px; }
+    .chart-grid-2 { grid-template-columns: 1fr; }
     .section svg[role="img"] { margin-top: 2px; }
     .section-commentary { padding: 14px 14px; }
     .section-commentary p { font-size: 14px; }

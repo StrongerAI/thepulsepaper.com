@@ -252,5 +252,351 @@
       "date": "24 Jun",
       "value": 73.88
     }
+  ],
+  "gold": [
+    {
+      "week": "2026-W00",
+      "date": "5 Jan",
+      "value": 4490.3
+    },
+    {
+      "week": "2026-W01",
+      "date": "12 Jan",
+      "value": 4588.4
+    },
+    {
+      "week": "2026-W02",
+      "date": "19 Jan",
+      "value": 4976.2
+    },
+    {
+      "week": "2026-W03",
+      "date": "26 Jan",
+      "value": 4713.9
+    },
+    {
+      "week": "2026-W04",
+      "date": "2 Feb",
+      "value": 4951.2
+    },
+    {
+      "week": "2026-W05",
+      "date": "9 Feb",
+      "value": 5022.0
+    },
+    {
+      "week": "2026-W06",
+      "date": "16 Feb",
+      "value": 5059.3
+    },
+    {
+      "week": "2026-W07",
+      "date": "23 Feb",
+      "value": 5230.5
+    },
+    {
+      "week": "2026-W08",
+      "date": "2 Mar",
+      "value": 5146.1
+    },
+    {
+      "week": "2026-W09",
+      "date": "9 Mar",
+      "value": 5052.5
+    },
+    {
+      "week": "2026-W10",
+      "date": "16 Mar",
+      "value": 4570.4
+    },
+    {
+      "week": "2026-W11",
+      "date": "23 Mar",
+      "value": 4492.0
+    },
+    {
+      "week": "2026-W12",
+      "date": "30 Mar",
+      "value": 4651.5
+    },
+    {
+      "week": "2026-W13",
+      "date": "6 Apr",
+      "value": 4761.9
+    },
+    {
+      "week": "2026-W14",
+      "date": "13 Apr",
+      "value": 4857.6
+    },
+    {
+      "week": "2026-W15",
+      "date": "20 Apr",
+      "value": 4722.3
+    },
+    {
+      "week": "2026-W16",
+      "date": "27 Apr",
+      "value": 4629.9
+    },
+    {
+      "week": "2026-W17",
+      "date": "4 May",
+      "value": 4720.4
+    },
+    {
+      "week": "2026-W18",
+      "date": "11 May",
+      "value": 4555.8
+    },
+    {
+      "week": "2026-W19",
+      "date": "18 May",
+      "value": 4521.0
+    },
+    {
+      "week": "2026-W20",
+      "date": "25 May",
+      "value": 4560.5
+    },
+    {
+      "week": "2026-W21",
+      "date": "1 Jun",
+      "value": 4337.1
+    },
+    {
+      "week": "2026-W22",
+      "date": "8 Jun",
+      "value": 4215.0
+    },
+    {
+      "week": "2026-W23",
+      "date": "15 Jun",
+      "value": 4145.3
+    },
+    {
+      "week": "2026-W24",
+      "date": "22 Jun",
+      "value": 4015.1
+    }
+  ],
+  "pkr": [
+    {
+      "week": "2026-W00",
+      "date": "5 Jan",
+      "value": 279.75
+    },
+    {
+      "week": "2026-W01",
+      "date": "12 Jan",
+      "value": 278.83
+    },
+    {
+      "week": "2026-W02",
+      "date": "19 Jan",
+      "value": 276.29
+    },
+    {
+      "week": "2026-W03",
+      "date": "26 Jan",
+      "value": 279.9
+    },
+    {
+      "week": "2026-W04",
+      "date": "2 Feb",
+      "value": 277.46
+    },
+    {
+      "week": "2026-W05",
+      "date": "9 Feb",
+      "value": 279.35
+    },
+    {
+      "week": "2026-W06",
+      "date": "16 Feb",
+      "value": 277.5
+    },
+    {
+      "week": "2026-W07",
+      "date": "23 Feb",
+      "value": 277.69
+    },
+    {
+      "week": "2026-W08",
+      "date": "2 Mar",
+      "value": 279.0
+    },
+    {
+      "week": "2026-W09",
+      "date": "9 Mar",
+      "value": 279.0
+    },
+    {
+      "week": "2026-W10",
+      "date": "16 Mar",
+      "value": 278.9
+    },
+    {
+      "week": "2026-W11",
+      "date": "23 Mar",
+      "value": 279.0
+    },
+    {
+      "week": "2026-W12",
+      "date": "30 Mar",
+      "value": 278.75
+    },
+    {
+      "week": "2026-W13",
+      "date": "6 Apr",
+      "value": 277.14
+    },
+    {
+      "week": "2026-W14",
+      "date": "13 Apr",
+      "value": 278.65
+    },
+    {
+      "week": "2026-W15",
+      "date": "20 Apr",
+      "value": 276.95
+    },
+    {
+      "week": "2026-W16",
+      "date": "27 Apr",
+      "value": 277.37
+    },
+    {
+      "week": "2026-W17",
+      "date": "4 May",
+      "value": 278.4
+    },
+    {
+      "week": "2026-W18",
+      "date": "11 May",
+      "value": 278.3
+    },
+    {
+      "week": "2026-W19",
+      "date": "18 May",
+      "value": 277.11
+    },
+    {
+      "week": "2026-W20",
+      "date": "25 May",
+      "value": 278.25
+    },
+    {
+      "week": "2026-W21",
+      "date": "1 Jun",
+      "value": 276.84
+    },
+    {
+      "week": "2026-W22",
+      "date": "8 Jun",
+      "value": 278.05
+    },
+    {
+      "week": "2026-W23",
+      "date": "15 Jun",
+      "value": 278.0
+    },
+    {
+      "week": "2026-W24",
+      "date": "22 Jun",
+      "value": 277.92
+    }
+  ],
+  "gold_local": [
+    {
+      "week": "2026-W09",
+      "date": "2 Mar",
+      "value": 539000
+    },
+    {
+      "week": "2026-W10",
+      "date": "9 Mar",
+      "value": 514500
+    },
+    {
+      "week": "2026-W11",
+      "date": "16 Mar",
+      "value": 510000
+    },
+    {
+      "week": "2026-W12",
+      "date": "23 Mar",
+      "value": 480000
+    },
+    {
+      "week": "2026-W13",
+      "date": "30 Mar",
+      "value": 492000
+    },
+    {
+      "week": "2026-W14",
+      "date": "6 Apr",
+      "value": 500000
+    },
+    {
+      "week": "2026-W15",
+      "date": "13 Apr",
+      "value": 500500
+    },
+    {
+      "week": "2026-W16",
+      "date": "20 Apr",
+      "value": 502500
+    },
+    {
+      "week": "2026-W17",
+      "date": "27 Apr",
+      "value": 486700
+    },
+    {
+      "week": "2026-W18",
+      "date": "4 May",
+      "value": 475000
+    },
+    {
+      "week": "2026-W19",
+      "date": "11 May",
+      "value": 481500
+    },
+    {
+      "week": "2026-W20",
+      "date": "18 May",
+      "value": 465000
+    },
+    {
+      "week": "2026-W21",
+      "date": "25 May",
+      "value": 470500
+    },
+    {
+      "week": "2026-W21",
+      "date": "1 Jun",
+      "value": 461500
+    },
+    {
+      "week": "2026-W22",
+      "date": "8 Jun",
+      "value": 448500
+    },
+    {
+      "week": "2026-W23",
+      "date": "15 Jun",
+      "value": 460000
+    },
+    {
+      "week": "2026-W24",
+      "date": "22 Jun",
+      "value": 445500
+    },
+    {
+      "week": "2026-W25",
+      "date": "24 Jun",
+      "value": 434500
+    }
   ]
 }

@@ -438,11 +438,24 @@ def update_weekly_kse(kse_value: float, now: datetime) -> tuple[float | None, fl
     return data.get("prev_close"), data["curr_close"]
 
 
-def update_chart_history(kse_close: float, brent_close: float, now: datetime) -> None:
-    """Append one data point per week to the KSE/Brent chart history.
-    Uses Friday as the weekly anchor. Only appends if the current week
-    is not already in the history."""
-    data: dict = {"kse": [], "brent": []}
+def _upsert_chart_series(data: dict, key: str, week_key: str,
+                         date_label: str, value: float) -> None:
+    """Insert or update a single week entry in a chart history series."""
+    series = data.setdefault(key, [])
+    existing = {e.get("week") for e in series}
+    if week_key not in existing:
+        series.append({"week": week_key, "date": date_label, "value": value})
+    else:
+        for e in series:
+            if e.get("week") == week_key:
+                e["value"] = value
+                e["date"] = date_label
+
+
+def update_chart_history(closes: dict[str, float], now: datetime) -> None:
+    """Append one data point per week for each series in the chart history.
+    closes: {"kse": float, "brent": float, "gold": float, "pkr": float}"""
+    data: dict = {}
     if CHART_HISTORY_PATH.exists():
         try:
             data = json.loads(CHART_HISTORY_PATH.read_text())
@@ -452,28 +465,12 @@ def update_chart_history(kse_close: float, brent_close: float, now: datetime) ->
     week_key = now.strftime("%Y-W%W")
     date_label = now.strftime("%-d %b")
 
-    existing_kse_weeks = {e.get("week") for e in data.get("kse", [])}
-    existing_brent_weeks = {e.get("week") for e in data.get("brent", [])}
-
-    if week_key not in existing_kse_weeks:
-        data.setdefault("kse", []).append({
-            "week": week_key, "date": date_label, "value": int(round(kse_close))
-        })
-    else:
-        for e in data["kse"]:
-            if e.get("week") == week_key:
-                e["value"] = int(round(kse_close))
-                e["date"] = date_label
-
-    if week_key not in existing_brent_weeks:
-        data.setdefault("brent", []).append({
-            "week": week_key, "date": date_label, "value": round(brent_close, 2)
-        })
-    else:
-        for e in data["brent"]:
-            if e.get("week") == week_key:
-                e["value"] = round(brent_close, 2)
-                e["date"] = date_label
+    rounders = {"kse": lambda v: int(round(v)), "brent": lambda v: round(v, 2),
+                "gold": lambda v: round(v, 2), "gold_local": lambda v: int(round(v)),
+                "pkr": lambda v: round(v, 2)}
+    for key, val in closes.items():
+        if val is not None:
+            _upsert_chart_series(data, key, week_key, date_label, rounders[key](val))
 
     CHART_HISTORY_PATH.write_text(json.dumps(data, indent=2))
 
@@ -483,7 +480,10 @@ def build_chart_history_block(marker_name: str) -> str:
     if not CHART_HISTORY_PATH.exists():
         return ""
     data = json.loads(CHART_HISTORY_PATH.read_text())
-    key = "kse" if "kse" in marker_name else "brent"
+    marker_to_key = {"kse-history": "kse", "brent-history": "brent",
+                     "gold-history": "gold", "gold-local-history": "gold_local",
+                     "pkr-history": "pkr"}
+    key = marker_to_key.get(marker_name, marker_name)
     entries = data.get(key, [])
     lines = []
     for e in entries:
@@ -1372,27 +1372,26 @@ def main():
             render_psx_thematic_rows(psx_thematic_rows),
         )
 
-    # Update chart history (weekly KSE + Brent)
-    kse_close = kse_raw["value"] if kse_raw else None
-    brent_close = fetched_commodities.get("Brent Crude", {}).get("close") if fetched_commodities else None
-    if kse_close and brent_close:
-        update_chart_history(kse_close, brent_close, now)
-        kse_hist_block = build_chart_history_block("kse-history")
-        brent_hist_block = build_chart_history_block("brent-history")
-        if kse_hist_block:
-            content = replace_between_markers(
-                content,
-                "// -- AUTO:kse-history --",
-                "// -- /AUTO:kse-history --",
-                kse_hist_block,
-            )
-        if brent_hist_block:
-            content = replace_between_markers(
-                content,
-                "// -- AUTO:brent-history --",
-                "// -- /AUTO:brent-history --",
-                brent_hist_block,
-            )
+    # Update chart history (weekly KSE, Brent, Gold, Gold local, PKR)
+    gold_local_val = bullion["gold_24k"] if bullion else None
+    chart_closes = {
+        "kse":        kse_raw["value"] if kse_raw else None,
+        "brent":      fetched_commodities.get("Brent Crude", {}).get("close"),
+        "gold":       fetched_commodities.get("Gold", {}).get("close"),
+        "gold_local": gold_local_val,
+        "pkr":        pkr_rate,
+    }
+    if any(v for v in chart_closes.values()):
+        update_chart_history(chart_closes, now)
+        for marker in ("kse-history", "brent-history", "gold-history", "gold-local-history", "pkr-history"):
+            block = build_chart_history_block(marker)
+            if block:
+                content = replace_between_markers(
+                    content,
+                    f"// -- AUTO:{marker} --",
+                    f"// -- /AUTO:{marker} --",
+                    block,
+                )
 
     # Evening commentary generation (21:00 PKT run only)
     is_evening = now.hour >= 20
