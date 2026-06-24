@@ -1,6 +1,7 @@
 ---
 // src/pages/markets.astro
 import Base from '../layouts/Base.astro';
+import SideNav from '../components/SideNav.astro';
 import { marketsData as m } from '../data/markets.js';
 
 const title = "Pakistan Markets | The Pulse Paper";
@@ -519,6 +520,7 @@ function sparkPath(data: number[], w: number, h: number) {
 
 </div>
 
+<SideNav currentPage="/markets" />
 
 </Base>
 

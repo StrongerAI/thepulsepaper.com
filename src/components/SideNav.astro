@@ -1,0 +1,157 @@
+---
+import { editionsList } from '../data/editions.js';
+
+interface Props {
+  currentPage: string;
+}
+
+const { currentPage } = Astro.props;
+const recentEditions = editionsList.slice(0, 4);
+
+const pages = [
+  { href: '/markets', label: 'Markets' },
+  { href: '/signals', label: 'Signals' },
+  { href: '/specials', label: 'Specials' },
+  { href: '/glossary', label: 'Glossary' },
+];
+---
+
+<nav class="side-nav" id="side-nav" aria-label="Site navigation">
+  <div class="side-nav-inner">
+    <div class="side-nav-heading">More from The Pulse Paper</div>
+    <div class="side-nav-group">
+      <div class="side-nav-group-links">
+        {pages.filter(p => p.href !== currentPage).map(p => (
+          <a href={p.href} class="side-nav-page">{p.label}</a>
+        ))}
+      </div>
+    </div>
+    <span class="side-nav-divider"></span>
+    <div class="side-nav-group">
+      <div class="side-nav-group-links">
+        {recentEditions.map(e => (
+          <a href={`/editions/${e.slug}.html`} class="side-nav-link"><span class="sn-no">{e.no}</span> {e.title.length > 22 ? e.title.slice(0, 22) + '…' : e.title}</a>
+        ))}
+        <a href="/editions" class="side-nav-page" style="color:var(--accent);font-weight:600;">All editions &rarr;</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script is:inline>
+(function(){
+  var sn = document.getElementById('side-nav');
+  if (!sn) return;
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = h > 0 ? window.scrollY / h : 0;
+    if (pct < 0.25) { sn.style.opacity = '0'; sn.style.pointerEvents = 'none'; }
+    else if (pct < 0.5) { var o = (pct - 0.25) / 0.25; sn.style.opacity = o.toFixed(2); sn.style.pointerEvents = o > 0.3 ? 'auto' : 'none'; }
+    else { sn.style.opacity = '1'; sn.style.pointerEvents = 'auto'; }
+  }, {passive: true});
+})();
+</script>
+
+<style>
+  .side-nav {
+    position: fixed;
+    right: max(calc((100vw - var(--maxw) - 220px) / 2), 16px);
+    top: calc(50% + 100px);
+    width: 140px;
+    z-index: 80;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .side-nav-inner {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 12px 14px;
+    background: var(--card-bg);
+  }
+  .side-nav-heading {
+    font-family: var(--font-serif);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .side-nav-group { margin-bottom: 8px; }
+  .side-nav-link {
+    display: block;
+    padding: 2px 0;
+    font-family: var(--font-serif);
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    line-height: 1.35;
+    transition: color 0.15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .side-nav-link:hover { color: var(--accent); }
+  .side-nav-link .sn-no { font-weight: 600; color: var(--accent); }
+  .side-nav-page {
+    display: block;
+    padding: 2px 0;
+    font-family: var(--font-serif);
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    line-height: 1.35;
+    transition: color 0.15s;
+  }
+  .side-nav-page:hover { color: var(--accent); }
+  .side-nav-divider {
+    display: block;
+    height: 1px;
+    background: var(--border);
+    margin: 6px 0;
+  }
+  @media (max-width: 1200px) {
+    .side-nav {
+      position: static !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      transform: none;
+      width: 100%;
+      max-width: var(--maxw);
+      margin: 24px auto 0;
+      padding: 0 32px;
+    }
+    .side-nav-inner {
+      border-left: none;
+      border-top: 2px solid var(--border);
+      border-bottom: none;
+      border-right: none;
+      background: none;
+      padding: 12px 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      align-items: baseline;
+    }
+    .side-nav-heading { width: 100%; margin-bottom: 8px; }
+    .side-nav-group, .side-nav-group-links { display: contents; }
+    .side-nav-divider {
+      display: inline;
+      width: auto;
+      height: auto;
+      background: none;
+      margin: 0 6px;
+      color: var(--border);
+      font-size: 11px;
+    }
+    .side-nav-divider::before { content: "\00b7"; }
+    .side-nav-link, .side-nav-page {
+      padding: 0;
+      font-size: 12px;
+      white-space: nowrap;
+      margin-right: 10px;
+      margin-bottom: 4px;
+    }
+    .side-nav-link .sn-no { font-size: 11px; }
+  }
+</style>
