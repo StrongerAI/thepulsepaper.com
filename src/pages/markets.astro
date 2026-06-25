@@ -645,4 +645,9 @@ function sparkPath(data: number[], w: number, h: number) {
     .section-commentary p { font-size: 14px; }
     .mini-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   }
+
+  /* Push sidebar further right on markets page */
+  :global(.side-nav) {
+    right: max(calc((100vw - var(--maxw) - 320px) / 2), 16px) !important;
+  }
 </style>
