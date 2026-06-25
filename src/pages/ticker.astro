@@ -33,8 +33,8 @@ function formatTime(iso: string): string {
 
 <div class="wrap-narrow">
   <div class="ticker-hero">
-    <h1>Ticker</h1>
-    <p class="muted">Pakistan business and economic headlines, updated throughout the day.</p>
+    <h1>The Ticker</h1>
+    <p class="muted">The headlines shaping Pakistan's economic landscape.</p>
   </div>
 
   {feed.length === 0 && (
@@ -80,6 +80,21 @@ function formatTime(iso: string): string {
   .ticker-feed {
     display: flex;
     flex-direction: column;
+    padding-left: 24px;
+    margin-left: 5px;
+    position: relative;
+  }
+  .ticker-feed::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 0;
+    width: 0;
+    border-left: 1.5px dashed var(--border);
+    opacity: 0.6;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0));
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0));
   }
 
   .ticker-item {
@@ -87,14 +102,31 @@ function formatTime(iso: string): string {
     justify-content: space-between;
     align-items: baseline;
     gap: 16px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
     text-decoration: none;
     color: var(--ink);
     transition: color 0.15s;
+    position: relative;
   }
-  .ticker-item:first-child {
-    border-top: 1px solid var(--border);
+  .ticker-item::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 17px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--paper);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .ticker-item:first-child::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .ticker-item:hover::before {
+    border-color: var(--accent);
+    background: var(--accent);
   }
   .ticker-item:hover {
     color: var(--accent);
