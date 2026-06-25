@@ -13,17 +13,17 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "25 June 2026, 11:00 PM PKT",
+  lastUpdated: "25 June 2026, 11:15 PM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
     // -- AUTO:ticker --
     { name: "KSE-100", value: "179,571", changePct: "+1.06%", direction: "up", spark: [171725.29, 173962.81, 170600.2, 171021.77, 170190.64, 171175.5, 170478.94, 168953.7, 170330.56, 169427.44, 169703.6, 172399.9, 177039.82, 180392.97, 180511.02, 181398.21, 178922.75, 178471.86, 177692.92, 179571.26] },
-    { name: "Brent", value: "$75.02", changePct: "+1.74%", direction: "up", spark: [80.59, 81.6, 80.8, 79.48, 79.07, 79.4, 79.13, 79.01, 79.1, 79.56, 79.14, 79.31, 79.25, 78.96, 78.56, 77.87, 78.06, 77.47, 77.74, 77.41, 78.04, 78.27, 80.59, 78.25, 78.17, 78.16, 77.87, 77.87, 77.53, 77.54, 76.95, 76.84, 77.03, 77.41, 77.53, 77.9, 77.76, 77.2, 76.67, 76.81, 76.9, 76.83, 76.87, 77.24, 77.05, 76.88, 76.78, 76.54, 76.74, 76.48, 76.06, 76.33, 76.47, 76.33, 76.38, 75.77, 75.79, 75.79, 75.59, 74.66, 74.57, 73.37, 73.47, 74.04, 74.09, 73.96, 73.19, 73.33, 73.18, 73.11, 73.22, 73.34, 72.49, 72.62, 72.51, 72.71, 72.46, 72.63, 73.37, 72.71, 72.97, 72.94, 73.42, 73.18, 74.0, 74.27, 74.96, 75.03, 75.0] },
+    { name: "Brent", value: "$75.27", changePct: "+2.07%", direction: "up", spark: [80.59, 81.6, 80.8, 79.48, 79.07, 79.4, 79.13, 79.01, 79.1, 79.56, 79.14, 79.31, 79.25, 78.96, 78.56, 77.87, 78.06, 77.47, 77.74, 77.41, 78.04, 78.27, 80.59, 78.25, 78.17, 78.16, 77.87, 77.87, 77.53, 77.54, 76.95, 76.84, 77.03, 77.41, 77.53, 77.9, 77.76, 77.2, 76.67, 76.81, 76.9, 76.83, 76.87, 77.24, 77.05, 76.88, 76.78, 76.54, 76.74, 76.48, 76.06, 76.33, 76.47, 76.33, 76.38, 75.77, 75.79, 75.79, 75.59, 74.66, 74.57, 73.37, 73.47, 74.04, 74.09, 73.96, 73.19, 73.33, 73.18, 73.11, 73.22, 73.34, 72.49, 72.62, 72.51, 72.71, 72.46, 72.63, 73.37, 72.71, 72.97, 72.94, 73.42, 73.18, 74.0, 74.27, 74.96, 75.03, 75.24, 75.25] },
     { name: "Dubai Platts", value: "$79.52", changePct: "-22.9%", direction: "down", spark: [] },
-    { name: "Gold", value: "$4,047", changePct: "+1.42%", direction: "up", spark: [4172.8, 4157.0, 4218.1, 4208.1, 4205.7, 4189.6, 4199.4, 4211.3, 4215.4, 4208.5, 4215.7, 4226.2, 4222.7, 4225.3, 4211.4, 4218.5, 4216.7, 4201.0, 4208.5, 4201.4, 4209.1, 4209.4, 4172.9, 4207.8, 4205.5, 4210.7, 4179.3, 4164.9, 4162.2, 4135.6, 4138.9, 4132.4, 4116.0, 4122.6, 4140.1, 4137.7, 4141.1, 4131.0, 4154.1, 4147.5, 4156.7, 4151.9, 4145.9, 4135.6, 4129.6, 4129.0, 4121.2, 4116.6, 4114.7, 4106.5, 4078.3, 4079.9, 4080.6, 4093.1, 4103.9, 4091.5, 4093.3, 4081.8, 4072.3, 4063.2, 4004.0, 4054.9, 4025.0, 4019.5, 4023.4, 3989.8, 3998.1, 4004.9, 4016.4, 4012.0, 4026.6, 4007.3, 3992.2, 3998.7, 4012.4, 4011.8, 4001.6, 3992.7, 4003.5, 4004.9, 4003.4, 3999.5, 3995.3, 4028.2, 4017.5, 4027.6, 4057.5, 4044.0, 4047.5] },
+    { name: "Gold", value: "$4,043", changePct: "+1.33%", direction: "up", spark: [4172.8, 4157.0, 4218.1, 4208.1, 4205.7, 4189.6, 4199.4, 4211.3, 4215.4, 4208.5, 4215.7, 4226.2, 4222.7, 4225.3, 4211.4, 4218.5, 4216.7, 4201.0, 4208.5, 4201.4, 4209.1, 4209.4, 4172.9, 4207.8, 4205.5, 4210.7, 4179.3, 4164.9, 4162.2, 4135.6, 4138.9, 4132.4, 4116.0, 4122.6, 4140.1, 4137.7, 4141.1, 4131.0, 4154.1, 4147.5, 4156.7, 4151.9, 4145.9, 4135.6, 4129.6, 4129.0, 4121.2, 4116.6, 4114.7, 4106.5, 4078.3, 4079.9, 4080.6, 4093.1, 4103.9, 4091.5, 4093.3, 4081.8, 4072.3, 4063.2, 4004.0, 4054.9, 4025.0, 4019.5, 4023.4, 3989.8, 3998.1, 4004.9, 4016.4, 4012.0, 4026.6, 4007.3, 3992.2, 3998.7, 4012.4, 4011.8, 4001.6, 3992.7, 4003.5, 4004.9, 4003.4, 3999.5, 3995.3, 4028.2, 4017.5, 4027.6, 4057.5, 4044.0, 4050.2, 4043.8] },
     { name: "USD/PKR", value: "277.92", changePct: "Flat", direction: "flat", spark: [277.98, 278.0, 278.2, 278.08, 278.04, 278.0, 278.02, 278.02, 278.02, 277.98, 277.98, 277.98, 277.98, 278.0, 277.98, 277.7, 278.08, 278.08, 278.09, 277.89, 277.89, 277.89, 278.09, 277.93, 277.93, 277.93, 277.93, 277.93, 277.93, 277.93, 277.93, 277.9, 278.08, 278.05, 278.08, 278.02, 278.02, 278.02, 278.02, 278.02, 278.08, 277.93, 277.93, 277.93, 277.93, 277.93, 277.93, 277.93, 277.93, 277.93, 277.93, 278.08, 277.89, 278.04, 278.04, 277.87, 277.89, 277.89, 278.04, 277.92, 277.92, 277.92, 277.92, 277.7, 277.92, 277.92, 277.92, 277.92, 278.05, 277.78, 277.78, 277.7, 277.61, 277.61, 277.61, 277.61, 277.92, 277.92] },
-    { name: "S&P 500", value: "7,362", changePct: "+0.05%", direction: "up", spark: [7482.17, 7482.77, 7496.19, 7505.53, 7494.93, 7489.88, 7497.86, 7495.25, 7472.26, 7476.54, 7475.81, 7479.85, 7462.87, 7475.46, 7417.41, 7373.18, 7402.1, 7403.65, 7382.2, 7378.27, 7365.92, 7393.15, 7424.61, 7409.55, 7350.28, 7371.24, 7348.06, 7359.9, 7382.93, 7369.73, 7370.2, 7360.66, 7361.01] },
+    { name: "S&P 500", value: "7,360", changePct: "Flat", direction: "flat", spark: [7482.17, 7482.77, 7496.19, 7505.53, 7494.93, 7489.88, 7497.86, 7495.25, 7472.26, 7476.54, 7475.81, 7479.85, 7462.87, 7475.46, 7417.41, 7373.18, 7402.1, 7403.65, 7382.2, 7378.27, 7365.92, 7393.15, 7424.61, 7409.55, 7350.28, 7371.24, 7348.06, 7359.9, 7382.93, 7369.73, 7370.2, 7360.66, 7361.29] },
     // -- /AUTO:ticker --
   ],
 
@@ -83,7 +83,7 @@ export const marketsData = {
     { date: "5 Jun", value: 93.1 },
     { date: "12 Jun", value: 79.55 },
     { date: "19 Jun", value: 80.59 },
-    { date: "25 Jun", value: 75.02 },
+    { date: "25 Jun", value: 75.27 },
     // -- /AUTO:brent-history --
   ],
   goldHistory: [
@@ -113,7 +113,7 @@ export const marketsData = {
     { date: "8 Jun", value: 4215.0 },
     { date: "15 Jun", value: 4145.3 },
     { date: "22 Jun", value: 4015.1 },
-    { date: "25 Jun", value: 4047.1 },
+    { date: "25 Jun", value: 4043.2 },
     // -- /AUTO:gold-history --
   ],
   goldLocalHistory: [
@@ -211,14 +211,14 @@ export const marketsData = {
     rows: [
       // -- AUTO:wow-rows --
       { name: "KSE-100", prev: "178,923", current: "179,571", change: "+0.36%", direction: "up" },
-      { name: "Brent crude", prev: "$80.59", current: "$75.00", change: "-6.94%", direction: "down" },
-      { name: "WTI crude", prev: "$77.54", current: "$71.50", change: "-7.79%", direction: "down" },
+      { name: "Brent crude", prev: "$80.59", current: "$75.25", change: "-6.63%", direction: "down" },
+      { name: "WTI crude", prev: "$77.54", current: "$71.80", change: "-7.40%", direction: "down" },
       { name: "Dubai Platts", prev: "$103.15", current: "$79.52", change: "-22.9%", direction: "down" },
-      { name: "Gold", prev: "$4,145", current: "$4,048", change: "-2.36%", direction: "down" },
-      { name: "Silver", prev: "$66.25", current: "$58.17", change: "-12.20%", direction: "down" },
-      { name: "Natural Gas", prev: "$3.20", current: "$3.29", change: "+2.88%", direction: "up" },
+      { name: "Gold", prev: "$4,145", current: "$4,044", change: "-2.45%", direction: "down" },
+      { name: "Silver", prev: "$66.25", current: "$58.01", change: "-12.45%", direction: "down" },
+      { name: "Natural Gas", prev: "$3.20", current: "$3.32", change: "+3.69%", direction: "up" },
       { name: "USD / PKR", prev: "278.00", current: "277.92", change: "Flat", direction: "flat" },
-      { name: "EUR / USD", prev: "1.1480", current: "1.1378", change: "-0.89%", direction: "down" },
+      { name: "EUR / USD", prev: "1.1480", current: "1.1382", change: "-0.85%", direction: "down" },
       { name: "S&P 500", prev: "7,501", current: "7,361", change: "-1.86%", direction: "down" },
       { name: "Petrol (MS)", prev: "Rs 373.78", current: "Rs 299.50", change: "-Rs 74.28", direction: "down" },
       { name: "Gold 24K (tola)", prev: "Rs 434,500", current: "Rs 434,500", change: "Flat", direction: "flat" },
@@ -227,7 +227,7 @@ export const marketsData = {
     // -- /AUTO:wow-rows --
     ],
     // -- AUTO:commentary-wow --
-    commentary: "The biggest story in this week's macro tracker is the dramatic drop in domestic petrol prices, with MS falling from Rs 373.78 to Rs 299.50, a relief of Rs 74.28 per litre that will ripple through transport costs, food inflation, and industrial input prices almost immediately. This aligns with the sharp decline in international crude benchmarks, Brent falling 6.94% to $75.00 and WTI dropping 7.79% to $71.50 over the week. Pakistan's import bill for petroleum products should ease materially in the coming months, giving the State Bank additional room to consider further monetary easing. The SPI holding flat at 14.47% year-on-year is a number to watch closely, as the petrol pass-through has not yet been captured in that reading.",
+    commentary: "The headline story this week is the dramatic drop in Pakistan's petrol price, which fell by Rs 74.28 to Rs 299.50 per litre, a move that will directly ease household budgets and reduce input costs for transport-dependent industries. Brent crude slid 6.63% to $75.25 while WTI dropped 7.40% to $71.80, meaning Pakistan's import bill for petroleum products is structurally lighter heading into the next fortnightly pricing cycle. The USD/PKR rate held virtually flat at 277.92, so the relief is genuinely commodity-driven rather than exchange-rate-assisted. The SPI inflation reading remained unchanged at 14.47% year-on-year, but with fuel costs now sharply lower, the next SPI print is the key number to watch for signs of broader disinflation feeding through to consumers.",
     // -- /AUTO:commentary-wow --
   },
 
@@ -262,7 +262,7 @@ export const marketsData = {
     // -- /AUTO:psx-thematic --
     ],
     // -- AUTO:commentary-psx --
-    commentary: "The KSE-100 closed the week at 179,571, a modest but positive gain of 0.36% from last week's 178,923, with today's session alone contributing a solid 1.06% advance. Breadth was impressively broad: the KSE-30, KMI-30, and All Share Index all rose in lockstep, with the consumer sector index leading at a gain of 1.72% and banks adding 1.37%. Lower fuel prices and the prospect of continued monetary easing are giving equity investors good reason to stay constructive on domestic consumption and financial sector earnings. Watch whether the KSE-100 can build on this momentum and make a credible attempt at the 180,000 level in the sessions ahead.",
+    commentary: "The KSE-100 added 1,878 points on the day to close at 179,571, building on a more modest 0.36% weekly gain from 178,923, and breadth was impressively wide with the All Share index also rising 1.00%. The banking sector led the charge, with the BKTI index climbing 1.37%, reflecting market confidence that falling inflation and a continued monetary easing cycle will support net interest margins and loan growth. Consumer stocks were the standout performer among tracked sectors, with the ACI index up 1.72%, likely pricing in the direct benefit of lower fuel and energy costs on consumer spending power. Watch whether the KSE-100 can sustain momentum above the 180,000 psychological threshold, as a clean break there would signal strong institutional conviction in the current rally.",
     // -- /AUTO:commentary-psx --
   },
 
@@ -270,15 +270,15 @@ export const marketsData = {
   commodities: {
     rows: [
       // -- AUTO:commodities-rows --
-      { name: "Brent Crude", value: "$75.02", unit: "/bbl", open: "73.10", high: "75.29", low: "72.43" },
-      { name: "WTI Crude Oil", value: "$71.52", unit: "/bbl", open: "69.95", high: "71.84", low: "68.90" },
-      { name: "Natural Gas", value: "$3.2900", unit: "/MMBtu", open: "3.2630", high: "3.3530", low: "3.2180" },
-      { name: "Gold", value: "$4,047", unit: "/oz", open: "4,019", high: "4,060", low: "3,976" },
-      { name: "Silver", value: "$58.17", unit: "/oz", open: "57.60", high: "59.05", low: "56.40" },
+      { name: "Brent Crude", value: "$75.27", unit: "/bbl", open: "73.10", high: "75.51", low: "72.43" },
+      { name: "WTI Crude Oil", value: "$71.82", unit: "/bbl", open: "69.95", high: "72.09", low: "68.90" },
+      { name: "Natural Gas", value: "$3.3160", unit: "/MMBtu", open: "3.2630", high: "3.3530", low: "3.2180" },
+      { name: "Gold", value: "$4,043", unit: "/oz", open: "4,019", high: "4,060", low: "3,976" },
+      { name: "Silver", value: "$58.02", unit: "/oz", open: "57.60", high: "59.05", low: "56.40" },
     // -- /AUTO:commodities-rows --
     ],
     // -- AUTO:commentary-commodities --
-    commentary: "Crude oil saw a significant pullback this week, with Brent settling around $75.02 and WTI at $71.52, declines of roughly 7% and 8% respectively, a development that materially improves Pakistan's energy import economics. The Dubai Platts benchmark recorded an unusually sharp move, falling 22.9% from $103.15 to $79.52, which, if sustained, will directly compress the landed cost of the crude grades Pakistan typically processes. Gold pulled back 2.36% to $4,048 per ounce globally, though domestic 24K tola prices held flat at Rs 434,500, suggesting the rupee's stability absorbed the international move. Natural gas ticked up 2.88% to $3.29 per MMBtu, a modest rise worth monitoring given Pakistan's LNG import commitments.",
+    commentary: "Brent crude recovered intraday to $75.27 after trading as low as $72.43, but the weekly trend remains firmly bearish with a 6.63% decline, and the Dubai Platts benchmark posted a striking 22.9% drop to $79.52 from $103.15, which will have immediate implications for Pakistan's crude procurement costs given the country's reliance on Gulf-sourced oil. Gold pulled back 2.45% on the week to $4,044 per ounce, though local gold prices in tola terms held flat at Rs 434,500, suggesting the PKR's stability absorbed the international correction. Silver fell 12.45% globally to $58.01 per ounce while local silver tola prices also held at Rs 6,780, again reflecting the exchange rate buffer. Natural gas nudged up 3.69% to $3.32 per MMBtu, a modest rise but one that importers of LNG should monitor closely as winter procurement decisions approach.",
     // -- /AUTO:commentary-commodities --
     footnote: "Dubai Platts and certain Pakistan-relevant commodities (CPO, HDPE, PET, SMP) are sourced manually pending reliable free data feeds.",
   },
@@ -287,9 +287,9 @@ export const marketsData = {
   international: {
     rows: [
       // -- AUTO:international-rows --
-      { name: "Dow Jones", close: "52,011", open: "52,009", range: "51,916 – 52,656", region: "Americas" },
-      { name: "Nasdaq", close: "25,375", open: "25,725", range: "25,123 – 25,725", region: "Americas" },
-      { name: "S&P 500", close: "7,362", open: "7,405", range: "7,324 – 7,419", region: "Americas" },
+      { name: "Dow Jones", close: "51,976", open: "52,009", range: "51,892 – 52,656", region: "Americas" },
+      { name: "Nasdaq", close: "25,366", open: "25,725", range: "25,123 – 25,725", region: "Americas" },
+      { name: "S&P 500", close: "7,360", open: "7,405", range: "7,324 – 7,419", region: "Americas" },
       { name: "CAC 40", close: "8,432", open: "8,389", range: "8,374 – 8,452", region: "Europe" },
       { name: "DAX", close: "24,995", open: "24,810", range: "24,762 – 25,088", region: "Europe" },
       { name: "FTSE 100", close: "10,530", open: "10,462", range: "10,415 – 10,575", region: "Europe" },
@@ -299,14 +299,14 @@ export const marketsData = {
       { name: "Nikkei 225", close: "69,175", open: "69,615", range: "68,461 – 70,219", region: "Asia" },
       { name: "Sensex", close: "77,100", open: "77,391", range: "76,993 – 77,803", region: "Asia" },
       { name: "Shanghai Comp.", close: "4,111", open: "4,090", range: "4,075 – 4,117", region: "Asia" },
-      { name: "EUR / USD", close: "1.1378", open: "1.1361", range: "1.1337 – 1.1391", region: "Currencies" },
-      { name: "GBP / USD", close: "1.3201", open: "1.3168", range: "1.3152 – 1.3219", region: "Currencies" },
+      { name: "EUR / USD", close: "1.1382", open: "1.1361", range: "1.1337 – 1.1391", region: "Currencies" },
+      { name: "GBP / USD", close: "1.3204", open: "1.3168", range: "1.3152 – 1.3219", region: "Currencies" },
       { name: "USD / CNY", close: "6.7863", open: "6.8101", range: "6.7845 – 6.8122", region: "Currencies" },
       { name: "USD / PKR", close: "277.92", open: "", range: "SBP interbank", region: "Currencies", muted: true },
     // -- /AUTO:international-rows --
     ],
     // -- AUTO:commentary-international --
-    commentary: "Global equity markets were mixed this week, with the S&P 500 slipping 1.86% to 7,361 while Asian bourses like the Nikkei at 69,175 and the Hang Seng at 23,412 reflect a varied regional picture. The euro weakened 0.89% against the dollar to 1.1378, while the dollar-yuan rate sits at 6.7863, currency moves that affect the relative competitiveness of Pakistan's export competitors in textiles and manufacturing. For Pakistan, the most consequential international development remains the dollar holding steady, with USD/PKR essentially flat at 277.92, preserving import cost predictability for business planning purposes. The GBP/USD at 1.3201 is worth tracking given Pakistan's significant remittance flows from the United Kingdom, as sterling strength supports the rupee value of those inflows.",
+    commentary: "Global equities were under moderate pressure this week, with the S&P 500 slipping 1.86% to 7,361 and the Dow Jones closing at 51,976, reflecting investor caution around valuations and macro uncertainty in developed markets. European indices showed more resilience, with the DAX at 24,995 and the FTSE 100 at 10,530, while Asian markets posted mixed signals with the Hang Seng at 23,412 and the Nikkei at 69,175. The EUR/USD rate eased 0.85% to 1.1382 while GBP/USD held firmer at 1.3204, and the USD/CNY rate at 6.7863 is worth watching for Pakistani exporters competing with Chinese manufacturers in key textile markets. A broadly softer dollar environment and weaker global commodity prices together create a constructive backdrop for Pakistan's current account, and the State Bank's next policy meeting will be the moment to see if this external relief translates into another rate cut signal.",
     // -- /AUTO:commentary-international --
   },
 
