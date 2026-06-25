@@ -55,7 +55,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          python scripts/pull_ticker.py
+          python scripts/pull_ticker.py || echo "Ticker pull failed but continuing"
 
       - name: Commit and push if data changed
         id: commit
