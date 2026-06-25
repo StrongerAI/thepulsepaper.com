@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import SideNav from '../components/SideNav.astro';
+
+const title = "Ticker | The Pulse Paper";
+const description = "Live Pakistan business and economic headlines, updated throughout the day. Automated from Dawn, Business Recorder, Express Tribune, and The News.";
+
+let feed: any[] = [];
+try {
+  const raw = await import('../data/ticker-feed.json');
+  feed = raw.default || [];
+} catch {
+  feed = [];
+}
+
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d ago`;
+}
+
+function formatTime(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ', ' +
+    d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+---
+<Base title={title} description={description}>
+
+<div class="wrap-narrow">
+  <div class="ticker-hero">
+    <h1>Ticker</h1>
+    <p class="muted">Pakistan business and economic headlines, updated throughout the day.</p>
+  </div>
+
+  {feed.length === 0 && (
+    <p class="muted" style="text-align:center;padding:48px 0;">No headlines yet. The feed updates automatically.</p>
+  )}
+
+  <div class="ticker-feed">
+    {feed.map((item: any) => (
+      <a href={item.link} target="_blank" rel="noopener noreferrer" class="ticker-item">
+        <span class="ticker-headline">{item.title}</span>
+        <span class="ticker-meta">
+          <span class="ticker-source">{item.source}</span>
+          <span class="ticker-time">{formatTime(item.published)}</span>
+        </span>
+      </a>
+    ))}
+  </div>
+
+  <p class="ticker-footnote muted">
+    Sourced from Dawn, Business Recorder, Express Tribune, The News, BBC, Bloomberg, and WSJ. Filtered for Pakistan macro and international relevance. Not editorial — headlines as published.
+  </p>
+</div>
+
+<SideNav currentPage="/ticker" />
+
+</Base>
+
+<style>
+  .ticker-hero {
+    padding: 48px 0 24px;
+  }
+  .ticker-hero h1 {
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .ticker-hero .muted {
+    font-style: italic;
+    font-family: var(--font-serif);
+    font-size: 15px;
+  }
+
+  .ticker-feed {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ticker-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--ink);
+    transition: color 0.15s;
+  }
+  .ticker-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+  .ticker-item:hover {
+    color: var(--accent);
+  }
+
+  .ticker-headline {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .ticker-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    gap: 2px;
+  }
+
+  .ticker-source {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+  }
+
+  .ticker-time {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .ticker-footnote {
+    font-size: 11px;
+    margin-top: 24px;
+    padding-bottom: 32px;
+  }
+
+  :global(.side-nav) {
+    right: max(calc((100vw - var(--maxw) - 320px) / 2), 16px) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  @media (max-width: 768px) {
+    .ticker-hero { padding-top: 32px; }
+    .ticker-hero h1 { font-size: 26px; }
+    .ticker-item {
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ticker-meta {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 8px;
+    }
+  }
+</style>
