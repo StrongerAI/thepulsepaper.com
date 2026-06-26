@@ -1,0 +1,254 @@
+---
+import Base from '../layouts/Base.astro';
+import SideNav from '../components/SideNav.astro';
+import ShareBar from '../components/ShareBar.astro';
+import { pulseIndex as idx, inputCostIndex as ici } from '../data/pulse-index.js';
+
+const title = "The Index | The Pulse Paper";
+const description = "Proprietary composite indices for Pakistan's economy. The External-Stress Index and the Input-Cost Index — the citable numbers nobody else publishes.";
+
+const latest = idx.readings[idx.readings.length - 1];
+const prev = idx.readings.length > 1 ? idx.readings[idx.readings.length - 2] : null;
+const direction = prev ? (latest.composite > prev.composite ? 'up' : latest.composite < prev.composite ? 'down' : 'flat') : 'flat';
+const change = prev ? latest.composite - prev.composite : 0;
+
+function bandLabel(score: number): string {
+  if (score < 25) return 'Low stress';
+  if (score < 50) return 'Moderate';
+  if (score < 75) return 'Elevated';
+  return 'Critical';
+}
+
+function bandColor(score: number): string {
+  if (score < 25) return 'var(--green)';
+  if (score < 50) return 'var(--amber)';
+  if (score < 75) return 'var(--red)';
+  return '#8b0000';
+}
+
+// Stress index chart
+const chartW = 720, chartH = 240, padL = 52, padR = 12, padT = 30, padB = 40;
+const plotL = padL, plotR = chartW - padR, plotT = padT, plotB = chartH - padB;
+const yMin = 0, yMax = 100;
+const sy = (v: number) => plotT + (1 - (v - yMin) / (yMax - yMin)) * (plotB - plotT);
+const sx = (i: number) => plotL + (i / Math.max(idx.readings.length - 1, 1)) * (plotR - plotL);
+const pts = idx.readings.map((r: any, i: number) => ({ x: sx(i), y: sy(r.composite), date: r.date, value: r.composite }));
+const polyline = pts.map((p: any) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+const bands = [
+  { y: sy(75), label: '75 Critical', color: '#8b0000' },
+  { y: sy(50), label: '50 Elevated', color: 'var(--red)' },
+  { y: sy(25), label: '25 Moderate', color: 'var(--amber)' },
+];
+const fc = idx.forecast;
+const fcX = sx(idx.readings.length);
+const fcYBase = sy(fc.base);
+const fcYHi = sy(fc.range[0]);
+const fcYLo = sy(fc.range[1]);
+
+// Input-cost index chart
+const iciMin = 80, iciMax = 180;
+const iciSy = (v: number) => padT + (1 - (v - iciMin) / (iciMax - iciMin)) * (plotB - plotT);
+const iciSx = (i: number) => plotL + (i / Math.max(ici.readings.length - 1, 1)) * (plotR - plotL);
+const iciPts = ici.readings.map((r: any, i: number) => ({ x: iciSx(i), y: iciSy(r.composite), date: r.date, value: r.composite }));
+const iciPolyline = iciPts.map((p: any) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+const iciLatest = ici.readings[ici.readings.length - 1];
+const iciPrev = ici.readings.length > 1 ? ici.readings[ici.readings.length - 2] : null;
+const iciChange = iciPrev ? (iciLatest.composite - iciPrev.composite).toFixed(1) : '0';
+const iciDir = iciPrev ? (iciLatest.composite > iciPrev.composite ? 'up' : 'down') : 'flat';
+---
+<Base title={title} description={description}>
+<div class="wrap-narrow">
+
+  <div class="idx-hero">
+    <h1>The Index</h1>
+    <p class="muted idx-sub">Proprietary indicators for Pakistan's economy. Updated monthly.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- EXTERNAL-STRESS INDEX                 -->
+  <!-- ══════════════════════════════════════ -->
+
+  <h2 class="idx-title" id="external-stress">External-Stress Index <a href="#external-stress" class="anchor-link" title="Copy link to this section">&#x1f517;</a></h2>
+
+  <div class="reading-card">
+    <div class="reading-top">
+      <div class="reading-label">Current reading</div>
+      <div class="reading-date">{latest.date}{latest.preliminary ? ' (preliminary)' : ''}</div>
+    </div>
+    <div class="reading-main">
+      <span class="reading-value" style={`color:${bandColor(latest.composite)}`}>{latest.composite}</span>
+      <span class="reading-band" style={`color:${bandColor(latest.composite)}`}>{bandLabel(latest.composite)}</span>
+    </div>
+    {prev && <div class="reading-change"><span class={direction === 'up' ? 'delta-up' : direction === 'down' ? 'delta-down' : 'delta-flat'}>{change > 0 ? '+' : ''}{change} from {prev.date}</span></div>}
+    <p class="reading-note">{latest.note}</p>
+  </div>
+
+  <svg viewBox={`0 0 ${chartW} ${chartH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:20px 0;" role="img" aria-label="External-Stress Index history">
+    <rect x={plotL} y={sy(100)} width={plotR-plotL} height={sy(75)-sy(100)} fill="#8b0000" fill-opacity="0.04"/>
+    <rect x={plotL} y={sy(75)} width={plotR-plotL} height={sy(50)-sy(75)} fill="var(--red)" fill-opacity="0.04"/>
+    <rect x={plotL} y={sy(50)} width={plotR-plotL} height={sy(25)-sy(50)} fill="var(--amber)" fill-opacity="0.04"/>
+    <rect x={plotL} y={sy(25)} width={plotR-plotL} height={sy(0)-sy(25)} fill="var(--green)" fill-opacity="0.04"/>
+    {bands.map(b => (<line x1={plotL} y1={b.y.toFixed(1)} x2={plotR} y2={b.y.toFixed(1)} stroke={b.color} stroke-width="0.5" stroke-dasharray="4,4" opacity="0.5"/>))}
+    <line x1={plotL} y1={plotB} x2={plotR} y2={plotB} stroke="var(--ink)" stroke-width="1"/>
+    {[0,25,50,75,100].map(v => (<text x={plotL-8} y={(sy(v)+4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="10" fill="var(--muted)" opacity="0.6">{v}</text>))}
+    <polyline points={polyline} fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    {pts.map((p:any) => (<g class="chart-dot"><circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="14" fill="transparent" class="chart-hit"/><circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="4" fill="var(--card-bg)" stroke={bandColor(p.value)} stroke-width="2.5" class="chart-point"/><g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y-16).toFixed(1)})`}><rect x="-48" y="-14" width="96" height="20" rx="2" fill="var(--ink)" opacity="0.92"/><text x="0" y="1" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="600" fill="#fff">{p.date}: {p.value}</text></g></g>))}
+    <rect x={(fcX-8).toFixed(1)} y={fcYHi.toFixed(1)} width="16" height={(fcYLo-fcYHi).toFixed(1)} fill="var(--accent)" fill-opacity="0.15" rx="2"/>
+    <line x1={(fcX-6).toFixed(1)} y1={fcYBase.toFixed(1)} x2={(fcX+6).toFixed(1)} y2={fcYBase.toFixed(1)} stroke="var(--accent)" stroke-width="2"/>
+    <text x={fcX.toFixed(1)} y={(fcYHi-6).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="var(--accent)" font-weight="600">{fc.date}</text>
+    {pts.map((p:any) => (<text x={p.x.toFixed(1)} y={(plotB+18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="var(--muted)">{p.date}</text>))}
+  </svg>
+
+  <div class="forecast-card">
+    <div class="forecast-header">
+      <span class="forecast-date">{fc.date} projection</span>
+      <span class="forecast-range">{fc.range[0]}–{fc.range[1]}</span>
+      <span class="forecast-base">base: {fc.base}</span>
+    </div>
+    <p>{fc.rationale}</p>
+  </div>
+
+  <table class="mini-table" style="margin:20px 0;">
+    <thead><tr><th>Component</th><th style="text-align:right;">Weight</th><th style="text-align:right;">Raw</th><th style="text-align:right;">Score</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:600;">Import Cover</td><td style="text-align:right;">30%</td><td style="text-align:right;">{latest.raw.importCover.toFixed(1)} months</td><td style={`text-align:right;font-weight:600;color:${bandColor(latest.scores.importCover)}`}>{latest.scores.importCover}</td></tr>
+      <tr><td style="font-weight:600;">REER</td><td style="text-align:right;">20%</td><td style="text-align:right;">{latest.raw.reer}</td><td style={`text-align:right;font-weight:600;color:${bandColor(latest.scores.reer)}`}>{latest.scores.reer}</td></tr>
+      <tr><td style="font-weight:600;">Current Account</td><td style="text-align:right;">25%</td><td style="text-align:right;">{latest.raw.ca > 0 ? '+' : ''}{latest.raw.ca}M</td><td style={`text-align:right;font-weight:600;color:${bandColor(latest.scores.currentAccount)}`}>{latest.scores.currentAccount}</td></tr>
+      <tr><td style="font-weight:600;">CDS 5Y Spread</td><td style="text-align:right;">25%</td><td style="text-align:right;">{latest.raw.cds} bps</td><td style={`text-align:right;font-weight:600;color:${bandColor(latest.scores.sovereignSpread)}`}>{latest.scores.sovereignSpread}</td></tr>
+    </tbody>
+  </table>
+
+  <details class="idx-details">
+    <summary>Methodology and sources</summary>
+    <div class="idx-details-body">
+      <p>Four indicators, each scored 0–100 using fixed thresholds, weighted and summed. <strong>Import Cover</strong> (30%): SBP reserves ÷ monthly imports; 1 month = 100, 4+ months = 0. <strong>REER</strong> (20%): bowl-shaped scoring around equilibrium at 97.5; stress rises at both extremes. <strong>Current Account</strong> (25%): monthly CA annualized as % of GDP; surplus = 0, deficit beyond -4% = 100. <strong>Sovereign Spread</strong> (25%): 5Y CDS; 300bps = 0, 1000bps+ = 100.</p>
+      <p><strong style="color:var(--green);">0–25 Low.</strong> <strong style="color:var(--amber);">25–50 Moderate.</strong> <strong style="color:var(--red);">50–75 Elevated.</strong> <strong style="color:#8b0000;">75–100 Critical.</strong></p>
+      <p class="muted" style="font-size:12px;">Sources: SBP (reserves, REER, BoP), PBS (imports), worldgovernmentbonds.com (CDS). Does not capture fiscal stress, monetary conditions, or political risk. Not investment advice.</p>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- INPUT-COST INDEX                      -->
+  <!-- ══════════════════════════════════════ -->
+
+  <h2 class="idx-title" id="input-cost" style="margin-top:48px;">Input-Cost Index <a href="#input-cost" class="anchor-link" title="Copy link to this section">&#x1f517;</a></h2>
+
+  <div class="reading-card" style="border-left-color:var(--amber);">
+    <div class="reading-top">
+      <div class="reading-label">Current reading</div>
+      <div class="reading-date">{iciLatest.date}</div>
+    </div>
+    <div class="reading-main">
+      <span class="reading-value" style={`color:${iciLatest.composite > 120 ? 'var(--red)' : iciLatest.composite > 105 ? 'var(--amber)' : 'var(--green)'}`}>{iciLatest.composite}</span>
+      <span class="reading-band" style="color:var(--muted);">Base: Jan 2026 = 100</span>
+    </div>
+    {iciPrev && <div class="reading-change"><span class={iciDir === 'up' ? 'delta-up' : 'delta-down'}>{Number(iciChange) > 0 ? '+' : ''}{iciChange} from {iciPrev.date}</span></div>}
+    <p class="reading-note">{iciLatest.note}</p>
+  </div>
+
+  <svg viewBox={`0 0 ${chartW} ${chartH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:20px 0;" role="img" aria-label="Input-Cost Index history">
+    <line x1={plotL} y1={iciSy(100).toFixed(1)} x2={plotR} y2={iciSy(100).toFixed(1)} stroke="var(--green)" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+    <line x1={plotL} y1={iciSy(120).toFixed(1)} x2={plotR} y2={iciSy(120).toFixed(1)} stroke="var(--amber)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.4"/>
+    <line x1={plotL} y1={iciSy(150).toFixed(1)} x2={plotR} y2={iciSy(150).toFixed(1)} stroke="var(--red)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.4"/>
+    <line x1={plotL} y1={plotB} x2={plotR} y2={plotB} stroke="var(--ink)" stroke-width="1"/>
+    {[80,100,120,140,160].map(v => (<text x={plotL-8} y={(iciSy(v)+4).toFixed(1)} text-anchor="end" font-family="'IBM Plex Mono',monospace" font-size="10" fill="var(--muted)" opacity="0.6">{v}</text>))}
+    <polygon points={`${iciPts[0].x.toFixed(1)},${iciSy(100).toFixed(1)} ${iciPolyline} ${iciPts[iciPts.length-1].x.toFixed(1)},${iciSy(100).toFixed(1)}`} fill="var(--amber)" fill-opacity="0.08"/>
+    <polyline points={iciPolyline} fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    {iciPts.map((p:any) => (<g class="chart-dot"><circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="14" fill="transparent" class="chart-hit"/><circle cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="4" fill="var(--card-bg)" stroke={p.value > 120 ? 'var(--red)' : p.value > 105 ? 'var(--amber)' : 'var(--green)'} stroke-width="2.5" class="chart-point"/><g class="chart-tip" transform={`translate(${p.x.toFixed(1)},${(p.y-16).toFixed(1)})`}><rect x="-48" y="-14" width="96" height="20" rx="2" fill="var(--ink)" opacity="0.92"/><text x="0" y="1" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="600" fill="#fff">{p.date}: {p.value}</text></g></g>))}
+    {iciPts.map((p:any) => (<text x={p.x.toFixed(1)} y={(plotB+18).toFixed(1)} text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="var(--muted)">{p.date}</text>))}
+  </svg>
+
+  <table class="mini-table" style="margin:20px 0;">
+    <thead><tr><th>Component</th><th style="text-align:right;">Weight</th><th style="text-align:right;">Jan 2026</th><th style="text-align:right;">Current</th><th style="text-align:right;">Change</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:600;">Petrol (MS)</td><td style="text-align:right;">40%</td><td style="text-align:right;">Rs {ici.readings[0].raw.petrol}</td><td style="text-align:right;">Rs {iciLatest.raw.petrol}</td><td style={`text-align:right;color:${iciLatest.raw.petrol > ici.readings[0].raw.petrol ? 'var(--red)' : 'var(--green)'}`}>{((iciLatest.raw.petrol / ici.readings[0].raw.petrol - 1) * 100).toFixed(0)}%</td></tr>
+      <tr><td style="font-weight:600;">Brent × PKR</td><td style="text-align:right;">30%</td><td style="text-align:right;">Rs {ici.readings[0].raw.brentPkr.toLocaleString()}/bbl</td><td style="text-align:right;">Rs {iciLatest.raw.brentPkr.toLocaleString()}/bbl</td><td style={`text-align:right;color:${iciLatest.raw.brentPkr > ici.readings[0].raw.brentPkr ? 'var(--red)' : 'var(--green)'}`}>{((iciLatest.raw.brentPkr / ici.readings[0].raw.brentPkr - 1) * 100).toFixed(0)}%</td></tr>
+      <tr><td style="font-weight:600;">USD/PKR</td><td style="text-align:right;">30%</td><td style="text-align:right;">{ici.readings[0].raw.pkr}</td><td style="text-align:right;">{iciLatest.raw.pkr}</td><td style="text-align:right;color:var(--green);">{((iciLatest.raw.pkr / ici.readings[0].raw.pkr - 1) * 100).toFixed(1)}%</td></tr>
+    </tbody>
+  </table>
+
+  <details class="idx-details">
+    <summary>Methodology and sources</summary>
+    <div class="idx-details-body">
+      <p>Each component: (current ÷ January 2026 base) × weight. Sum = index. <strong>Motor fuel</strong> (40%): OGRA petrol price. <strong>Imported energy</strong> (30%): Brent × USD/PKR, the rupee cost of oil imports. <strong>Currency</strong> (30%): USD/PKR interbank rate.</p>
+      <p><strong>100:</strong> Baseline. <strong>100–110:</strong> Normal. <strong>110–130:</strong> Margins compressing. <strong>130–150:</strong> Severe. <strong>150+:</strong> Crisis-level.</p>
+      <p class="muted" style="font-size:12px;">Sources: OGRA (petrol), yfinance (Brent), SBP (PKR). Does not capture electricity tariffs, labor, or non-oil raw materials. Not investment advice.</p>
+    </div>
+  </details>
+
+</div>
+
+<script is:inline>
+document.querySelectorAll('.anchor-link').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    var url = window.location.origin + window.location.pathname + a.getAttribute('href');
+    navigator.clipboard.writeText(url).then(function() {
+      a.textContent = '✓';
+      setTimeout(function() { a.textContent = '🔗'; }, 1500);
+    });
+  });
+});
+</script>
+<ShareBar />
+<SideNav currentPage="/pulse-index" />
+
+</Base>
+
+<style>
+  .idx-hero { padding: 48px 0 8px; }
+  .idx-hero h1 { font-size: 32px; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .idx-sub { font-style: italic; font-family: var(--font-serif); font-size: 15px; }
+
+  .idx-title { font-size: 22px; margin: 32px 0 16px; padding-top: 24px; border-top: 1px solid var(--border); }
+
+  .reading-card { background: var(--card-bg); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 22px 26px; margin-bottom: 4px; }
+  .reading-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .reading-label { font-family: var(--font-sans); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .reading-date { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+  .reading-main { display: flex; align-items: baseline; gap: 16px; }
+  .reading-value { font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 700; line-height: 1; }
+  .reading-band { font-family: var(--font-sans); font-size: 14px; font-weight: 600; }
+  .reading-change { margin-top: 8px; font-family: 'Crimson Pro', serif; font-size: 15px; font-style: italic; }
+  .reading-note { margin-top: 14px; font-size: 14px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--border); padding-top: 12px; }
+
+  .forecast-card { background: var(--card-bg); border: 1px solid var(--border); padding: 18px 22px; margin-bottom: 4px; }
+  .forecast-header { display: flex; gap: 16px; align-items: baseline; margin-bottom: 10px; }
+  .forecast-date { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.5px; text-transform: uppercase; }
+  .forecast-range { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+  .forecast-base { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+  .forecast-card p { font-size: 14px; line-height: 1.55; color: var(--muted); margin: 0; }
+
+  .chart-tip { opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
+  .chart-hit { cursor: pointer; }
+  .chart-dot:hover .chart-tip { opacity: 1; }
+
+  .idx-details { border: 1px solid var(--border); margin: 16px 0 0; }
+  .idx-details summary { font-family: var(--font-serif); font-size: 15px; font-weight: 600; padding: 14px 20px; cursor: pointer; color: var(--ink); transition: color 0.15s; list-style: none; }
+  .idx-details summary::-webkit-details-marker { display: none; }
+  .idx-details summary::before { content: '+ '; font-family: var(--font-mono); color: var(--accent); font-weight: 400; }
+  .idx-details[open] summary::before { content: '— '; }
+  .idx-details[open] summary { border-bottom: 1px solid var(--border); }
+  .idx-details summary:hover { color: var(--accent); }
+  .idx-details-body { padding: 16px 20px; }
+  .idx-details-body p { font-size: 14px; line-height: 1.55; margin-bottom: 8px; }
+
+  .anchor-link {
+    font-size: 14px;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    margin-left: 6px;
+  }
+  .idx-title:hover .anchor-link { opacity: 0.5; }
+  .anchor-link:hover { opacity: 1 !important; }
+
+  :global(.side-nav) { right: max(calc((100vw - var(--maxw) - 320px) / 2), 16px) !important; }
+
+  @media (max-width: 768px) {
+    .idx-hero { padding-top: 32px; }
+    .reading-value { font-size: 42px; }
+    .reading-main { gap: 12px; }
+    .forecast-header { flex-wrap: wrap; gap: 8px; }
+  }
+</style>
