@@ -4,7 +4,7 @@ import SideNav from '../components/SideNav.astro';
 import ShareBar from '../components/ShareBar.astro';
 import { pulseIndex as idx, inputCostIndex as ici, inputCostTracker as ict } from '../data/pulse-index.js';
 
-const title = "The Index | The Pulse Paper";
+const title = "The Barometer | The Pulse Paper";
 const description = "Proprietary composite indices for Pakistan's economy. The External-Stress Index and the Energy & Import Cost Index — the citable numbers nobody else publishes.";
 
 const latest = idx.readings[idx.readings.length - 1];
@@ -60,7 +60,7 @@ const iciDir = iciPrev ? (iciLatest.composite > iciPrev.composite ? 'up' : 'down
 <div class="wrap-narrow">
 
   <div class="idx-hero">
-    <h1>The Index</h1>
+    <h1>The Barometer</h1>
     <p class="muted idx-sub">Proprietary indicators for Pakistan's economy. Updated monthly.</p>
   </div>
 
