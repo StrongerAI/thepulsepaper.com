@@ -2,10 +2,10 @@
 import Base from '../layouts/Base.astro';
 import SideNav from '../components/SideNav.astro';
 import ShareBar from '../components/ShareBar.astro';
-import { pulseIndex as idx, inputCostIndex as ici } from '../data/pulse-index.js';
+import { pulseIndex as idx, inputCostIndex as ici, inputCostTracker as ict } from '../data/pulse-index.js';
 
 const title = "The Index | The Pulse Paper";
-const description = "Proprietary composite indices for Pakistan's economy. The External-Stress Index and the Input-Cost Index — the citable numbers nobody else publishes.";
+const description = "Proprietary composite indices for Pakistan's economy. The External-Stress Index and the Energy & Import Cost Index — the citable numbers nobody else publishes.";
 
 const latest = idx.readings[idx.readings.length - 1];
 const prev = idx.readings.length > 1 ? idx.readings[idx.readings.length - 2] : null;
@@ -131,7 +131,7 @@ const iciDir = iciPrev ? (iciLatest.composite > iciPrev.composite ? 'up' : 'down
   <!-- INPUT-COST INDEX                      -->
   <!-- ══════════════════════════════════════ -->
 
-  <h2 class="idx-title" id="input-cost" style="margin-top:48px;">Input-Cost Index <a href="#input-cost" class="anchor-link" title="Copy link to this section">&#x1f517;</a></h2>
+  <h2 class="idx-title" id="input-cost" style="margin-top:48px;">Energy & Import Cost Index <a href="#input-cost" class="anchor-link" title="Copy link to this section">&#x1f517;</a></h2>
 
   <div class="reading-card" style="border-left-color:var(--amber);">
     <div class="reading-top">
@@ -146,7 +146,7 @@ const iciDir = iciPrev ? (iciLatest.composite > iciPrev.composite ? 'up' : 'down
     <p class="reading-note">{iciLatest.note}</p>
   </div>
 
-  <svg viewBox={`0 0 ${chartW} ${chartH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:20px 0;" role="img" aria-label="Input-Cost Index history">
+  <svg viewBox={`0 0 ${chartW} ${chartH}`} xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:20px 0;" role="img" aria-label="Energy & Import Cost Index history">
     <line x1={plotL} y1={iciSy(100).toFixed(1)} x2={plotR} y2={iciSy(100).toFixed(1)} stroke="var(--green)" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
     <line x1={plotL} y1={iciSy(120).toFixed(1)} x2={plotR} y2={iciSy(120).toFixed(1)} stroke="var(--amber)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.4"/>
     <line x1={plotL} y1={iciSy(150).toFixed(1)} x2={plotR} y2={iciSy(150).toFixed(1)} stroke="var(--red)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.4"/>
@@ -173,6 +173,60 @@ const iciDir = iciPrev ? (iciLatest.composite > iciPrev.composite ? 'up' : 'down
       <p>Each component: (current ÷ January 2026 base) × weight. Sum = index. <strong>Motor fuel</strong> (40%): OGRA petrol price. <strong>Imported energy</strong> (30%): Brent × USD/PKR, the rupee cost of oil imports. <strong>Currency</strong> (30%): USD/PKR interbank rate.</p>
       <p><strong>100:</strong> Baseline. <strong>100–110:</strong> Normal. <strong>110–130:</strong> Margins compressing. <strong>130–150:</strong> Severe. <strong>150+:</strong> Crisis-level.</p>
       <p class="muted" style="font-size:12px;">Sources: OGRA (petrol), yfinance (Brent), SBP (PKR). Does not capture electricity tariffs, labor, or non-oil raw materials. Not investment advice.</p>
+    </div>
+  </details>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- INPUT COST TRACKER                    -->
+  <!-- ══════════════════════════════════════ -->
+
+  <h2 class="idx-title" id="input-cost-tracker" style="margin-top:48px;">Input Cost Tracker <a href="#input-cost-tracker" class="anchor-link" title="Copy link to this section">&#x1f517;</a></h2>
+
+  {ict.readings.map((reading: any) => {
+    const comps = ict.components;
+    const vals = reading.components;
+    const maxVal = Math.max(...Object.values(vals) as number[]);
+    return (
+      <div>
+        <div class="reading-card" style="border-left-color:var(--gold);">
+          <div class="reading-top">
+            <div class="reading-label">Current reading</div>
+            <div class="reading-date">{reading.date}</div>
+          </div>
+          <div class="reading-main">
+            <span class="reading-value" style={`color:${reading.composite > 120 ? 'var(--red)' : reading.composite > 105 ? 'var(--amber)' : 'var(--green)'}`}>~{reading.composite}</span>
+            <span class="reading-band" style={`color:${reading.composite > 120 ? 'var(--red)' : 'var(--amber)'}`}>{reading.direction}</span>
+          </div>
+          <p class="reading-note">{reading.note}</p>
+        </div>
+
+        <div class="ict-bars">
+          {comps.map((c: any) => {
+            const val = vals[c.name];
+            const barW = ((val - 100) / (maxVal - 100)) * 100;
+            return (
+              <div class="ict-bar-row">
+                <span class="ict-bar-label">{c.name}</span>
+                <div class="ict-bar-track">
+                  <div class="ict-bar-fill" style={`width:${Math.max(barW, 2)}%;background:${c.color};`}></div>
+                </div>
+                <span class="ict-bar-value" style={`color:${val > 125 ? 'var(--red)' : val > 110 ? 'var(--amber)' : 'var(--green)'}`}>{val}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        <p class="muted" style="font-size:11px;margin-top:8px;">Weights: diesel (25%), HDPE (15%), PET (10%), CPO (15%), sugar (10%), tea (10%), SMP (10%), wheat (5%). Base: Jan 2026 = 100.</p>
+      </div>
+    );
+  })}
+
+  <details class="idx-details">
+    <summary>Methodology and sources</summary>
+    <div class="idx-details-body">
+      <p>Weighted basket of 8 core input costs that Pakistani manufacturers and FMCG businesses pay. Each commodity is indexed to its January 2026 price = 100. The composite is the weighted average. Unlike the Energy & Import Cost Index, this tracks physical commodities directly: diesel, petrochemical resins, edible oils, sugar, tea, dairy, and wheat.</p>
+      <p>Updated with each edition from OGRA notifications, international commodity exchanges, PBS wholesale prices, and CIF import data. This is the number that tells a CFO whether their input bill is rising or falling.</p>
+      <p class="muted" style="font-size:12px;">Sources: OGRA (diesel), HDPE/PET international benchmarks, MPOC (CPO), CBOT (wheat), trade data (tea CIF, SMP). Not investment advice.</p>
     </div>
   </details>
 
@@ -232,6 +286,13 @@ document.querySelectorAll('.anchor-link').forEach(function(a) {
   .idx-details summary:hover { color: var(--accent); }
   .idx-details-body { padding: 16px 20px; }
   .idx-details-body p { font-size: 14px; line-height: 1.55; margin-bottom: 8px; }
+
+  .ict-bars { margin: 20px 0; }
+  .ict-bar-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+  .ict-bar-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--muted); width: 110px; text-align: right; flex-shrink: 0; }
+  .ict-bar-track { flex: 1; height: 18px; background: var(--border); border-radius: 1px; opacity: 0.3; position: relative; }
+  .ict-bar-fill { height: 100%; border-radius: 1px; position: absolute; left: 0; top: 0; }
+  .ict-bar-value { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; width: 50px; flex-shrink: 0; }
 
   .anchor-link {
     font-size: 14px;

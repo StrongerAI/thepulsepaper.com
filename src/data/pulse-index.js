@@ -79,7 +79,7 @@ export const pulseIndex = {
 // Updated monthly with each edition.
 
 export const inputCostIndex = {
-  name: "Pulse Input-Cost Index",
+  name: "Pulse Energy & Import Cost Index",
   version: "1.0",
   base: "January 2026 = 100",
 
@@ -125,6 +125,51 @@ export const inputCostIndex = {
       raw: { petrol: 299.78, brent: 73.05, pkr: 277.92, brentPkr: 20302 },
       composite: 109.0,
       note: "Rapid normalization. Petrol below Rs 300 for first time in conflict cycle. Brent collapses to $73 on ceasefire. Near baseline but OGRA has room for further cuts.",
+    },
+  ],
+};
+
+
+// ─────────────────────────────────────────────────────
+// PULSE INPUT COST TRACKER
+// ─────────────────────────────────────────────────────
+// The original 8-component basket from the editions.
+// Tracks what Pakistani manufacturers and FMCG businesses actually pay.
+// Updated manually with each edition. Base: January 2026 = 100.
+// Sources: OGRA (diesel), international commodity exchanges, PBS, trade data.
+
+export const inputCostTracker = {
+  name: "Pakistan Input Cost Tracker",
+  version: "1.0",
+  base: "January 2026 = 100",
+
+  components: [
+    { name: "HSD Diesel", weight: 25, color: "var(--green)" },
+    { name: "HDPE Resin", weight: 15, color: "var(--amber)" },
+    { name: "PET Resin", weight: 10, color: "var(--amber)" },
+    { name: "Crude Palm Oil", weight: 15, color: "var(--amber)" },
+    { name: "Sugar", weight: 10, color: "var(--amber)" },
+    { name: "Tea (CIF)", weight: 10, color: "var(--amber)" },
+    { name: "SMP / Dairy", weight: 10, color: "var(--amber)" },
+    { name: "Wheat Flour", weight: 5, color: "var(--accent)" },
+  ],
+
+  readings: [
+    {
+      date: "Jun 2026",
+      composite: 122,
+      direction: "Easing",
+      components: {
+        "HSD Diesel": 118.2,
+        "HDPE Resin": 130.5,
+        "PET Resin": 122.0,
+        "Crude Palm Oil": 128.5,
+        "Sugar": 124.3,
+        "Tea (CIF)": 121.0,
+        "SMP / Dairy": 118.6,
+        "Wheat Flour": 115.4,
+      },
+      note: "Off the April peak as crude crashes and resins follow. Diesel easing fastest on OGRA cuts. CPO and HDPE still elevated on global supply tightness.",
     },
   ],
 };
