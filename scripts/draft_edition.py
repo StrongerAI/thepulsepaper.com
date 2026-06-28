@@ -566,8 +566,31 @@ def main():
         "Call B (s06-10 + action items): "
     ))
 
+    # Standardized methodology block (replaces AI-generated version)
+    std_methodology = (
+        '<div class="methodology">\n'
+        '  <strong>Methodology</strong>\n'
+        '  The Pulse synthesises official releases, market data, commodity benchmarks, '
+        'regulatory updates, trade reporting, and independent editorial analysis. '
+        'Material numerical claims are cross-checked against primary sources before '
+        'publication. Forward-looking statements represent scenarios for planning '
+        'purposes, not predictions. Indicators marked (est.) carry forward the prior '
+        "edition's value pending fresh data.\n"
+        '</div>'
+    )
+
     # Stitch
-    draft_html = shell_head + part_a + "\n" + part_b + "\n" + shell_foot
+    combined_content = part_a + "\n" + part_b
+
+    # Replace any AI-generated methodology with standardized version
+    combined_content = re.sub(
+        r'<div class="methodology">.*?</div>',
+        std_methodology,
+        combined_content,
+        flags=re.DOTALL,
+    )
+
+    draft_html = shell_head + combined_content + "\n" + shell_foot
 
     date_slug   = data.get("date_slug", datetime.now(PKT).strftime("%Y-%m-%d"))
     output_path = DRAFTS_DIR / f"draft-{date_slug}.html"

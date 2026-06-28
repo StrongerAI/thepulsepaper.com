@@ -18,5 +18,25 @@
     "brent_dubai": 81.29,
     "cpo": null,
     "wheat": null
+  },
+  "2026-06-27": {
+    "sbp_reserves": 17.22,
+    "policy_rate": 11.5,
+    "tbill_3m": 12.3,
+    "tbill_6m": 12.45,
+    "tbill_12m": 12.59,
+    "pib_2y": null,
+    "pib_3y": null,
+    "fbr_ytd": 11232.0,
+    "fbr_target": 13979.0,
+    "spi_yoy": 15.28,
+    "cpi_yoy": 11.7,
+    "petrol": 299.5,
+    "diesel": 311.47,
+    "tarbela": 2.5,
+    "mangla": 1.5,
+    "brent_dubai": 79.52,
+    "cpo": 4600.0,
+    "wheat": 222.0
   }
 }

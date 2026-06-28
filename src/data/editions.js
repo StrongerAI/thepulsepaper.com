@@ -8,6 +8,16 @@
 
 export const editionsList = [
 {
+   no: '07',
+   slug: '2026-06-29',
+   date: '28 June 2026',
+   dateShort: '28 Jun',
+   pubDate: '2026-06-29',
+   access: 'free',
+   title: 'The windfall changed owners.',
+   summary: "Oil crashed to pre-war levels with Brent at $71.99, but the government held petrol and diesel flat, converting the crude relief into fiscal space rather than pump-price savings. The FY27 Finance Act is law, the AGP flagged 92% of supplementary grants as unapproved, and the Input Cost Tracker shows diesel and CPO driving costs above baseline while HDPE and sugar have eased below January levels.",
+  },
+{
    no: '06',
    slug: '2026-06-22',
    date: '21 June 2026',

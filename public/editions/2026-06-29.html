@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FGP81EE698"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FGP81EE698');</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The windfall changed owners. | The Pulse Paper</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,700;0,800;1,400;1,700&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Libre+Baskerville:wght@400;700&family=Newsreader:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #1a1a1a;
+  --paper: #ffffff;
+  --muted: #7a6a5a;
+  --border: #d8ccc0;
+  --card-bg: #fffaf4;
+  --accent: #c0392b;
+  --amber: #b06000;
+  --red: #c0392b;
+  --green: #1a6632;
+  --tag-red: #fdecea;
+  --tag-amber: #fff8e1;
+  --tag-green: #e8f5e9;
+  --highlight: #fdf5e8;
+}
+
+html { overflow-x: hidden; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* MASTHEAD */
+.masthead {
+  background: #1a1a1a;
+  color: #FFF1E5;
+  position: relative;
+  overflow: hidden;
+}
+.masthead::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.10) 1.2px, transparent 1.2px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.masthead-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 36px 32px 28px;
+  position: relative;
+  z-index: 1;
+}
+.edition-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.masthead h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1.0;
+  margin-bottom: 10px;
+  color: #FFF1E5;
+}
+.masthead h1 span { color: var(--accent); }
+.masthead-subtitle {
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(255,241,229,0.6);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.masthead-meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: rgba(255,241,229,0.5);
+  border-top: 1px solid rgba(255,241,229,0.12);
+  padding-top: 14px;
+}
+
+/* TICKER */
+.ticker {
+  background: #c0392b;
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.ticker-inner {
+  display: inline-block;
+  animation: ticker-scroll 45s linear infinite;
+  padding: 10px 0;
+}
+.ticker-inner span { padding: 0 28px; }
+.ticker-inner span::before { content: "| "; opacity: 0.3; }
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* CONTAINER */
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* EXEC SUMMARY */
+.exec-summary {
+  background: #fdfdfb;
+  border: 1px solid #d98b7e;
+  padding: 26px 32px 28px;
+  margin: 28px 0;
+}
+.exec-summary h2 {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.exec-summary p {
+  margin-bottom: 1.1em;
+  font-size: 15.5px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.exec-summary p:last-child { margin-bottom: 0; }
+
+/* HEATMAP */
+.heatmap { margin: 0 0 8px; }
+.heatmap-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 20px 24px;
+}
+.heatmap-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  gap: 0;
+  font-size: 12px;
+}
+.hm-header {
+  background: #1a1a1a;
+  color: rgba(255,241,229,0.6);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 7px 10px;
+  font-weight: 400;
+}
+.hm-label {
+  background: var(--card-bg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 8px 10px;
+  color: var(--ink);
+  font-weight: 400;
+}
+.hm-cell {
+  padding: 8px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+.hm-red    { background: #fdecea; color: #b71c1c; }
+.hm-amber  { background: #fff8e1; color: #8b5000; }
+.hm-green  { background: #e8f5e9; color: #1b5e20; }
+.hm-neutral { background: var(--card-bg); color: var(--muted); }
+.heatmap-legend {
+  display: flex;
+  gap: 20px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+}
+.leg-red    { color: #b71c1c; }
+.leg-amber  { color: #8b5000; }
+.leg-green  { color: #1b5e20; }
+.leg-neutral { color: var(--muted); }
+.leg-red::before    { content: "■ "; }
+.leg-amber::before  { content: "■ "; }
+.leg-green::before  { content: "■ "; }
+.leg-neutral::before { content: "■ "; }
+
+/* TOC, Edition 04 bordered grid style */
+.toc {
+  max-width: 820px;
+  margin: 20px auto 0;
+  padding: 18px 32px;
+}
+.toc-inner {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  overflow: hidden;
+}
+.toc-label {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.toc-items {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  flex: 1;
+}
+.toc-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 11px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+.toc-item:nth-child(n+6) { border-bottom: none; }
+.toc-item:hover { background: var(--paper); }
+.toc-item .toc-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  color: var(--accent);
+  opacity: 0.5;
+  font-weight: 400;
+}
+.toc-item .toc-text { color: var(--muted); }
+.toc-item:hover .toc-text { color: var(--ink); }
+
+
+/* SECTIONS */
+.section {
+  padding: 32px 0 28px;
+  border-bottom: 1px solid var(--border);
+}
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ink);
+}
+.section-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.sub-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 24px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+.section p { margin-bottom: 13px; }
+
+/* DATA GRID & CARDS */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 16px 0;
+}
+.data-card {
+  background: #FFFAF4;
+  padding: 16px 18px 15px;
+  border: 1px solid #d3c6b6;
+  border-left: 4px solid #ccc0b0;
+  display: flex;
+  flex-direction: column;
+}
+.data-card.red    { border-left-color: var(--red); }
+.data-card.amber  { border-left-color: var(--amber); }
+.data-card.green  { border-left-color: var(--green); }
+.data-card.neutral { border-left-color: #b8a896; }
+.data-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8a7866;
+  margin-bottom: 10px;
+}
+.data-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: #1a1a1a;
+  margin-bottom: 11px;
+}
+.data-value.text {
+  font-size: 17px;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+.data-card-rule {
+  height: 1px;
+  background: #e0d4c8;
+  margin-bottom: 10px;
+}
+.data-delta {
+  font-family: 'Crimson Pro', serif;
+  font-size: 14.5px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.35;
+  margin-top: auto;
+}
+.delta-up   { color: var(--red); font-weight: 500; }
+.delta-down { color: var(--green); font-weight: 500; }
+.delta-flat { color: #8a7866; font-style: normal; }
+
+/* CALLOUT */
+.callout-red {
+  background: #fdf5f4;
+  border: 1px solid #e8c8c4;
+  border-left: 4px solid var(--accent);
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.callout-red strong {
+  font-family: 'Newsreader', serif;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 7px;
+  color: var(--accent);
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* ACTION LIST */
+.action-list { list-style: none; margin: 16px 0; }
+.action-item-urgent,
+.action-item-watch,
+.action-item-monitor {
+  padding: 16px 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid #ccc0b0;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.action-item-urgent  { border-left-color: var(--red); }
+.action-item-watch   { border-left-color: var(--amber); }
+.action-item-monitor { border-left-color: #888; }
+.action-priority {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 3px 8px;
+  white-space: nowrap;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.action-item-urgent  .action-priority { color: var(--red); background: rgba(192,57,43,0.07); }
+.action-item-watch   .action-priority { color: var(--amber); background: rgba(176,96,0,0.07); }
+.action-item-monitor .action-priority { color: #666; background: rgba(0,0,0,0.04); }
+.action-content { flex: 1; }
+.action-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+.action-body {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* FOOTER */
+.footer {
+  background: var(--ink);
+  color: rgba(255,241,229,0.4);
+  padding: 28px 32px;
+  margin-top: 32px;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  line-height: 1.8;
+}
+
+/* METHODOLOGY */
+.methodology {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 14px 20px;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 24px 0 0;
+}
+.methodology strong {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 600px) {
+  .masthead h1 { font-size: 28px; }
+  .masthead-inner { padding: 24px 20px; }
+  .masthead-subtitle { font-size: 15px; }
+  .masthead-meta { flex-direction: column; gap: 6px; }
+  .container { padding: 0 20px; }
+  .data-grid { grid-template-columns: repeat(2, 1fr); }
+  .heatmap-grid { grid-template-columns: 1.4fr 0.8fr 0.8fr 1fr; font-size: 10px; }
+  .hm-label { font-size: 10px; padding: 6px 6px; }
+  .hm-cell { font-size: 9px; padding: 6px 4px; }
+  .section-title { font-size: 20px; }
+  .exec-summary { margin: 20px 16px; padding: 20px; }
+  .scenario-grid { grid-template-columns: 1fr; }
+  .toc { padding: 14px 20px; }
+  .toc-inner { flex-direction: column; }
+  .toc-label { justify-content: center; padding: 8px 16px; }
+  .toc-items { grid-template-columns: repeat(3, 1fr); }
+  .toc-item { padding: 8px 6px; font-size: 10px; }
+  .chart-stats { gap: 16px; flex-wrap: wrap; }
+  .mini-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+  /* ── CHART STYLES ── */
+  .chart-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 12px 0 4px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+  .chart-stat { text-align: center; }
+  .chart-stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .chart-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .scenario-box {
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+  }
+  .scenario-box.bear { border-top: 3px solid var(--green); }
+  .scenario-box.bull { border-top: 3px solid var(--red); }
+  .scenario-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .scenario-box.bear .scenario-label { color: var(--green); }
+  .scenario-box.bull .scenario-label { color: var(--red); }
+  .scenario-box p { font-size: 13px; line-height: 1.6; margin: 0; }
+  .chart-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    margin-bottom: 16px;
+  }
+
+  /* ── MINI TABLE ── */
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13px;
+    font-family: 'Crimson Pro', serif;
+  }
+  .mini-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--ink);
+    font-weight: 500;
+  }
+  .mini-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .mini-table tr:last-child td { border-bottom: none; }
+  .mini-table .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  /* ── RISK TAGS ── */
+  .risk-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .risk-high { background: var(--tag-red); color: var(--red); }
+  .risk-medium { background: var(--tag-amber); color: var(--amber); }
+  .risk-low { background: var(--tag-green); color: var(--green); }
+  /* ── CALLOUT (amber) ── */
+  .callout {
+    background: var(--highlight);
+    border: 1px solid #e8dcc0;
+    border-left: 4px solid var(--amber);
+    padding: 16px 20px;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .callout strong {
+    font-family: 'Newsreader', serif;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 7px;
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  /* ── DOT TRAIL SCROLL NAV ── */
+  .dot-trail {
+    position: fixed;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .dot-trail.visible { opacity: 1; }
+  .dot-trail a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .dot-trail-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+  .dot-trail a.active .dot-trail-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .dot-trail-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0;
+    font-weight: 500;
+    color: var(--muted);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.25s ease;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+  }
+  .dot-trail a:hover .dot-trail-label, .dot-trail a.active .dot-trail-label {
+    font-size: 10px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .dot-trail a.active .dot-trail-label { color: var(--accent); }
+  .dot-trail-line {
+    width: 1px;
+    height: 6px;
+    background: var(--border);
+    opacity: 0.4;
+  }
+  @media (max-width: 900px) {
+    .dot-trail { left: 8px; }
+    .dot-trail-label { display: none; }
+  }
+  @media (max-width: 640px) {
+    .dot-trail-dot { width: 6px; height: 6px; }
+    .dot-trail a.active .dot-trail-dot { width: 8px; height: 8px; }
+    .dot-trail-line { height: 4px; }
+    .dot-trail a { padding: 4px 0; }
+  }
+
+  /* ── COST INDEX ── */
+  .cost-index-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 22px 24px;
+    margin: 16px 0;
+  }
+  .cost-index-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .cost-index-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .cost-index-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .cost-index-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+  .cost-index-bar-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    width: 110px;
+    flex-shrink: 0;
+    text-align: right;
+    color: var(--muted);
+    font-size: 10px;
+  }
+  .cost-index-bar-track {
+    flex: 1;
+    height: 16px;
+    background: rgba(122,106,90,0.08);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cost-index-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .cost-index-bar-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    width: 50px;
+    flex-shrink: 0;
+  }
+/* SIDEBAR NAV */
+.side-nav {
+  position: fixed;
+  right: max(calc((100vw - 820px) / 2 - 220px), 16px);
+  top: calc(50% + 150px);
+  width: 140px;
+  z-index: 80;
+  opacity: 0;
+  pointer-events: none;
+}
+.side-nav-inner {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  background: var(--paper);
+}
+.side-nav-heading {
+  font-family: 'Crimson Pro', serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.side-nav-group {
+  margin-bottom: 8px;
+}
+.side-nav-label {
+  display: none;
+}
+.side-nav-link {
+  display: block;
+  padding: 2px 0;
+  font-family: 'Crimson Pro', serif;
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.35;
+  transition: color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.side-nav-link:hover { color: var(--accent); }
+.side-nav-link .sn-no {
+  font-weight: 600;
+  color: var(--accent);
+}
+.side-nav-link .sn-date { display: none; }
+.side-nav-link.sn-current {
+  color: var(--border);
+  pointer-events: none;
+}
+.side-nav-page {
+  display: block;
+  padding: 2px 0;
+  font-family: 'Crimson Pro', serif;
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.35;
+  transition: color 0.15s;
+}
+.side-nav-page:hover { color: var(--accent); }
+.side-nav-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 0;
+}
+@media (max-width: 1200px) {
+  .side-nav {
+    position: static !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none;
+    width: 100%;
+    max-width: 820px;
+    margin: 24px auto 0;
+    padding: 0 32px;
+  }
+  .side-nav-inner {
+    border-left: none;
+    border-top: 2px solid var(--border);
+    border-bottom: none;
+    border-right: none;
+    background: none;
+    padding: 12px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: baseline;
+  }
+  .side-nav-heading {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .side-nav-group, .side-nav-group-links { display: contents; }
+  .side-nav-label { display: none; }
+  .side-nav-divider {
+    display: inline;
+    width: auto;
+    height: auto;
+    background: none;
+    margin: 0 6px;
+    color: var(--border);
+    font-size: 11px;
+  }
+  .side-nav-divider::before { content: "·"; }
+  .side-nav-link, .side-nav-page {
+    padding: 0;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-right: 10px;
+    margin-bottom: 4px;
+  }
+  .side-nav-link .sn-no { font-size: 11px; }
+}
+
+.sf-bar{position:fixed;right:0;top:50%;transform:translateY(-50%) translateX(100%);z-index:90;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .28s ease,transform .28s ease}
+.sf-bar.sf-show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
+.sf-btn{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--card-bg);border:1px solid var(--border);border-right:none;color:var(--muted);text-decoration:none;cursor:pointer;transition:background .15s,color .15s,border-color .15s;box-shadow:-2px 2px 8px rgba(0,0,0,.07)}
+.sf-btn+.sf-btn{border-top:none}
+.sf-btn:first-child{border-radius:4px 0 0 0}
+.sf-btn:last-child{border-radius:0 0 0 4px}
+.sf-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sf-btn svg{flex-shrink:0;pointer-events:none}
+@media(max-width:640px){.sf-bar{top:auto;bottom:20px;right:0;transform:translateX(100%);flex-direction:row}.sf-bar.sf-show{transform:translateX(0)}.sf-btn{border:1px solid var(--border);border-right:none}.sf-btn+.sf-btn{border-left:none}.sf-btn:first-child{border-radius:4px 0 0 4px}.sf-btn:last-child{border-radius:0 4px 4px 0}}
+
+/* GLOSSARY TOOLTIPS */
+.term{border-bottom:1.5px dotted var(--muted);cursor:help;transition:border-color .15s}
+.term:hover{border-bottom-color:var(--accent)}
+.g-tip{position:fixed;z-index:300;max-width:340px;background:var(--card-bg);border:1px solid var(--border);border-left:3px solid var(--accent);padding:14px 16px;box-shadow:0 4px 16px rgba(0,0,0,.12);opacity:0;pointer-events:none;transition:opacity .18s ease}
+.g-tip.g-show{opacity:1;pointer-events:auto}
+.g-tip-label{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.g-tip-def{font-family:'Crimson Pro',serif;font-size:13.5px;line-height:1.55;color:var(--ink)}
+.g-tip-close{position:absolute;top:6px;right:8px;background:none;border:none;font-size:14px;color:var(--muted);cursor:pointer;line-height:1}
+@media(max-width:600px){.g-tip{max-width:calc(100vw - 40px);left:20px!important;right:20px!important}}
+
+</style>
+<meta name="description" content="Oil fell back to pre-war levels (Brent $71.99, WTI $69.23) but the government held petrol at Rs 299.50 and diesel at Rs 311.47 till further orders, effectively retaining the windfall as fiscal space rather than passing it to households. The FY27 budget became law (Rs 18.8tr outlay) the same week the Auditor General reported 92% of FY25 supplementary grants, Rs 3,177bn, were spent without parliamentary approval. Central-government debt growth slowed to a 15-year low even as the spending process stayed outside parliament. Edition 07 verdict: the windfall changed owners. | The Pulse Paper weekly economic intelligence for Pakistan." />
+<link rel="canonical" href="https://thepulsepaper.com/editions/2026-06-29.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="The Pulse Paper" />
+<meta property="og:title" content="The windfall changed owners. | The Pulse Paper" />
+<meta property="og:description" content="Oil fell to pre-war levels but the government held the pump price till further orders, effectively retaining the windfall as fiscal space. The FY27 budget became law the same week an audit found 92% of FY25 supplementary grants, Rs 3,177bn, were spent without parliamentary approval. Edition 07: the windfall changed owners." />
+<meta property="og:url" content="https://thepulsepaper.com/editions/2026-06-29.html" />
+<meta property="og:image" content="https://thepulsepaper.com/og/editions/2026-06-29.png" />
+<meta property="article:published_time" content="2026-06-28T00:00:00.000Z" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The windfall changed owners. | The Pulse Paper" />
+<meta name="twitter:description" content="Oil fell to pre-war levels but the government held the pump price till further orders, effectively retaining the windfall as fiscal space. The FY27 budget became law the same week an audit found 92% of FY25 supplementary grants, Rs 3,177bn, bypassed parliament. Edition 07: the windfall changed owners." />
+<meta name="twitter:image" content="https://thepulsepaper.com/og/editions/2026-06-29.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org", "@type": "NewsArticle", "headline": "The windfall changed owners.", "description": "Oil fell to pre-war levels but the government held the pump price till further orders, effectively retaining the windfall as fiscal space. The FY27 budget became law the same week an audit found 92% of FY25 supplementary grants, Rs 3,177bn, were spent without parliamentary approval. Edition 07: the windfall changed owners.", "datePublished": "2026-06-28T00:00:00.000Z", "url": "https://thepulsepaper.com/editions/2026-06-29.html", "image": "https://thepulsepaper.com/og/editions/2026-06-29.png", "author": { "@type": "Organization", "name": "The Pulse Paper" }, "publisher": { "@type": "Organization", "name": "The Pulse Paper", "url": "https://thepulsepaper.com" }, "isPartOf": { "@type": "Periodical", "name": "The Pulse Paper" }
+}
+</script>
+</head>
+<body>
+
+<!-- DOT TRAIL SCROLL NAV -->
+<nav class="dot-trail" id="dotTrail">
+  <a href="#s01"><span class="dot-trail-dot"></span><span class="dot-trail-label">PKR &amp; Macro</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s02"><span class="dot-trail-dot"></span><span class="dot-trail-label">Oil &amp; Energy</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s03"><span class="dot-trail-dot"></span><span class="dot-trail-label">Fiscal Watch</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s04"><span class="dot-trail-dot"></span><span class="dot-trail-label">Commodities</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s05"><span class="dot-trail-dot"></span><span class="dot-trail-label">Logistics</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s06"><span class="dot-trail-dot"></span><span class="dot-trail-label">Regulatory</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s07"><span class="dot-trail-dot"></span><span class="dot-trail-label">Weather &amp; Agri</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s08"><span class="dot-trail-dot"></span><span class="dot-trail-label">Operational Risk</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s09"><span class="dot-trail-dot"></span><span class="dot-trail-label">Global Signals</span></a>
+  <div class="dot-trail-line"></div>
+  <a href="#s10"><span class="dot-trail-dot"></span><span class="dot-trail-label">Action Items</span></a>
+</nav>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="edition-tag">Weekly Economic Intelligence for Decision-Makers</div>
+    <h1><a href="https://thepulsepaper.com" style="color:inherit;text-decoration:none;"><span>The Pulse</span></a></h1>
+    <p class="masthead-subtitle">The Week Ahead: What decision-makers need to know before Monday</p>
+    <div class="masthead-meta">
+      <span>Edition 07 &middot; Vol. 1</span>
+      <span>Week of 29 June &ndash; 5 July 2026</span>
+      <span>Published: 28 June 2026</span>
+    </div>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Brent $71.99 &darr; ~11% on the week</span>
+    <span>WTI $69.23 &darr; back to pre-war levels</span>
+    <span>Dubai Platts $79.21 import ref.</span>
+    <span>Petrol Rs 299.50 HELD &middot; not passed through</span>
+    <span>Diesel Rs 311.47 HELD &middot; till further orders</span>
+    <span>KSE-100 179,571 &middot; budget rally vs global risk-off</span>
+    <span>USD/PKR 278.40 interbank</span>
+    <span>SBP policy rate 11.50% held</span>
+    <span>FY27 budget signed 26 Jun &middot; Rs 18.8tr outlay</span>
+    <span>Audit: Rs 3,177bn FY25 supplementary spent without NA approval</span>
+    <span>Central govt debt growth 5% FYTD &middot; 15-yr low</span>
+    <span>Gold ~$4,080/oz &middot; 4th weekly loss on hawkish Fed</span>
+    <span>Cargo vessel hit near Oman &middot; US strikes Iran &middot; ceasefire strained</span>
+    <span>Brent $71.99 &darr; ~11% on the week</span>
+    <span>WTI $69.23 &darr; back to pre-war levels</span>
+    <span>Dubai Platts $79.21 import ref.</span>
+    <span>Petrol Rs 299.50 HELD &middot; not passed through</span>
+    <span>Diesel Rs 311.47 HELD &middot; till further orders</span>
+    <span>KSE-100 179,571 &middot; budget rally vs global risk-off</span>
+    <span>USD/PKR 278.40 interbank</span>
+    <span>SBP policy rate 11.50% held</span>
+    <span>FY27 budget signed 26 Jun &middot; Rs 18.8tr outlay</span>
+    <span>Audit: Rs 3,177bn FY25 supplementary spent without NA approval</span>
+    <span>Central govt debt growth 5% FYTD &middot; 15-yr low</span>
+    <span>Gold ~$4,080/oz &middot; 4th weekly loss on hawkish Fed</span>
+    <span>Cargo vessel hit near Oman &middot; US strikes Iran &middot; ceasefire strained</span>
+  </div>
+</div>
+
+<!-- THE 60-SECOND READ -->
+<div class="container">
+  <div style="background: #fdfdfb; border: 1px solid #d98b7e; padding: 20px 26px 16px; margin-top: 24px; margin-bottom: 10px;">
+    <div style="font-family:'EB Garamond',serif; font-style:italic; font-size:22px; line-height:1.2; color:var(--accent); margin-bottom:1px;">The 60-Second Read</div>
+    <div style="font-family:'Newsreader',serif; font-style:italic; font-size:14px; color:var(--muted); margin-bottom:13px;">The week in plain terms</div>
+    <p style="font-family:'Crimson Pro',serif; font-size:16px; line-height:1.55; color:var(--ink); margin:0 0 9px;"><strong style="font-family:'Newsreader',serif; font-weight:600; font-size:14.5px; color:var(--accent);">What moved.&nbsp;</strong>Oil fell back to pre-war prices, but the government held petrol at Rs 299.50 and diesel at Rs 311.47, effectively retaining the saving. The relief that reached households in June now flows to the budget instead.</p>
+    <p style="font-family:'Crimson Pro',serif; font-size:16px; line-height:1.55; color:var(--ink); margin:0 0 9px;"><strong style="font-family:'Newsreader',serif; font-weight:600; font-size:14.5px; color:var(--accent);">What&rsquo;s developing.&nbsp;</strong>The FY27 budget takes effect 1 July, and an audit showing 92% of last year&rsquo;s extra spending, Rs 3,177bn, bypassed parliament points to harder revenue collection ahead. The rupee&rsquo;s pressure is shifting from oil to a strong dollar and a hawkish Fed.</p>
+    <p style="font-family:'Crimson Pro',serif; font-size:16px; line-height:1.55; color:var(--ink); margin:0;"><strong style="font-family:'Newsreader',serif; font-weight:600; font-size:14.5px; color:var(--accent);">What to do.&nbsp;</strong>Before July 1, rebuild fuel-cost forecasts around the held pump price and finalise FY27 cost lines against the signed Finance Act. Do not budget a further fuel cut.</p>
+  </div>
+</div>
+
+<!-- THE TAKE -->
+<div class="container">
+  <div class="exec-summary">
+    <h2>The Take, Edition 07: The windfall changed owners.</h2>
+    <p>The fuel relief stopped at the pump. Crude fell roughly another 11% on the week, Brent to $71.99 and WTI to $69.23, back to pre-war levels as tankers resumed transit through Hormuz and Saudi loadings restarted. But the June 26 notification held petrol at Rs 299.50 and diesel at Rs 311.47 till further orders, the first time in the wartime cycle the domestic price did not follow crude down. The windfall did not disappear. It changed owners, from the household ledger that received Edition 06's cut to the federal exchequer that is now keeping the next one.</p>
+    <p>The FY27 budget became law the same week. The president assented to a Rs 18.8 trillion outlay on June 26, and the official debt narrative hardened alongside it: central-government debt growth at a 15-year low of 5%, debt-to-GDP down to roughly 68%, Rs 4.7 trillion retired, and an external rating-desk upgrade to overweight on the oil outlook. On the stock of debt, that direction is real. But on the same days, the Auditor General reported that 92% of FY25's supplementary grants, Rs 3,177 billion, were spent without parliamentary approval, and the National Assembly approved roughly Rs 1.07 trillion in supplementary spending for FY25 and FY26 through the budget process.</p>
+    <p>Read together, the message is that sustainability of the debt stock and discipline of the spending process are different things, and only the first improved this fortnight. The retained fuel windfall helps protect the petroleum-levy line in the new budget; the audit is the record of how loosely the money that line funds gets spent. Take the macro improvement at face value where it is real, the lower import bill, the firmer external position, the retired debt. Do not extend that confidence to the budgeting process the audit just described. And keep the security risk live: a cargo vessel was hit near Oman and the United States struck Iran again even as oil fell, a reminder that the ceasefire is a 60-day framework, not a settlement.</p>
+  </div>
+</div>
+
+<!-- TOC -->
+<nav class="toc">
+  <div class="toc-inner">
+    <div class="toc-label">Sections</div>
+    <div class="toc-items">
+      <a href="#s01" class="toc-item"><span class="toc-num">01</span><span class="toc-text">PKR &amp; Macro</span></a>
+      <a href="#s02" class="toc-item"><span class="toc-num">02</span><span class="toc-text">Oil &amp; Energy</span></a>
+      <a href="#s03" class="toc-item"><span class="toc-num">03</span><span class="toc-text">Fiscal Watch</span></a>
+      <a href="#s04" class="toc-item"><span class="toc-num">04</span><span class="toc-text">Commodities</span></a>
+      <a href="#s05" class="toc-item"><span class="toc-num">05</span><span class="toc-text">Logistics</span></a>
+      <a href="#s06" class="toc-item"><span class="toc-num">06</span><span class="toc-text">Regulatory</span></a>
+      <a href="#s07" class="toc-item"><span class="toc-num">07</span><span class="toc-text">Weather &amp; Agri</span></a>
+      <a href="#s08" class="toc-item"><span class="toc-num">08</span><span class="toc-text">Operational Risk</span></a>
+      <a href="#s09" class="toc-item"><span class="toc-num">09</span><span class="toc-text">Global Signals</span></a>
+      <a href="#s10" class="toc-item"><span class="toc-num">&#9654;</span><span class="toc-text">Action Items</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="heatmap-wrap">
+    <div class="heatmap-box">
+      <div class="heatmap-title">Weekly Dashboard: Key Indicators at a Glance</div>
+      <div class="heatmap-grid">
+        <div class="hm-header"></div>
+        <div class="hm-header">Ed. 06 (21 Jun)</div>
+        <div class="hm-header">Ed. 07 (28 Jun)</div>
+        <div class="hm-header">Change vs Ed. 06</div>
+
+        <div class="hm-label">Brent Crude</div>
+        <div class="hm-cell hm-green">$80.59</div>
+        <div class="hm-cell hm-green">$71.99</div>
+        <div class="hm-cell hm-green">&minus;$8.60</div>
+
+        <div class="hm-label">Dubai Platts</div>
+        <div class="hm-cell hm-green">$81.29</div>
+        <div class="hm-cell hm-green">$79.21</div>
+        <div class="hm-cell hm-green">&minus;$2.08</div>
+
+        <div class="hm-label">WTI Crude</div>
+        <div class="hm-cell hm-green">$76.54</div>
+        <div class="hm-cell hm-green">$69.23</div>
+        <div class="hm-cell hm-green">&minus;$7.31</div>
+
+        <div class="hm-label">USD/PKR (interbank)</div>
+        <div class="hm-cell hm-neutral">277.98</div>
+        <div class="hm-cell hm-neutral">278.40</div>
+        <div class="hm-cell hm-neutral">+0.42</div>
+
+        <div class="hm-label">Petrol (MS)</div>
+        <div class="hm-cell hm-green">Rs 299.78</div>
+        <div class="hm-cell hm-amber">Rs 299.50</div>
+        <div class="hm-cell hm-amber">Held</div>
+
+        <div class="hm-label">HSD Diesel</div>
+        <div class="hm-cell hm-green">Rs 311.78</div>
+        <div class="hm-cell hm-amber">Rs 311.47</div>
+        <div class="hm-cell hm-amber">Held</div>
+
+        <div class="hm-label">SPI (YoY)</div>
+        <div class="hm-cell hm-red">15.28%</div>
+        <div class="hm-cell hm-red">~15.3% (est.)</div>
+        <div class="hm-cell hm-red">~Flat</div>
+
+        <div class="hm-label">CPI (YoY)</div>
+        <div class="hm-cell hm-red">11.7% (May)</div>
+        <div class="hm-cell hm-red">11.7% (May)</div>
+        <div class="hm-cell hm-amber">Jun due ~1 Jul</div>
+
+        <div class="hm-label">SBP Policy Rate</div>
+        <div class="hm-cell hm-neutral">11.50%</div>
+        <div class="hm-cell hm-neutral">11.50%</div>
+        <div class="hm-cell hm-neutral">Held</div>
+
+        <div class="hm-label">KSE-100</div>
+        <div class="hm-cell hm-amber">178,923</div>
+        <div class="hm-cell hm-amber">179,571</div>
+        <div class="hm-cell hm-green">+648</div>
+
+        <div class="hm-label">Gold</div>
+        <div class="hm-cell hm-amber">$4,182/oz</div>
+        <div class="hm-cell hm-amber">~$4,080/oz</div>
+        <div class="hm-cell hm-amber">&darr; Fed-driven</div>
+
+        <div class="hm-label">SBP Reserves</div>
+        <div class="hm-cell hm-green">$17.22B</div>
+        <div class="hm-cell hm-green">~$17.2B (est.)</div>
+        <div class="hm-cell hm-neutral">~Flat</div>
+
+        <div class="hm-label">Total FX Reserves</div>
+        <div class="hm-cell hm-green">$22.74B</div>
+        <div class="hm-cell hm-green">~$22.7B (est.)</div>
+        <div class="hm-cell hm-neutral">~Flat</div>
+
+        <div class="hm-label">Crude Palm Oil</div>
+        <div class="hm-cell hm-amber">MYR 4,573</div>
+        <div class="hm-cell hm-amber">~MYR 4,450 (est.)</div>
+        <div class="hm-cell hm-green">Softer</div>
+      </div>
+
+      <div style="border-top: 1px dashed var(--border); margin-top: 14px; padding-top: 10px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px;">This week&rsquo;s watch</div>
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 12px 7px 0; vertical-align: top; white-space: nowrap; width: 130px;">Fuel pass-through</td>
+            <td style="font-family: 'Crimson Pro', serif; font-size: 13px; color: var(--ink); padding: 7px 0; line-height: 1.45;">Held at Rs 299.50 / Rs 311.47 till further orders. The cut the crude fall implied was not passed through; the wedge is being retained as revenue. Watch the 1 Jul notification.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 12px 7px 0; vertical-align: top; white-space: nowrap;">FY27 budget</td>
+            <td style="font-family: 'Crimson Pro', serif; font-size: 13px; color: var(--ink); padding: 7px 0; line-height: 1.45;">Finance Act 2026 signed 26 Jun; outlay about Rs 18.8 trillion; provisions effective 1 Jul. The fiscal year turns mid-week.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 12px 7px 0; vertical-align: top; white-space: nowrap;">Audit</td>
+            <td style="font-family: 'Crimson Pro', serif; font-size: 13px; color: var(--ink); padding: 7px 0; line-height: 1.45;">The Auditor General flagged Rs 3,177bn, 92% of FY25 supplementary grants, spent without parliamentary approval, and Rs 3,809bn sought without need assessment.</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 12px 7px 0; vertical-align: top; white-space: nowrap;">Oil security</td>
+            <td style="font-family: 'Crimson Pro', serif; font-size: 13px; color: var(--ink); padding: 7px 0; line-height: 1.45;">A cargo vessel was hit near Oman; the US struck Iran in response. Oil fell anyway on resumed transit, but the 60-day ceasefire is a framework, not a settlement.</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="heatmap-legend">
+        <span class="leg-red">Deteriorating / elevated risk</span>
+        <span class="leg-amber">Watch / mixed signals</span>
+        <span class="leg-green">Improving / favourable</span>
+        <span class="leg-neutral">Stable / unchanged</span>
+      </div>
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 8px; line-height: 1.5;">Note: Petrol and diesel are shown as held against the prior notification (Rs 299.78 / Rs 311.78 in the Edition 06 dashboard; the 26 Jun notification quotes Rs 299.50 / Rs 311.47). They are colour-marked amber, not green, because the relevant signal this fortnight is that the crude fall was retained rather than passed through. SBP reserves and SPI carry forward where a fresh print was not available, marked (est.).</p>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+
+<!-- S01: PKR & MACRO -->
+<section class="section" id="s01">
+  <div class="section-header"><span class="section-num">01</span><h2 class="section-title">PKR &amp; Macro Pulse</h2></div>
+
+  <div class="data-grid">
+    <div class="data-card neutral"><div class="data-label">USD / PKR</div><div class="data-value">278.40</div><div class="data-card-rule"></div><div class="data-delta delta-down">&darr; marginally weaker WoW &middot; interbank</div></div>
+    <div class="data-card red"><div class="data-label">CPI (May 2026)</div><div class="data-value">11.7%</div><div class="data-card-rule"></div><div class="data-delta delta-flat">June print due ~1 Jul &middot; first FY27 test</div></div>
+    <div class="data-card red"><div class="data-label">SPI (latest avail.)</div><div class="data-value">~15.3%</div><div class="data-card-rule"></div><div class="data-delta delta-up">Food basket still sticky &middot; fuel no longer cutting</div></div>
+    <div class="data-card neutral"><div class="data-label">SBP Policy Rate</div><div class="data-value">11.50%</div><div class="data-card-rule"></div><div class="data-delta delta-flat">Held &middot; next MPC late Jul 2026</div></div>
+    <div class="data-card green"><div class="data-label">Central Govt Debt Growth</div><div class="data-value">5%</div><div class="data-card-rule"></div><div class="data-delta delta-down">FYTD &middot; 15-year low, from 23% in FY23</div></div>
+    <div class="data-card amber"><div class="data-label">KSE-100</div><div class="data-value">179,571</div><div class="data-card-rule"></div><div class="data-delta delta-flat">+648 vs Ed. 06 &middot; budget rally vs global risk-off</div></div>
+  </div>
+
+  <div class="sub-heading">The Windfall Changes Hands</div>
+
+  <p>Crude fell roughly another 11% on the week, with Brent at $71.99 and WTI at $69.23, and Dubai Platts at $79.21. But the June 26 notification held petrol at Rs 299.50 and diesel at Rs 311.47 till further orders, the first time in the wartime cycle the pump price did not follow crude down. The cash moved from the household ledger to the exchequer.</p>
+
+  <p>The official debt picture hardened in the same days. Central-government debt growth slowed to 5% on a fiscal-year-to-date basis, described as the lowest pace in fifteen years and down from 23% in FY23, with debt-to-GDP easing to roughly 68% and external debt-to-GDP to around 21%. The government also reports Rs 4.7 trillion of debt retired, presented as a first. On the stock of debt and the trajectory of the ratios, this is a genuine improvement, and it is the basis for an external rating-desk upgrade of Pakistan debt to overweight on the oil outlook. The variable that did not improve sits in Section 03: the process by which spending is authorised.</p>
+
+  <div class="sub-heading">The Rupee: Managed Calm, New Pressure From the Dollar</div>
+
+  <div class="data-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 8px;">
+    <div class="data-card neutral" style="padding-bottom:8px;">
+      <div class="data-label">USD/PKR Nominal (interbank)</div>
+      <div class="data-value">278.40</div>
+      <div class="data-delta delta-down">Marginally weaker WoW as the global dollar firms.</div>
+      <svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%; margin-top:10px;">
+        <line x1="0" y1="55" x2="280" y2="55" stroke="var(--border)" stroke-width="1"/>
+        <text x="0" y="12" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)" opacity="0.6">283</text>
+        <text x="0" y="32" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)" opacity="0.6">280</text>
+        <text x="0" y="52" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)" opacity="0.6">277</text>
+        <polyline points="20,46 75,44 130,43 185,42 245,41" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="245" cy="41" r="3" fill="var(--card-bg)" stroke="var(--muted)" stroke-width="2"/>
+        <text x="250" y="39" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="600" fill="var(--muted)">278.40</text>
+        <text x="20" y="67" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)" opacity="0.5">Jan</text>
+        <text x="130" y="67" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)" opacity="0.5">Mar</text>
+        <text x="235" y="67" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)" opacity="0.5">Jun</text>
+      </svg>
+    </div>
+    <div class="data-card red" style="padding-bottom:8px;">
+      <div class="data-label">12M T-Bill Yield vs Policy Rate</div>
+      <div class="data-value">12.99%</div>
+      <div class="data-delta delta-up">&uarr; ~149bps above policy. New budget keeps the curve firm.</div>
+      <svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%; margin-top:10px;">
+        <line x1="0" y1="55" x2="280" y2="55" stroke="var(--border)" stroke-width="1"/>
+        <text x="0" y="12" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--accent)" opacity="0.7">14%</text>
+        <text x="0" y="30" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--accent)" opacity="0.7">13%</text>
+        <text x="0" y="50" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)" opacity="0.7">11.5%</text>
+        <polyline points="20,48 245,48" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="110" y="44" font-family="'JetBrains Mono', monospace" font-size="7" fill="var(--muted)">Policy 11.50%</text>
+        <polyline points="20,24 130,25 245,28" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <circle cx="245" cy="28" r="3" fill="var(--card-bg)" stroke="var(--accent)" stroke-width="2"/>
+        <text x="248" y="26" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="600" fill="var(--accent)">12.99%</text>
+        <line x1="215" y1="28" x2="215" y2="48" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2,2" opacity="0.7"/>
+        <text x="218" y="40" font-family="'JetBrains Mono', monospace" font-size="7" fill="var(--accent)">149bps</text>
+        <text x="20" y="67" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)" opacity="0.5">Last auction, Jun 2026</text>
+      </svg>
+    </div>
+  </div>
+  <p class="chart-note">Left: the nominal rupee is flat by policy design, easing a fraction weaker this fortnight as the global dollar firms on a hawkish Federal Reserve rather than on anything domestic. Right: the 12-month T-bill near 12.99% sits about 149bps above the policy rate, and the new budget&rsquo;s domestic borrowing requirement keeps the curve from softening.</p>
+
+  <p>The rupee at 278.40 is doing what it has done all year: holding within a managed band, firmer in real terms than the nominal rate suggests. The new pressure is external, not domestic. The dollar is riding high on Federal Reserve rate-hike expectations (Section 09), and gold has slipped to a fourth straight weekly loss on the same signal. A firmer global dollar raises the local-currency cost of every dollar-denominated import and of any external issuance Pakistan attempts in the new fiscal year. The oil relief is helping the import bill; the dollar move is working the other way on financing cost. The REER carries forward elevated, so the competitiveness story for exporters has not changed: the number that matters is the real rate, not the 278.40 the screen quotes.</p>
+
+  <div class="sub-heading">Why the Hold Matters for Rates, and for Inflation</div>
+
+  <p>The SBP held at 11.50% on June 15 and the next Monetary Policy Committee meeting falls in late July. The 12-month T-bill near 12.99% sits about 149 basis points above the policy rate, and nothing this fortnight argues for an early cut. Two forces keep the curve firm. The first is the FY27 budget&rsquo;s domestic borrowing requirement, now law and effective July 1, which adds supply of government paper. The second is the same external dollar and real-yield move that is pressuring the rupee: cutting into a firming global dollar is not a step the SBP takes lightly. Plan the financing environment around 11.50% holding through at least the first quarter of FY27 and treat any easing as upside, not base case.</p>
+
+  <p>The decision to hold the pump price changes the inflation read in a way Edition 6 could not anticipate. Edition 6 expected the June 20 cut to pull the June CPI lower. The government has now held the next adjustment, which means the disinflationary impulse from fuel into the June and July prints is smaller than the Edition 6 base case assumed. CPI was 11.7% in May, the highest since June 2024, and the June print is due around July 1. With fuel held rather than cut, the burden of any disinflation falls back on food, and food is not cooperating: the weekly SPI is still running near 15%, a food-heavy basket that does not respond to crude. The headline may still ease as base effects roll, but the household basket that wage demands track is not easing with it.</p>
+
+  <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:720px; margin:18px auto 0; display:block;">
+    <text x="10" y="18" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="var(--muted)">CPI vs SPI: The Divergence That Matters (YoY %)</text>
+    <line x1="50" y1="30" x2="700" y2="30" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="34" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">18%</text>
+    <line x1="50" y1="70" x2="700" y2="70" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="74" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">14%</text>
+    <line x1="50" y1="110" x2="700" y2="110" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="114" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">10%</text>
+    <line x1="50" y1="150" x2="700" y2="150" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="154" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">6%</text>
+    <line x1="50" y1="178" x2="700" y2="178" stroke="var(--border)" stroke-width="1.5"/>
+    <polyline points="100,130 175,118 250,105 325,95 400,88 475,90 550,82 625,50 680,48" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="680" cy="48" r="5" fill="var(--card-bg)" stroke="var(--accent)" stroke-width="2"/>
+    <text x="628" y="44" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="var(--accent)">SPI ~15.3%</text>
+    <polyline points="100,150 175,140 250,130 325,118 400,115 475,120 550,115 625,108 680,104" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="7,3" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="680" cy="104" r="4" fill="var(--card-bg)" stroke="var(--muted)" stroke-width="2"/>
+    <text x="628" y="108" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="var(--muted)">CPI 11.7%</text>
+    <line x1="680" y1="48" x2="680" y2="104" stroke="var(--ink)" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="636" y="80" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--ink)">~3.6pp gap</text>
+    <text x="100" y="193" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">Aug 25</text>
+    <text x="325" y="193" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">Nov 25</text>
+    <text x="550" y="193" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">Mar 26</text>
+    <text x="680" y="193" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">Jun 26</text>
+    <line x1="80" y1="214" x2="110" y2="214" stroke="var(--accent)" stroke-width="2.5"/>
+    <text x="115" y="218" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)">SPI (food-heavy basket)</text>
+    <line x1="320" y1="214" x2="350" y2="214" stroke="var(--muted)" stroke-width="2" stroke-dasharray="7,3"/>
+    <text x="355" y="218" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--muted)">CPI (headline)</text>
+  </svg>
+  <p class="chart-note">The gap between the weekly food-heavy SPI and the headline CPI is the food-inflation premium households feel first. With the fuel cut held rather than passed through, the fuel contribution to lower June and July CPI is smaller than the Edition 06 base case, leaving food as the dominant driver. Latest SPI carried forward pending the fresh weekly print; directional, intermediate values schematic.</p>
+
+  <div class="sub-heading">PSX: A Budget Rally Meets a Global Headwind</div>
+
+  <p>The KSE-100 sits at 179,571, up about 648 points from the Edition 06 close, but the path matters more than the level. The index rallied close to 1,900 points the day the budget cleared the National Assembly, a domestic re-rating on a resolved budget and a cheaper oil bill. It then ran into the opposite force from abroad: a hawkish Federal Reserve, a pullback in United States equities, and a fresh United States and Iran military exchange. The net is a market caught between a domestic catalyst that has now largely played out and an external risk environment that is turning less friendly.</p>
+
+  <p>For treasury and investment desks, the read is that the easy domestic catalyst is spent. The budget is law, the oil bill is down, the rate is on hold. What moves the index from here is more likely to come from outside Pakistan, through the dollar and global risk appetite, and from the security file, than from a fresh local positive. That makes the index more exposed to weekend headline gaps than it was a fortnight ago.</p>
+
+  <div class="callout-red">
+    <strong>So What?</strong> Plan the financing environment around 11.50% holding through at least Q1 FY27; floating-rate exposure tied to <span class="term" data-key="kibor">KIBOR</span> or <span class="term" data-key="tbill">T-bill</span> benchmarks and LC financing will not cheapen in the next cycle. Reset the inflation assumption: because the fuel cut was held rather than passed through, the disinflation from fuel is smaller than Edition 06 implied, so do not let a softer June headline reset H2 cost plans. And treat the global dollar, not oil, as the new pressure on the rupee and on any external financing you plan for FY27.
+  </div>
+</section>
+
+<!-- S02: OIL & ENERGY -->
+<section class="section" id="s02">
+  <div class="section-header"><span class="section-num">02</span><h2 class="section-title">Oil Markets &amp; Energy</h2></div>
+
+  <div class="data-grid">
+    <div class="data-card green"><div class="data-label">Brent Crude</div><div class="data-value">$71.99</div><div class="data-card-rule"></div><div class="data-delta delta-down">&darr; ~11% on the week &middot; pre-war levels</div></div>
+    <div class="data-card green"><div class="data-label">WTI Crude</div><div class="data-value">$69.23</div><div class="data-card-rule"></div><div class="data-delta delta-down">&darr; ~9.6% on the week</div></div>
+    <div class="data-card green"><div class="data-label">Dubai Platts (import ref.)</div><div class="data-value">$79.21</div><div class="data-card-rule"></div><div class="data-delta delta-down">~$7.2 premium over Brent &middot; narrowing</div></div>
+    <div class="data-card amber"><div class="data-label">Petrol (MS)</div><div class="data-value">Rs 299.50</div><div class="data-card-rule"></div><div class="data-delta delta-flat">HELD &middot; not passed through, 26 Jun</div></div>
+    <div class="data-card amber"><div class="data-label">HSD Diesel</div><div class="data-value">Rs 311.47</div><div class="data-card-rule"></div><div class="data-delta delta-flat">HELD &middot; till further orders</div></div>
+    <div class="data-card red"><div class="data-label">Implied Retained Wedge</div><div class="data-value">~Rs 25&ndash;35/L</div><div class="data-card-rule"></div><div class="data-delta delta-up">Crude fall not reflected at the pump</div></div>
+  </div>
+
+  <div class="sub-heading">The Pass-Through Stops</div>
+
+  <p>The crude move this fortnight was large and one-directional. Brent fell about 11% on the week to $71.99 and WTI about 9.6% to $69.23, taking both back to roughly where they sat before the conflict began. The drivers were physical: tanker traffic resumed through the Strait of Hormuz, Saudi loadings at Ras Tanura were reported to have resumed, and the dominant market view shifted to imminent oversupply. For Pakistan, the number that matters is the Dubai Platts import reference, which sits at $79.21, still carrying a ~$7 premium over Brent that reflects the Gulf sour-grade differential and residual freight uncertainty. The conflict premium on the import benchmark, which Edition 04 measured at $10 to $12 a barrel, has narrowed but not fully normalised.</p>
+
+  <p>The important signal is not just that prices fell. It is that the physical corridor reopened enough for primary Gulf export operations to resume. Ras Tanura matters because it is a loading signal, not a press-release signal: Saudi Aramco does not normalise flows through a terminal of that scale unless the export corridor is being treated as functionally usable. But importers should not confuse lower Brent with fully normalised risk. A vessel incident near Oman means cargo insurance and war-risk premia may lag the crude price move. The spot market says relief; the underwriter's schedule will show how much residual risk remains.</p>
+
+  <p>What did not happen this fortnight is the part that defines the edition. On June 26 the government held petrol at Rs 299.50 and diesel at Rs 311.47 till further orders, the first notification in the wartime cycle that did not pass a lower crude price through to the pump. The petroleum minister defended the decision as not favouring any sector and signalled that further movement could come in the days ahead, with the weekly pricing mechanism retained. The mechanism was kept; the pass-through was not. That is the structural event: the pump price has been decoupled from crude, and the gap is being held by the state.</p>
+
+  <div class="sub-heading">Three-Benchmark Overlay: The Convergence Holds, Lower</div>
+
+  <svg viewBox="0 0 740 230" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:740px; margin:18px auto 0; display:block;">
+    <text x="10" y="16" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="var(--muted)">Brent, WTI &amp; Dubai Platts, Jan to Edition 07 (USD/bbl)</text>
+    <line x1="50" y1="30" x2="710" y2="30" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="34" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">$115</text>
+    <line x1="50" y1="70" x2="710" y2="70" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="74" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">$105</text>
+    <line x1="50" y1="110" x2="710" y2="110" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="114" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">$95</text>
+    <line x1="50" y1="150" x2="710" y2="150" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="154" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">$85</text>
+    <line x1="50" y1="190" x2="710" y2="190" stroke="var(--border)" stroke-width="1.5"/>
+    <text x="42" y="194" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">$70</text>
+    <!-- Platts (amber) -->
+    <polyline points="90,118 200,86 310,70 420,96 530,138 620,168 690,184" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="690" cy="184" r="4" fill="var(--card-bg)" stroke="var(--amber)" stroke-width="2"/>
+    <text x="636" y="180" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="var(--amber)">Platts $79.21</text>
+    <!-- Brent (accent) -->
+    <polyline points="90,124 200,92 310,86 420,104 530,142 620,170 690,186" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="690" cy="186" r="4.5" fill="var(--card-bg)" stroke="var(--accent)" stroke-width="2"/>
+    <text x="628" y="200" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="var(--accent)">Brent $71.99</text>
+    <!-- WTI (ink dashed) -->
+    <polyline points="90,134 200,104 310,98 420,116 530,152 620,180 690,196" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="6,3" stroke-linejoin="round" opacity="0.65"/>
+    <text x="636" y="212" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="var(--ink)" opacity="0.7">WTI $69.23</text>
+    <text x="90" y="206" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">Jan</text>
+    <text x="310" y="206" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">Apr peak</text>
+    <text x="530" y="206" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">Ed. 06</text>
+    <text x="690" y="206" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">Ed. 07</text>
+  </svg>
+  <div class="chart-stats">
+    <div class="chart-stat"><div class="chart-stat-value" style="color:var(--accent)">$71.99</div><div class="chart-stat-label">Brent Now</div></div>
+    <div class="chart-stat"><div class="chart-stat-value" style="color:var(--ink)">$69.23</div><div class="chart-stat-label">WTI Now</div></div>
+    <div class="chart-stat"><div class="chart-stat-value" style="color:var(--amber)">~$7.2</div><div class="chart-stat-label">Platts&ndash;Brent Spread</div></div>
+    <div class="chart-stat"><div class="chart-stat-value" style="color:var(--green)">~11%</div><div class="chart-stat-label">Brent WoW Fall</div></div>
+  </div>
+  <p class="chart-note">Dubai Platts at $79.21 still carried a roughly $7.2/bbl premium to Brent. The conflict-era premium has narrowed from the earlier $10&ndash;12/bbl range but has not fully normalised. Directional; intermediate values approximate.</p>
+
+  <p>That is a second leg of import-bill relief on top of Edition 06's. Pakistan imports roughly 430,000 barrels per day in crude and product equivalents, about 157 million barrels a year, so every $1 per barrel on the import reference moves the annual bill by roughly $157 million. The Platts move from around $81 in Edition 06 to $79.21 is modest at roughly $2 a barrel, but the underlying Brent fall of $8.60 will flow through to the next Platts assessment more fully. At Pakistan's import volume of roughly 157 million barrels a year, each $1 per barrel sustained reduction saves approximately $157 million annually. The direction is relief; the magnitude depends on how quickly the Platts premium compresses further.</p>
+
+  <div class="sub-heading">The Retained Wedge: Where the Relief Went</div>
+
+  <p>Had the June 26 notification passed the lower crude price through on the same formula that delivered the June 20 cut, the pump price would plausibly have moved another Rs 25 to Rs 35 a litre lower. Instead it was held. That gap is the retained wedge. Whether by formula timing or policy choice, the effect is fiscal: lower landed cost is not reaching the pump. The petroleum levy was one of the largest non-tax revenue lines in FY26, and the FY27 budget, now law, depends on it. Holding the pump price flat while the landed cost falls converts the difference into levy headroom for the new fiscal year. The household saw the cut in June; the exchequer is keeping the next one.</p>
+
+  <p>The levy has acted as the shock absorber in both directions: released when the state wanted to soften the spike, rebuilt when landed cost fell. For any business with diesel-denominated costs, the practical consequence is that the pump price is now a fiscal instrument, not a crude tracker, and should be forecast as one.</p>
+
+  <svg viewBox="0 0 740 280" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:740px; margin:18px auto 0; display:block;">
+    <text x="10" y="16" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="var(--muted)">Domestic Fuel vs Crude: The Pump Stops Following (indexed path)</text>
+    <line x1="50" y1="40" x2="710" y2="40" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="44" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">Rs 520</text>
+    <line x1="50" y1="100" x2="710" y2="100" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="104" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">Rs 440</text>
+    <line x1="50" y1="160" x2="710" y2="160" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="42" y="164" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">Rs 360</text>
+    <line x1="50" y1="214" x2="710" y2="214" stroke="var(--border)" stroke-width="0.8" stroke-dasharray="4,3"/>
+    <text x="42" y="218" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--muted)" opacity="0.6">Rs 300</text>
+    <line x1="50" y1="244" x2="710" y2="244" stroke="var(--border)" stroke-width="1.5"/>
+    <!-- Petrol path: spike then descent then FLAT (held) -->
+    <polyline points="80,196 150,150 230,52 300,118 380,150 470,176 560,214 640,214 690,214" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="690" cy="214" r="4.5" fill="var(--card-bg)" stroke="var(--accent)" stroke-width="2"/>
+    <text x="612" y="208" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="var(--accent)">Petrol Rs 299.50 (held)</text>
+    <!-- Implied pass-through path (where pump would be), dashed green, dipping below -->
+    <polyline points="560,214 640,230 690,238" fill="none" stroke="var(--green)" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round"/>
+    <circle cx="690" cy="238" r="4" fill="var(--card-bg)" stroke="var(--green)" stroke-width="2"/>
+    <text x="556" y="256" font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="700" fill="var(--green)">Implied if passed through ~Rs 265&ndash;275</text>
+    <!-- wedge annotation -->
+    <line x1="678" y1="214" x2="678" y2="238" stroke="var(--red)" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="616" y="200" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="var(--red)">retained wedge</text>
+    <text x="80" y="262" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">28 Feb</text>
+    <text x="230" y="262" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">3 Apr peak</text>
+    <text x="470" y="262" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">20 Jun cut</text>
+    <text x="660" y="262" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="var(--muted)">26 Jun hold</text>
+  </svg>
+  <p class="chart-note">Petrol spiked to about Rs 458 on April 3, descended through successive cuts to Rs 299.50 on June 20, then held flat on June 26 even as crude kept falling. The dashed line is an illustrative path for where the pump price would sit had the latest crude fall been passed through. The gap between them is the retained wedge. Indexed and directional; the implied pass-through is a scenario, not a notified price.</p>
+
+  <div class="sub-heading">The Security Caveat the Price Fall Hides</div>
+
+  <p>The oil price fell this fortnight despite an escalation, not in its absence. A cargo vessel was hit near Oman, the United States struck Iran in response, and Iran reasserted its claim to control shipping through Hormuz. The market looked through all of it because the physical signal, more tankers actually moving, outweighed the headline risk. That is a fragile basis for relief. Transit remains below the pre-war daily average, the ceasefire is a 60-day framework rather than a settlement, and Russia is reported to be weighing a multi-month diesel export ban that would tighten the product market specifically. The bear case has not gone away; it has been temporarily outvoted by tanker flows.</p>
+
+  <div class="callout">
+    <strong>Bull case for continued relief ($65&ndash;72 Brent):</strong> Tanker transit normalises further, Saudi and Gulf loadings ramp, the oversupply view holds. The retained wedge gives the government room to pass a delayed cut at a notification of its choosing, on its own fiscal timetable.
+  </div>
+  <div class="callout">
+    <strong>Bear case for reversal ($90&ndash;105 Brent):</strong> The United States and Iran exchange escalates beyond isolated strikes, a vessel incident closes a transit lane, and the Platts premium reopens. Because the pump price is already held flat, a crude spike would force a politically costly hike from a base that did not get the benefit of the fall. Keep this scenario in Q1 FY27 downside models.
+  </div>
+
+  <div class="callout-red">
+    <strong>So What?</strong> Capture the import-cost relief now: the Platts fall is roughly $9 a barrel and the conflict premium has cleared. But stop modelling the pump price as a crude tracker; it is a fiscal instrument, and the retained wedge of roughly Rs 25 to Rs 35 a litre may be released on the government&rsquo;s timetable, not the market&rsquo;s. Lock diesel-denominated freight at Rs 311.47 with a clause for both a delayed cut and a Hormuz-driven reversal, and keep the bear-case Platts premium live in downside planning.
+  </div>
+</section>
+
+<!-- S03: FISCAL -->
+<section class="section" id="s03">
+  <div class="section-header"><span class="section-num">03</span><h2 class="section-title">Economic Watchout: The Fiscal Foundations</h2></div>
+
+  <div class="data-grid">
+    <div class="data-card neutral"><div class="data-label">FY27 Outlay (signed)</div><div class="data-value">~Rs 18.8T</div><div class="data-card-rule"></div><div class="data-delta delta-flat">Finance Act assented 26 Jun &middot; effective 1 Jul</div></div>
+    <div class="data-card green"><div class="data-label">Central Govt Debt</div><div class="data-value">Rs 81.9T</div><div class="data-card-rule"></div><div class="data-delta delta-flat">Per central-bank data</div></div>
+    <div class="data-card green"><div class="data-label">Debt-to-GDP</div><div class="data-value">~68%</div><div class="data-card-rule"></div><div class="data-delta delta-down">From ~75% in FY22/23</div></div>
+    <div class="data-card green"><div class="data-label">Debt Retired</div><div class="data-value">Rs 4.7T</div><div class="data-card-rule"></div><div class="data-delta delta-down">Presented as a first</div></div>
+    <div class="data-card red"><div class="data-label">FY25 Supplementary Unapproved</div><div class="data-value">Rs 3,177B</div><div class="data-card-rule"></div><div class="data-delta delta-up">92% of supplementary grants</div></div>
+    <div class="data-card red"><div class="data-label">Sought Without Need Assessment</div><div class="data-value">Rs 3,809B</div><div class="data-card-rule"></div><div class="data-delta delta-up">Per the audit reports</div></div>
+  </div>
+
+  <div class="sub-heading">Two Ledgers: Sustainability and Oversight</div>
+
+  <p>This fortnight produced two fiscal stories that point in opposite directions, and the discipline of separating them is the whole job. The first is a sustainability story, and it is favourable. The second is an oversight story, and it is not. They are not contradictory. A country can be improving the trajectory of its debt stock while the process by which it authorises spending stays largely outside parliamentary control. Both are true at once, and a planner needs to hold both.</p>
+
+  <div class="sub-heading">The Sustainability Ledger</div>
+
+  <p>On the numbers the government chooses to lead with, the direction is real. Central-government debt growth has slowed to 5% on a fiscal-year-to-date basis, described as the lowest pace in fifteen years and down from 23% in FY23 against a historical average near 12%. Debt-to-GDP has eased to roughly 68% from around 75%, and external debt-to-GDP to around 21% from around 28%, which is the ratio that most directly reduces external repayment risk. The average maturity of domestic debt has lengthened from 2.8 to 3.8 years, cutting refinancing risk, and the government reports Rs 4.7 trillion retired. The official framing is that debt is measured by sustainability, not by absolute headline figures, and on that test the metrics have moved the right way. An external rating desk has endorsed the direction with an upgrade of Pakistan debt to overweight, citing the oil outlook. For credit and rollover risk, take this ledger at face value.</p>
+
+  <div class="sub-heading">The Oversight Ledger</div>
+
+  <p>On the same days, the audit reports for the year covering FY25 federal accounts described a budgeting and control process that the sustainability headline does not capture. The central finding is that 92% of supplementary grants, Rs 3,177 billion out of a total Rs 3,454 billion obtained during the year, remained unapproved by parliament, raising the question of compliance with the constitutional requirement that spending be authorised before it is incurred. Within that, Rs 1,833 billion in supplementary grants was obtained for loan-principal repayment without proper assessment of actual requirement, and expenditure exceeding the final grant authorised by parliament reached Rs 187 billion. Separately, federal entities sought Rs 3,809 billion in allocations without proper need assessment, even as 115 cost centres let Rs 87 billion lapse unused and a further Rs 41 billion of supplementary grants went unspent.</p>
+
+  <p>The control findings sit underneath the headline numbers. The reports describe an irregular transfer of Rs 7 billion from the Federal Consolidated Fund to the Public Account against the constitutional provision governing such transfers, a failure to move Rs 24 billion in unclaimed deposits from dormant accounts to the government account, two cases of embezzlement and fictitious payment, 82 cases where recoveries were flagged, and 78 reflecting weak internal controls. Most federal entities, the audit notes, do not have functional internal audit units, and chief internal auditors have not been appointed in many organisations. The picture is not one of a single failure but of a process in which oversight is structurally thin.</p>
+
+  <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:720px; margin:18px auto 6px; display:block;">
+    <text x="10" y="16" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="var(--muted)">Two Ledgers, Same Fortnight</text>
+    <!-- divider -->
+    <line x1="360" y1="34" x2="360" y2="232" stroke="var(--border)" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="40" y="46" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="700" fill="var(--green)">SUSTAINABILITY (the stock)</text>
+    <text x="400" y="46" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="700" fill="var(--accent)">OVERSIGHT (the process)</text>
+    <!-- left bars -->
+    <text x="40" y="74" font-family="'Crimson Pro', serif" font-size="12" fill="var(--ink)">Debt growth, FYTD</text>
+    <rect x="40" y="80" width="60" height="14" fill="var(--green)" opacity="0.85"/><text x="108" y="91" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="var(--green)">5%</text>
+    <text x="40" y="116" font-family="'Crimson Pro', serif" font-size="12" fill="var(--ink)">Debt-to-GDP</text>
+    <rect x="40" y="122" width="190" height="14" fill="var(--green)" opacity="0.7"/><text x="238" y="133" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="var(--green)">~68%</text>
+    <text x="40" y="158" font-family="'Crimson Pro', serif" font-size="12" fill="var(--ink)">External debt-to-GDP</text>
+    <rect x="40" y="164" width="120" height="14" fill="var(--green)" opacity="0.7"/><text x="168" y="175" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="var(--green)">~21%</text>
+    <text x="40" y="200" font-family="'Crimson Pro', serif" font-size="12" fill="var(--ink)">Debt retired</text>
+    <rect x="40" y="206" width="140" height="14" fill="var(--green)" opacity="0.85"/><text x="188" y="217" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="var(--green)">Rs 4.7T</text>
+    <!-- right bars -->
+    <text x="400" y="74" font-family="'Crimson Pro', serif" font-size="12" fill="var(--ink)">Supplementary unapproved</text>
+    <rect x="400" y="80" width="270" height="14" fill="var(--accent)" opacity="0.85"/><text x="612" y="91" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#fff">Rs 3,177B</text>
+    <text x="400" y="116" font-family="'Crimson Pro', serif" font-size="12" fill="var(--ink)">Sought, no need assessment</text>
+    <rect x="400" y="122" width="290" height="14" fill="var(--accent)" opacity="0.75"/><text x="616" y="133" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#fff">Rs 3,809B</text>
+    <text x="400" y="158" font-family="'Crimson Pro', serif" font-size="12" fill="var(--ink)">Loan-principal, no assessment</text>
+    <rect x="400" y="164" width="160" height="14" fill="var(--accent)" opacity="0.7"/><text x="568" y="175" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="var(--accent)">Rs 1,833B</text>
+    <text x="400" y="200" font-family="'Crimson Pro', serif" font-size="12" fill="var(--ink)">Excess over final grant</text>
+    <rect x="400" y="206" width="30" height="14" fill="var(--accent)" opacity="0.7"/><text x="438" y="217" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="var(--accent)">Rs 187B</text>
+  </svg>
+  <p class="chart-note">The left ledger is the debt stock and its ratios, which improved. The right ledger is the spending and authorisation process described by the audit, which did not. The bars are not on a common scale; they group two different kinds of fiscal information that landed in the same fortnight. Figures as reported.</p>
+
+  <div class="sub-heading">The Article 83 Routine</div>
+
+  <p>The mechanism that connects the two ledgers became visible on June 24, when the National Assembly retrospectively approved a supplementary budget of Rs 593.64 billion for FY25 and Rs 475.05 billion for the outgoing FY26, laid before the house under Article 83 of the Constitution. The constitutional design is that parliament authorises spending before it happens; the practice, as the finance ministry papers made plain, is that the government frequently seeks approval for amounts already spent, leaving the house to regularise them after the fact. The largest single FY25 supplementary line was Rs 430.10 billion for the Power Division, the circular-debt pressure point that recurs every year. Alongside the grants, the house regularised charged debt-repayment items on a far larger scale, including domestic-debt repayment of Rs 2,603.86 billion for FY25 and Rs 12,624.8 billion for FY26.</p>
+
+  <p>Set the audit and the Article 83 vote side by side and the relationship is clear. The audit quantifies how much was spent ahead of approval; the vote is the moment the spending is regularised. This is not an aberration in a single year. It is the routine the audit has now put numbers on, and it is the context in which the new FY27 budget begins.</p>
+
+  <div class="sub-heading">What This Means for the New Fiscal Year</div>
+
+  <p>The FY27 budget is law, with an outlay of about Rs 18.8 trillion and provisions effective July 1. The relevant risk for an operating business is not sovereign default; the sustainability ledger argues against that, and the external upgrade reflects it. The relevant risk is that the revenue side will be pursued hard, because the expenditure side is both large and, as the audit shows, loosely controlled and difficult to compress. That is why the fuel windfall is being retained rather than passed through, why the levy lines in the budget matter, and why enforcement of the new tax measures will be firm. The money the new budget needs has to come from somewhere, and the audit makes clear it is easier to raise revenue than to tighten the spending process.</p>
+
+  <div class="callout-red">
+    <strong>So What?</strong> Take the debt-sustainability improvement as real for credit, rollover and counterparty-risk assessment; the ratios and the retirement of Rs 4.7 trillion are favourable and externally endorsed. But plan the FY27 operating environment for aggressive revenue capture, the retained fuel wedge, the levy lines, and firm <span class="term" data-key="fbr">FBR</span> enforcement, because the audit shows the expenditure side is hard to control and the state will lean on revenue to fund it. Budget LC and working-capital financing at 11.50% or above, and watch the June FBR collection number, due around mid-July, for how large the FY26 shortfall finally runs.
+  </div>
+</section>
+
+<!-- S04: COMMODITIES -->
+<section class="section" id="s04">
+  <div class="section-header"><span class="section-num">04</span><h2 class="section-title">Commodity Watch</h2></div>
+
+  <p>The fault line Edition 06 drew through the cost base is now wider. Energy-linked inputs, resins, petrochemicals, and the crude behind them have fallen further. Food-linked inputs are firm to tightening on the monsoon outlook and mandates. The new entry this fortnight is gold, which has slipped to a fourth straight weekly loss on a hawkish Federal Reserve, a move that matters less as a commodity than as a signal about the dollar and external financing conditions (Section 09). Read the basket in three blocks: energy easing, food sticky, and the precious-metal and currency complex turning on the Fed.</p>
+
+  <div class="sub-heading">Food &amp; Soft Commodities</div>
+  <table class="mini-table">
+    <thead><tr><th style="width: 16%;">Commodity</th><th style="width: 18%;">Price</th><th style="width: 18%;">Signal</th><th>Planning implication</th></tr></thead>
+    <tbody>
+      <tr><td><strong><span class="term" data-key="cpo">Crude Palm Oil</span></strong></td><td class="num">~MYR 4,568/MT</td><td><span class="risk-tag risk-medium">Volatile, B15-supported</span></td><td>Malaysia&rsquo;s B15 biodiesel rollout from June 1 adds a structural demand floor. Trading Economics benchmark-market tracker near MYR 4,568 as of 26 Jun. Model H2 CPO at MYR 4,400&ndash;4,700. Downside is cushioned by biodiesel demand; upside risk comes from weather stress, weaker ringgit, and any renewed crude rally.</td></tr>
+      <tr><td><strong>Wheat (international)</strong></td><td class="num">~$221/MT</td><td><span class="risk-tag risk-low">Benign</span></td><td>IMF/FRED global benchmark $220.88/MT (May 2026). Pakistan&rsquo;s domestic wheat risk is more storage, transport and procurement logistics than Chicago futures. The import window remains open while USD/PKR holds near 278; the firmer global dollar is the watch item on landed cost, not the grain price.</td></tr>
+      <tr><td><strong>Rice (Pakistan)</strong></td><td class="num">Monsoon-exposed</td><td><span class="risk-tag risk-high">Below-normal monsoon risk</span></td><td>See Section 07. The Kharif crop is being sown now, so the exposure is forward, not realised. Below-normal rainfall and water stress could compress the FY27 harvest and the exportable Basmati surplus, with a knock-on to dollar inflows. Weight as a probability-adjusted downside, updated with each PMD bulletin.</td></tr>
+      <tr><td><strong>Sugar (local)</strong></td><td class="num">~Rs 142&ndash;150/kg</td><td><span class="risk-tag risk-medium">Inter-season firm</span></td><td>CEIC/Pakistan commodity-price references place sugar in the mid-Rs 140s/kg; retail survey references are near Rs 150/kg. Crushing season has ended and summer demand is elevated. Below-normal monsoon risk to sugarcane is a forward input-cost risk to the next crushing season. Model H2 sugar at Rs 150&ndash;165 as a stress scenario if rainfall underperforms.</td></tr>
+      <tr><td><strong>Gold</strong></td><td class="num">~$4,080/oz</td><td><span class="risk-tag risk-medium">Fed-driven slide</span></td><td>A fourth straight weekly loss on hawkish Fed bets and a stronger dollar; Karachi about Rs 368,985 per 10g. Relevant less as an input than as a barometer: a falling gold price and rising real yields signal tighter external conditions for Pakistan, and pressure on the rupee, not relief.</td></tr>
+      <tr><td><strong>Tea</strong></td><td class="num">Grade-specific auction</td><td><span class="risk-tag risk-low">Firm, freight easing</span></td><td>Pakistan is a major tea importer. Mombasa auction prices are grade-dependent; use actual ATB auction grade lines, not a broad average. Lower oil and easing war-risk freight can reduce landed cost at the margin, but firm grade prices keep the net saving limited.</td></tr>
+    </tbody>
+  </table>
+  <p class="chart-note">Commodity levels reflect late-June 2026 benchmarks (CPO: Trading Economics/Bursa Malaysia; wheat: IMF/FRED May 2026; gold: Reuters spot; sugar: CEIC national average + retail survey; HDPE/PET: IMARC; caustic soda: IMARC Asia; tea: grade-specific Mombasa auction; diesel: PSO archive). Ranges are indicative and move intra-week; confirm against the relevant exchange or board before procurement decisions.</p>
+
+  <div class="sub-heading">Packaging &amp; Industrial</div>
+  <table class="mini-table">
+    <thead><tr><th style="width: 14%;">Commodity</th><th style="width: 14%;">Price</th><th style="width: 16%;">Trend</th><th>Industry Relevance</th></tr></thead>
+    <tbody>
+      <tr><td><strong><span class="term" data-key="hdpe">HDPE</span> Resin</strong></td><td class="num">~$1,036/MT</td><td><span class="risk-tag risk-low">Easing / buying window</span></td><td>Flexible-packaging input. IMARC Q1 2026 China benchmark ~$1,036/MT. Attractive versus the conflict-cycle peak, helped by lower crude and softer feedstock sentiment. But Dubai-linked crude has not fully converged with Brent, so treat this as a buying window, not a permanently reset floor.</td></tr>
+      <tr><td><strong><span class="term" data-key="pet">PET</span> Resin</strong></td><td class="num">~$1,110/MT</td><td><span class="risk-tag risk-low">Easing</span></td><td>Beverage-bottle input. IMARC Jun 2026 SEA benchmark ~$1,110/MT. Easing with crude and feedstock relief, but the window depends on oil de-escalation and freight. Verify by supplier and grade.</td></tr>
+      <tr><td><strong><span class="term" data-key="hsd">HSD</span> Diesel</strong></td><td class="num">Rs 311.47/L</td><td><span class="risk-tag risk-medium">Held, not cut</span></td><td>Transport input cost. Held flat on June 26 even as crude fell; the relief that would have come through is being retained as levy headroom. Lock freight at this rate and build in a clause for both a delayed cut and a reversal; do not assume the pump tracks crude.</td></tr>
+      <tr><td><strong>Corrugated Board</strong></td><td class="num">Local survey</td><td><span class="risk-tag risk-medium">Firm</span></td><td>Secondary packaging. No reliable public benchmark; use supplier quotes. Kraft paper and imported inputs still carry some residual freight and FX sensitivity.</td></tr>
+      <tr><td><strong>Caustic Soda</strong></td><td class="num">~$350&ndash;450/MT</td><td><span class="risk-tag risk-medium">Stable</span></td><td>Soap and detergent input. IMARC Q1 2026 Asia range $351&ndash;447/MT. Pakistan has meaningful domestic chlor-alkali capacity, but imported material prices the marginal gap.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sub-heading">Pakistan Input Cost Index</div>
+  <div class="cost-index-box">
+    <div class="cost-index-header">
+      <div class="cost-index-value">~112</div>
+      <div class="cost-index-meta">
+        <strong style="color: var(--amber);">Above baseline</strong> &middot; diesel and CPO driving the overshoot; HDPE easing below 100 &middot; indexed to January 2026 = 100<br>
+        Weighted basket of 6 core input costs
+      </div>
+    </div>
+    <div class="cost-index-bar-row">
+      <div class="cost-index-bar-label">Wheat</div>
+      <div class="cost-index-bar-track"><div class="cost-index-bar-fill" style="width: 65%; background: var(--accent);"></div></div>
+      <div class="cost-index-bar-value" style="color: var(--accent);">130.5</div>
+    </div>
+    <div class="cost-index-bar-row">
+      <div class="cost-index-bar-label">HSD Diesel</div>
+      <div class="cost-index-bar-track"><div class="cost-index-bar-fill" style="width: 53%; background: var(--accent);"></div></div>
+      <div class="cost-index-bar-value" style="color: var(--accent);">121.2</div>
+    </div>
+    <div class="cost-index-bar-row">
+      <div class="cost-index-bar-label">Crude Palm Oil</div>
+      <div class="cost-index-bar-track"><div class="cost-index-bar-fill" style="width: 43%; background: var(--amber);"></div></div>
+      <div class="cost-index-bar-value" style="color: var(--amber);">114.2</div>
+    </div>
+    <div class="cost-index-bar-row">
+      <div class="cost-index-bar-label">PET Resin</div>
+      <div class="cost-index-bar-track"><div class="cost-index-bar-fill" style="width: 40%; background: var(--amber);"></div></div>
+      <div class="cost-index-bar-value" style="color: var(--amber);">113.3</div>
+    </div>
+    <div class="cost-index-bar-row">
+      <div class="cost-index-bar-label">HDPE Resin</div>
+      <div class="cost-index-bar-track"><div class="cost-index-bar-fill" style="width: 20%; background: var(--green);"></div></div>
+      <div class="cost-index-bar-value" style="color: var(--green);">96.5</div>
+    </div>
+    <div class="cost-index-bar-row">
+      <div class="cost-index-bar-label">Sugar</div>
+      <div class="cost-index-bar-track"><div class="cost-index-bar-fill" style="width: 18%; background: var(--green);"></div></div>
+      <div class="cost-index-bar-value" style="color: var(--green);">94.6</div>
+    </div>
+  </div>
+  <p class="chart-note">Index weights (normalised, 6 components): diesel (31.25%), CPO (18.75%), HDPE (18.75%), PET (12.5%), sugar (12.5%), wheat (6.25%). Base period January 2026 = 100. Tea and SMP/dairy excluded pending verified benchmark sources. Baselines: diesel Rs 257.08/L (OGRA Jan 1); HDPE $1,074/MT (IMARC China Dec 2025); PET $980/MT (IMARC SEA Nov 2025, proxy); CPO MYR 4,000/MT (Trading Economics Jan 2); sugar Rs 149.50/kg (CEIC Jan); wheat $169.25/MT (FRED/IMF Jan). Current prices sourced as cited in the commodity tables above.</p>
+
+  <p>Diesel is the biggest driver above baseline at 121.2, reflecting pump-price increases through H1; the recent crude crash has not flowed through because the government held the price flat. HDPE has fallen below 100, meaning resin buyers are paying less than in January. Sugar is also below baseline at 94.6, a post-crushing-season effect. The components pulling the index up are wheat (international benchmark up 30% from a low January base), CPO (B15 mandate effect), and PET (recovering from a Q4 2025 demand trough).</p>
+
+  <div class="callout">
+    <strong>So What?</strong> The HDPE window is real and verified: resin is below its January level at ~$1,036/MT, the best buying opportunity since the conflict cycle began. Act on coverage before any Hormuz reversal. Diesel at 121.2 is the index&rsquo;s heaviest component and will not ease until the government passes a pump-price cut; do not model it as tracking crude. CPO at 114.2 is structurally supported by the B15 mandate and will not fall with oil. Treat the gold slide and the firmer dollar as an external-conditions warning: they point to tighter financing and a softer rupee, which raise landed costs even when the commodity price falls.
+  </div>
+</section>
+
+<!-- S05: LOGISTICS -->
+<section class="section" id="s05">
+  <div class="section-header"><span class="section-num">05</span><h2 class="section-title">Logistics &amp; Ports</h2></div>
+
+  <div class="data-grid">
+    <div class="data-card green"><div class="data-label">Freight Risk</div><div class="data-value">Easing</div><div class="data-card-rule"></div><div class="data-delta delta-down">War-risk premium cooling on lower oil</div></div>
+    <div class="data-card amber"><div class="data-label">Hormuz Transit</div><div class="data-value">Resuming</div><div class="data-card-rule"></div><div class="data-delta delta-flat">Below pre-war average &middot; vessel hit near Oman</div></div>
+    <div class="data-card amber"><div class="data-label">Diesel Supply</div><div class="data-value">Watch</div><div class="data-card-rule"></div><div class="data-delta delta-up">Reported Russian export-ban risk</div></div>
+    <div class="data-card amber"><div class="data-label">Auto Imports</div><div class="data-value">Anti-dumping</div><div class="data-card-rule"></div><div class="data-delta delta-flat">Used-car clearance window opened</div></div>
+  </div>
+
+  <div class="sub-heading">Freight: Relief, With a Fresh Risk Underneath</div>
+
+  <p>The war-risk premium that inflated container and tanker rates through the conflict is easing further as oil falls and tanker traffic resumes through Hormuz. For importers whose letter-of-credit terms include freight, and for exporters whose margins were compressed by elevated route costs, this is a direct relief, and it is not yet fully priced into forward freight agreements, which leaves a window to lock rates. But the relief is conditional. Transit through Hormuz remains below the pre-war daily average, a cargo vessel was hit near Oman this week, and a voluntary evacuation scheme was briefly suspended after the incident. The premium can return within days of any escalation. Hedge the freight relief rather than banking it.</p>
+
+  <p>A specific product-side risk emerged this fortnight: Russia is reported to be weighing a multi-month diesel export ban after damage to its refining infrastructure. Russia is a major diesel exporter, and a ban would tighten the global diesel and product market even as crude falls. For a diesel-dependent distribution base, that is a reason not to assume the diesel input cost keeps falling in lockstep with Brent, and it reinforces the Section 02 point that the diesel pump price is now a fiscal and supply story, not a clean crude tracker.</p>
+
+  <div class="sub-heading">Trade and Import Competition</div>
+
+  <p>On the policy side, the government has moved to anti-dumping measures to protect the local auto industry, while separately opening a clearance window for roughly 15,000 used imported cars. The two sit in tension, protection for local assemblers alongside a relief valve for used imports, and the net effect on any business in the auto value chain depends on which segment it occupies. More broadly, the FY27 tariff changes effective July 1 will reshape landed-cost economics in several import-competing sectors. If you operate where duties changed, model the competing-import landed cost against the new rates before they take effect, rather than after.</p>
+
+  <p>Karachi remains the single point of concentration for import and export cargo, and the transport-ordinance dispute that disrupted the city in the prior fortnight should be treated as unresolved background risk rather than closed. Port throughput converts to delivered goods only if onward road transport keeps moving; map alternate routing for any time-sensitive clearance and keep a buffer on Karachi-dependent dispatches until the ordinance dispute is demonstrably settled.</p>
+
+  <div class="callout">
+    <strong>So What?</strong> Lock the freight relief now while it is unpriced in forward agreements, but hedge it: the Oman vessel strike and below-normal Hormuz transit mean the war-risk premium can reopen within days. Treat diesel as a supply story as well as a price story given the reported Russian export-ban risk. And for any auto or import-competing operation, model the July 1 tariff and anti-dumping changes into landed cost before the quarter turns.
+  </div>
+
+  <div class="sub-heading">Operational Disruption Register: Start of FY27</div>
+  <table class="mini-table">
+    <thead><tr><th style="width: 24%;">Disruption</th><th style="width: 10%;">Severity</th><th style="width: 14%;">Window</th><th>Business impact</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Hormuz open, but not normal</strong></td><td><span class="risk-tag risk-medium">Medium</span></td><td class="num" style="font-size:10px;">Ongoing</td><td>Ras Tanura loadings and tanker traffic are back, but the Oman vessel incident means war-risk pricing may lag Brent. Importers should verify cargo insurance, route exclusions, and war-risk terms before Gulf-origin shipments.</td></tr>
+      <tr><td><strong>FBR FY26 close</strong></td><td><span class="risk-tag risk-high">High</span></td><td class="num" style="font-size:10px;">Jun 30 / mid-Jul</td><td>A large FY26 miss increases the chance of audit intensity and enforcement pressure in Q1 FY27. Large corporates and super-tax-bracket entities should prepare documentation early.</td></tr>
+      <tr><td><strong>NDMA GLOF / northern routes</strong></td><td><span class="risk-tag risk-high">High</span></td><td class="num" style="font-size:10px;">Next 4&ndash;6 weeks</td><td>KP and GB route disruption can cut northern supply corridors quickly. Do not dispatch time-sensitive cargo northward without live route confirmation and alternate routing.</td></tr>
+      <tr><td><strong>Early monsoon logistics</strong></td><td><span class="risk-tag risk-medium">Medium</span></td><td class="num" style="font-size:10px;">Jul onward</td><td>Even a below-normal monsoon can produce urban flooding. Keep dispatch buffers for Rawalpindi, Gujranwala, Sialkot, Lahore, Faisalabad and other heavy-spell exposure zones.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- S06: REGULATORY -->
+<section class="section" id="s06">
+  <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Regulatory &amp; Policy</h2></div>
+
+  <p>The defining regulatory event is the turn of the fiscal year. The Finance Act 2026 received presidential assent on June 26 and its provisions take effect July 1, which converts everything that was a proposal in Edition 06 into law this week. The headline measures are a mix of targeted relief and revenue tightening, and the relevant task is to map your specific exposure to the version that was signed, not the version that was tabled.</p>
+
+  <p>The signing does not remove the revenue problem that created the pressure in the first place. FBR has collected roughly Rs 11.2 trillion through eleven months of FY26 against a revised full-year target near Rs 14.0 trillion, leaving a theoretical June requirement of about Rs 2.75 trillion. That is not a normal monthly target; it is a fiscal cliff. No plausible June collection number can close the gap cleanly.</p>
+
+  <p>The consequence is not just accounting. The final FY26 miss will enter the IMF second-review conversation and will shape how much tolerance the Fund gives the government in early FY27. If the miss is large, expect pressure for tighter enforcement, heavier audits, administrative tax action, or a more demanding FY27 revenue path. Watch the mid-July FBR release as the next hard domestic fiscal datapoint after the Finance Act takes effect.</p>
+
+  <div class="sub-heading">FY27 Finance Act: What Is Now Law</div>
+  <table class="mini-table">
+    <thead><tr><th style="width: 30%;">Provision</th><th style="width: 16%;">Direction</th><th>Business implication</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Salaried relief</strong></td><td><span class="risk-tag risk-low">Relief</span></td><td>Income-tax rationalisation across slabs and removal of the surcharge on higher salaried income. A modest consumption support for the formal mid-to-senior urban segment; negligible revenue cost.</td></tr>
+      <tr><td><strong>EV excise tiers</strong></td><td><span class="risk-tag risk-medium">Mixed</span></td><td>No federal excise on imported electric cars and SUVs valued up to $75,000; 30% on $75,000 to $110,000; 40% above $110,000. Reshapes the imported-EV price ladder; plan the model mix against the tier thresholds.</td></tr>
+      <tr><td><strong>Steel: per-unit electricity tax</strong></td><td><span class="risk-tag risk-medium">Watch</span></td><td>Melters, re-rollers and composite units taxed on electricity consumed, including captive and alternative sources, as an adjustable input tax. Changes the effective cost base for steel; model against your per-tonne consumption benchmark.</td></tr>
+      <tr><td><strong>Mineral-water FED dropped</strong></td><td><span class="risk-tag risk-low">Relief</span></td><td>The proposed 20% excise on mineral and hydration drinks below a sweetener threshold was removed before assent. Relief for beverage and hydration lines.</td></tr>
+      <tr><td><strong>Coal VAT for IPPs</strong></td><td><span class="risk-tag risk-medium">Watch</span></td><td>Minimum 1% value-addition tax on imported coal supplied directly to independent power producers. A marginal addition to the power-cost stack.</td></tr>
+      <tr><td><strong>PE/VC fund exemption</strong></td><td><span class="risk-tag risk-low">Relief</span></td><td>Income-tax exemption for registered private-equity and venture funds distributing at least 90% of accounting income, with conditions. A structural positive for formal private-capital formation.</td></tr>
+      <tr><td><strong>Climate Support Levy</strong></td><td><span class="risk-tag risk-medium">Watch</span></td><td>Tied to the climate-resilience facility, contested in committee but carried in the Act. Energy and carbon-intensive operations should track the notified mechanism and quantum closely.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sub-heading">Regulatory Pipeline: What Is Now Law and What Is Still Moving</div>
+  <table class="mini-table">
+    <thead><tr><th style="width: 22%;">Measure</th><th style="width: 14%;">Timing</th><th style="width: 12%;">Status</th><th>Business impact</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Finance Act 2026</strong></td><td class="num" style="font-size:10px;">1 Jul</td><td><span class="risk-tag risk-low">Enacted</span></td><td>Budget provisions now legally operative; businesses should use signed law, not earlier proposal drafts.</td></tr>
+      <tr><td><strong>Salaried tax relief</strong></td><td class="num" style="font-size:10px;">1 Jul</td><td><span class="risk-tag risk-low">Enacted</span></td><td>Modest formal-sector demand support; not large enough to change macro consumption trend alone.</td></tr>
+      <tr><td><strong>Petrol/HSD held</strong></td><td class="num" style="font-size:10px;">Effective now</td><td><span class="risk-tag risk-medium">Confirmed</span></td><td>Pump price is now fiscal policy, not pure crude pass-through. Rebuild diesel and distribution assumptions around held rates.</td></tr>
+      <tr><td><strong>FBR FY26 close</strong></td><td class="num" style="font-size:10px;">Mid-Jul print</td><td><span class="risk-tag risk-high">Pending</span></td><td>Final miss will shape IMF review pressure, audit intensity, and FY27 enforcement risk.</td></tr>
+      <tr><td><strong>Auto/trade measures</strong></td><td class="num" style="font-size:10px;">1 Jul onward</td><td><span class="risk-tag risk-medium">Mixed</span></td><td>Anti-dumping protection and used-car clearance create different effects by segment; model landed cost by product line.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sub-heading">The Levy Pipeline and the Governance Backdrop</div>
+
+  <p>Two fuel-side items remain live for July 1. The first is the gas tariff for commercial and industrial users, set to rise per budget commitments, with the quantum to be confirmed by notification. The second is the possibility of a reserve-related or petroleum-sector levy on fuel; with the pump price already held flat, the government has the option to formalise a charge without a visible price increase, simply by retaining more of the next crude fall. Treat both as cash-flow items in the July cost stack.</p>
+
+  <p>The governance backdrop matters this fortnight because it rhymes with the audit. The government skipped competitive bidding on a motorway project, and the telecom amendment bill, controversial on data-localisation and regulatory-fee grounds, remains contested. Separately, the privatisation of the national carrier is reported to be moving toward handover to new owners this month, the most concrete privatisation step in the cycle. Read against Section 03, the pattern is consistent: a state that is improving its debt ratios while its process discipline, on bidding, on parliamentary authorisation, on internal audit, remains the weak point.</p>
+
+  <div class="callout-red">
+    <strong>So What?</strong> Finalise FY27 cost lines against the signed Finance Act, not the tabled draft: the EV excise tiers, the steel per-unit-electricity tax, the coal VAT, the climate levy and the July 1 gas-tariff rise all change specific cost bases. Keep a provisional line for any reserve-related or petroleum-sector levy, because a held pump price gives the government room to absorb part of the next crude fall without a visible price increase. And treat the bidding and authorisation lapses as a signal that compliance and documentation requirements will tighten, not loosen, as the state leans harder on revenue and on the appearance of discipline.
+  </div>
+</section>
+
+<!-- S07: WEATHER & AGRI -->
+<section class="section" id="s07">
+  <div class="section-header"><span class="section-num">07</span><h2 class="section-title">Weather &amp; Agriculture</h2></div>
+
+  <p>The weather story is the deepening monsoon, not a realised crop loss. The disaster authority has issued a glacial-lake-outburst-flood alert for Khyber Pakhtunkhwa and Gilgit-Baltistan, rain is forecast across the twin cities and upper Punjab, and the broader season is shaping up against a below-normal outlook with El Ni&ntilde;o as a risk if it develops through the Kharif window. The crop now in the ground, rice, cotton and sugarcane, is the asset at risk. The food-inflation question for H2 is not what has been lost; it is what a below-normal monsoon does to a crop that is still being sown.</p>
+
+  <div class="sub-heading">The Forward Risk on a Just-Sown Crop</div>
+
+  <div class="data-grid">
+    <div class="data-card amber"><div class="data-label">Monsoon Outlook</div><div class="data-value">Below-normal</div><div class="data-card-rule"></div><div class="data-delta delta-flat">El Ni&ntilde;o risk if confirmed</div></div>
+    <div class="data-card red"><div class="data-label">Flood / GLOF Risk</div><div class="data-value">Active alert</div><div class="data-card-rule"></div><div class="data-delta delta-up">KP and GB &middot; northern catchments</div></div>
+    <div class="data-card amber"><div class="data-label">Kharif Status</div><div class="data-value">Sowing</div><div class="data-card-rule"></div><div class="data-delta delta-flat">Crop in ground, not harvested</div></div>
+    <div class="data-card red"><div class="data-label">Cotton vs Target</div><div class="data-value">~5.0&ndash;5.3M</div><div class="data-card-rule"></div><div class="data-delta delta-down">Structural shortfall vs 9.64M bales</div></div>
+  </div>
+
+  <p>The planning discipline is to treat the monsoon as a scenario risk to rice, cotton, sugarcane and maize, not a loss already on the books. Cotton is the exception in severity: independent estimates put 2026/27 output near 5.0 million bales against the official 9.64 million target, while adjusted estimates for 2025/26 are only around 5.3 million bales. Cotton input-cost pressure is therefore already a base case, not merely a monsoon scenario. For rice and sugarcane, model the monsoon as a probability-weighted downside to the FY27 harvest. A materially reduced rice harvest would likely compress the exportable surplus and dollar inflows at the same time cheaper oil supports the import bill, so the two effects would partially offset in the current account. Update the weighting with each weather bulletin through July rather than pricing a fixed loss now.</p>
+
+  <p>On the supply-of-inputs side, the licensing for genetically modified maize is reported as likely to be renewed, which is a potentially yield-supportive regulatory signal for maize specifically and a marginal positive for the feed and starch chains that depend on it. Maize is relatively less water-intensive than rice or sugarcane, but it is not outside the monsoon-risk zone. Better rainfall in parts of upper KP may help local conditions, but national risk remains live because PMD also lists maize among water-stress-exposed Kharif crops. The pattern remains the worst combination for planning: too much water in the mountains, raising flood and landslide risk, and too little in the cropping plains.</p>
+
+  <div class="sub-heading">The Inflation Handoff, Now Without the Fuel Offset</div>
+
+  <p>Edition 06 identified the handoff from fuel-led to food-led inflation. Edition 07 sharpens it, because the fuel side has stopped helping. With the pump price held rather than cut, the transport-fuel disinflation that was partially offsetting food pressure has paused. That leaves the food basket carrying the inflation story largely on its own: a structural cotton shortfall, sugar firm through the inter-season gap, wheat flour sticky, and a Kharif crop exposed to a below-normal monsoon. The weekly food-heavy index running near 15% is the number that household wage expectations track, and it is not easing with crude.</p>
+
+  <table class="mini-table">
+    <thead><tr><th style="width: 18%;">Crop</th><th style="width: 18%;">Target</th><th style="width: 20%;">Current Risk</th><th>Monsoon / weather effect</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Rice</strong></td><td class="num">9.17M t</td><td><span class="risk-tag risk-medium">Monsoon-exposed</span></td><td>Being sown now. A below-normal monsoon would compress the harvest and the exportable surplus, with a dollar-inflow knock-on in FY27. Forward risk, not a realised loss.</td></tr>
+      <tr><td><strong>Cotton</strong></td><td class="num">9.64M bales</td><td><span class="risk-tag risk-high">Critical</span></td><td>Independent-estimate base case around 5.0&ndash;5.3M bales, well below the official target. A weak monsoon would add downside and could push output below 5M.</td></tr>
+      <tr><td><strong>Sugarcane</strong></td><td class="num">80.3M t</td><td><span class="risk-tag risk-high">High</span></td><td>Water-intensive and exposed to a below-normal monsoon and irrigation-allocation uncertainty. Sugar price risk into the next crushing season.</td></tr>
+      <tr><td><strong>Maize</strong></td><td class="num">9.77M t</td><td><span class="risk-tag risk-medium">Medium</span></td><td>Still water-stress-exposed, but relatively less water-intensive than rice or sugarcane. GM licence renewal is a potentially yield-supportive signal. Better rainfall in parts of upper KP may help local conditions, but national risk remains live because PMD also lists maize among water-stress-exposed Kharif crops.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout-red">
+    <strong>So What?</strong> Do not use falling crude to offset food-cost inflation in the FY27 cost model, and this fortnight the warning is sharper: the fuel offset has paused because the cut was held. Model food inputs separately and stress H2 formulation costs against food inflation in the 14 to 16% range even as transport costs ease. Treat the monsoon as a probability-weighted downside on a just-sown Kharif crop, updated with each weather bulletin, and keep the northern flood and glacial-outburst alert in any contingency plan for upper-country logistics.
+  </div>
+</section>
+
+<!-- S08: OPERATIONAL RISK -->
+<section class="section" id="s08">
+  <div class="section-header"><span class="section-num">08</span><h2 class="section-title">Operational &amp; Disruption Risk</h2></div>
+
+  <p>Edition 06 tracked a ceasefire that Pakistan helped mediate. Edition 07 has to record that the framework is strained even as the oil price says the crisis is over. A cargo vessel was hit near Oman, the United States struck Iran in response, and Iran reasserted its claim over Hormuz shipping. Oil fell anyway, because tankers kept moving, but the divergence between a falling price and a live military exchange is itself the disruption-risk signal: the market is pricing the conflict as temporary, and if that judgement is wrong, the repricing comes fast. The 60-day ceasefire is a clock, not a settlement.</p>
+
+  <div class="sub-heading">Thread 1: The Iran File, De-escalation and Re-escalation at Once</div>
+
+  <p>The diplomatic and the kinetic are running in parallel. On the diplomatic track, Pakistan hosted the Iranian president, positioned itself as a mediator, and is set to chair a regional business council in 2027, all of which elevate Islamabad&rsquo;s standing. On the kinetic track, the Oman vessel strike and the United States response show the security environment is unsettled. For operations, the consequence is gap risk: a weekend escalation would move oil, the rupee and the index at the Monday open, and the held domestic fuel price would then face a crude spike from a base that did not get the benefit of the fall. Set escalation parameters before each Friday close.</p>
+
+  <div class="sub-heading">Thread 2: Azad Kashmir and the Northern Security File</div>
+
+  <p>The situation in Azad Jammu and Kashmir remains a route-and-connectivity verification risk rather than a settled one. Official channels have disputed some reporting on the region as false, and editorial commentary has called for cool heads, which together signal that the file is sensitive and not closed. For any business with AJK-linked logistics, field operations or communications, verify route and connectivity status with local dispatchers before movement rather than assuming normal conditions.</p>
+
+  <div class="sub-heading">Thread 3: Balochistan Security and Seismic Activity</div>
+
+  <p>Security operations continue in Balochistan, with a reported high-tempo intelligence operation, and the province also saw repeated earthquakes near Kohlu this week, with injuries reported. Neither is a macro event, but both are operational considerations for any field presence, transit or workforce in the affected districts. Treat them as localised continuity risks to be verified, not as system-wide disruptions.</p>
+
+  <div class="sub-heading">Thread 4: PSX Gap Risk, the Catalyst Is Spent</div>
+
+  <p>The index at 179,571 has now collected its domestic catalyst: the budget is law and the oil bill is down. What remains is exposure to forces it cannot price in advance, the Federal Reserve&rsquo;s direction, the global dollar, and the Iran security file. The budget-passage rally and the global risk-off are pulling in opposite directions, and the net is a market more exposed to weekend headline gaps than to a fresh domestic positive. For treasury positions, the risk is not directional, it is gap risk on a weekend event.</p>
+
+  <table class="mini-table">
+    <thead><tr><th style="width: 26%;">Disruption</th><th style="width: 12%;">Severity</th><th style="width: 16%;">Window</th><th>Business impact</th></tr></thead>
+    <tbody>
+      <tr><td><strong>US and Iran exchange, ceasefire strain</strong></td><td><span class="risk-tag risk-high">High</span></td><td>Daily</td><td>A vessel strike near Oman and a United States response show the 60-day framework is fragile. Any weekend development moves oil, the rupee and the index at the Monday open. Set stop and escalation rules before each Friday close.</td></tr>
+      <tr><td><strong>AJK route and connectivity</strong></td><td><span class="risk-tag risk-high">High</span></td><td>Ongoing</td><td>A sensitive file with disputed reporting. Verify route and communications status before any AJK-linked dispatch or field movement.</td></tr>
+      <tr><td><strong>Diesel supply, export-ban risk</strong></td><td><span class="risk-tag risk-medium">Medium</span></td><td>Emerging</td><td>A reported multi-month Russian diesel export ban would tighten the product market even as crude falls. Do not assume the diesel input keeps falling with Brent.</td></tr>
+      <tr><td><strong>Monsoon and GLOF, northern catchments</strong></td><td><span class="risk-tag risk-medium">Medium</span></td><td>Jul onward</td><td>An active glacial-outburst-flood alert for KP and GB, with urban-flood risk in upper Punjab. Build weather contingency into upper-country logistics and verify route accessibility during alert windows.</td></tr>
+      <tr><td><strong>Karachi transport ordinance</strong></td><td><span class="risk-tag risk-medium">Medium</span></td><td>Unresolved</td><td>Treat the prior-fortnight ordinance dispute as background risk, not closed. Buffer time-sensitive Karachi clearances and map alternate routing until it is demonstrably settled.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- S09: GLOBAL SIGNALS -->
+<section class="section" id="s09">
+  <div class="section-header"><span class="section-num">09</span><h2 class="section-title">Global Signals</h2></div>
+
+  <p>The oil relief is covered in Section 02. This section is about the signal that is not yet in your domestic numbers but will shape FY27 financing: the Federal Reserve has turned hawkish, and the move is rippling through the dollar, real yields and global risk appetite in a way that matters more to Pakistan than any index level.</p>
+
+  <div class="sub-heading">Signal 1: The Fed Pivot and Real Yields</div>
+
+  <p>Under new chair Kevin Warsh, the Fed held rates at 3.50&ndash;3.75% while projections kept at least one 2026 hike on the table. The market read is unambiguous: the United States ten-year real yield has risen to around 2.22%, the highest in over a year, the dollar is riding high, and gold has slipped to a fourth straight weekly loss. United States equities pulled back from recent highs, with pressure concentrated in higher-duration growth and mega-cap technology, signalling risk appetite turning rather than a broad collapse.</p>
+
+  <div class="data-grid">
+    <div class="data-card red"><div class="data-label">US 10Y Real Yield</div><div class="data-value">~2.22%</div><div class="data-card-rule"></div><div class="data-delta delta-up">Highest in over a year</div></div>
+    <div class="data-card amber"><div class="data-label">U.S. Equities</div><div class="data-value">Pullback</div><div class="data-card-rule"></div><div class="data-delta delta-down">Growth and mega-cap led; Fed-driven</div></div>
+    
+    <div class="data-card amber"><div class="data-label">Gold</div><div class="data-value">~$4,080</div><div class="data-card-rule"></div><div class="data-delta delta-down">4th weekly loss on hawkish Fed</div></div>
+  </div>
+
+  <p>Why did risk assets not rally on the oil relief and the geopolitical de-escalation? Because higher real yields are offsetting the geopolitical relief, the conflict is being priced as temporary rather than resolved, valuations were stretched after a historic two-month rally, Hormuz traffic is still a fraction of the pre-conflict level, and crude, though down sharply, remains above where it started the year. The lesson for Pakistan is that a cheaper oil bill does not automatically translate into easier global financial conditions when the Fed is tightening into it.</p>
+
+  <div class="sub-heading">Signal 2: The Transmission Is the Dollar, Not the Index</div>
+
+  <p>For Pakistan, the relevant channel is not the level of United States equities but the dollar and the cost of dollar funding. A firmer dollar and higher United States real yields raise the local-currency cost of imports and, more importantly, the cost of any external issuance Pakistan attempts in the new fiscal year, a Panda bond, a Eurobond, or a Sukuk. They also cap the SBP&rsquo;s room to ease: cutting into a tightening Fed pressures the rupee. The external rating-desk upgrade to overweight on Pakistan debt, driven by the oil outlook, is the offsetting positive, but it operates on credit spread, while the Fed operates on the underlying rate. The net cost of external money can rise even as the credit view improves.</p>
+
+  <div class="sub-heading">Signal 3: The Crosses That Move Margins</div>
+
+  <p>The euro near 1.14 and sterling near 1.32 against the dollar are the pairs that matter for letter-of-credit pricing and for the competitiveness of textile exports into Europe. A firmer dollar from here makes dollar-denominated Pakistani product more expensive to European buyers paying in euros, a margin headwind the fuel relief does not offset. The yuan is the other watch: a weaker yuan makes Chinese competition cheaper in the same third markets where Pakistan competes, so a softer yuan narrows Pakistani textile margins not because costs rose but because the Chinese alternative got cheaper in dollar terms.</p>
+
+  <table class="mini-table">
+    <thead><tr><th style="width: 28%;">Signal</th><th style="width: 18%;">Status</th><th>Direct Pakistan impact</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Fed hawkish pivot</strong></td><td><span class="risk-tag risk-high">Tightening</span></td><td>Higher US real yields and a firm dollar raise the cost of any FY27 external issuance and cap SBP easing room. The single most important external variable this fortnight.</td></tr>
+      <tr><td><strong>Gulf remittance lag</strong></td><td><span class="risk-tag risk-medium">Deferred risk</span></td><td>Crude near $70 compresses Gulf revenues with a 6 to 12 month lag. The majority of monthly remittances are Gulf-linked. Monitor from Q3 FY27.</td></tr>
+      <tr><td><strong>External upgrade</strong></td><td><span class="risk-tag risk-low">Favourable</span></td><td>A rating-desk move to overweight on the oil outlook narrows credit spread, partly offsetting the higher base rate from the Fed.</td></tr>
+      <tr><td><strong>EUR/USD and CNY</strong></td><td><span class="risk-tag risk-medium">Margin headwind</span></td><td>A firmer dollar raises the cost of dollar-priced Pakistani exports to European buyers; a softer yuan cheapens Chinese competition in shared markets.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sub-heading">The Remittance Lag Is Not This Quarter's Problem. It Is FY27 H2's Problem.</div>
+
+  <p>The oil benefit and the remittance risk should not be netted in the same month. Lower crude improves Pakistan's import bill immediately; the current-account credit from cheaper oil is real and is flowing through now. The Gulf income-channel risk arrives later. If crude remains below the fiscal comfort zone of major Gulf economies through Q3 CY26, project deferrals, labour-market rationalisation, and expat-income pressure become FY27 H2 risks for Pakistan. Gulf sovereign budgets are calibrated to oil revenues. Saudi Arabia's fiscal breakeven is estimated above $80/bbl; the UAE's is lower but still sensitive to sustained sub-$75 pricing. In a stress case, a 10 to 15% compression in Gulf-corridor remittances could remove roughly $420 to $650 million per month from the current account, depending on the base used, offsetting a large share of the import-bill saving on a different timeline. Treat the current quarter as import-bill relief, but build a second-half stress case for softer Gulf remittances if oil stays below $80.</p>
+
+  <p>One regional positive sits alongside the financial tightening. Pakistan's regional diplomacy has improved its visibility, but this does not change FY27 H1 financing math. The strategic logic to watch is the widening of non-Western funding and trade relationships at exactly the moment Western financial conditions are tightening.</p>
+
+  <div class="callout-red">
+    <strong>So What?</strong> Reprice FY27 external-financing assumptions for a firmer dollar and higher United States real yields; any dollar issuance is more expensive than the Edition 06 base case, even with the credit upgrade. Treat the rupee&rsquo;s risk as coming from the dollar now, not from oil, and assume the SBP has limited room to ease while the Fed is hawkish and the dollar is firm. For exporters, watch the euro and yuan crosses as the live margin variable, and treat the gold slide as the clean barometer of how tight external conditions are becoming.
+  </div>
+</section>
+
+<!-- S10: ACTION ITEMS -->
+<section class="section" id="s10" style="border-bottom: none;">
+  <div class="section-header"><span class="section-num">&#9654;</span><h2 class="section-title">The Week Ahead: Action Items</h2></div>
+  <ul class="action-list">
+
+    <li class="action-item-urgent">
+      <div class="action-priority">Urgent</div>
+      <div class="action-content">
+        <div class="action-title">Rebuild fuel-cost forecasts around a held pump price and a retained levy wedge</div>
+        <div class="action-body">Petrol and diesel were held at Rs 299.50 and Rs 311.47 till further orders even as crude fell to pre-war levels. The pump price is now a fiscal instrument, not a crude tracker. Forecast diesel-denominated costs at the current rate, scenario-test a retained levy wedge instead of assuming automatic pass-through; any future release is now a policy call, not a mechanical crude adjustment, and add a clause for a Hormuz-driven reversal. Watch the next notification at the July 1 fiscal-year turn.</div>
+      </div>
+    </li>
+
+    <li class="action-item-urgent">
+      <div class="action-priority">Urgent</div>
+      <div class="action-content">
+        <div class="action-title">Finalise FY27 cost lines against the signed Finance Act, effective 1 July</div>
+        <div class="action-body">The Finance Act 2026 is law from July 1. Map your exposure to the version signed, not the version tabled: the EV excise tiers, the steel per-unit-electricity tax, the coal value-addition tax for IPPs, the climate levy, the salaried relief, and the July 1 gas-tariff rise. Keep a provisional line for any reserve-related or petroleum-sector levy, because the held pump price gives the government room to retain the next crude fall without a visible price increase.</div>
+      </div>
+    </li>
+
+    <li class="action-item-watch">
+      <div class="action-priority">Watch</div>
+      <div class="action-content">
+        <div class="action-title">Watch the mid-July FBR number before locking FY27 tax-risk assumptions</div>
+        <div class="action-body">The Finance Act is now law, but the FY26 revenue miss is still open. FBR's eleven-month collection leaves a theoretical June requirement of roughly Rs 2.75 trillion against a revised full-year target near Rs 14.0 trillion. The final print will shape the IMF second-review conversation and the likely intensity of Q1 FY27 tax enforcement. Large corporates, importers, super-tax-bracket businesses and sectors with past audit exposure should prepare documentation before enforcement pressure arrives, not after notices start.</div>
+      </div>
+    </li>
+
+    <li class="action-item-urgent">
+      <div class="action-priority">Urgent</div>
+      <div class="action-content">
+        <div class="action-title">Reprice external-financing assumptions for a hawkish Fed and a firmer dollar</div>
+        <div class="action-body">United States real yields are at a one-year high and the dollar is riding high on Federal Reserve rate-hike expectations. Any FY27 dollar issuance, a Panda bond, a Eurobond or a Sukuk, is more expensive than the Edition 06 base case, even with the external upgrade on Pakistan debt. Assume the SBP has limited room to ease while the Fed is hawkish and the dollar is firm, and treat the rupee&rsquo;s risk as coming from the dollar now, not from oil.</div>
+      </div>
+    </li>
+
+    <li class="action-item-watch">
+      <div class="action-priority">Watch</div>
+      <div class="action-content">
+        <div class="action-title">Model H2 food inflation without the fuel offset</div>
+        <div class="action-body">Because the fuel cut was held rather than passed through, the disinflation from fuel into the June and July prints is smaller than Edition 06 assumed. That leaves food carrying the inflation story: a structural cotton shortfall, firm sugar, sticky wheat flour, and a monsoon-exposed Kharif crop. Stress-test H2 formulation and wage assumptions against food inflation in the 14 to 16% range even if transport costs ease, and do not let a softer June headline reset H2 plans.</div>
+      </div>
+    </li>
+
+    <li class="action-item-watch">
+      <div class="action-priority">Watch</div>
+      <div class="action-content">
+        <div class="action-title">Set a PSX gap-risk protocol; the domestic catalyst is spent</div>
+        <div class="action-body">The index has collected its domestic positives: the budget is law and the oil bill is down. It is now exposed to forces it cannot price in advance, the Fed, the dollar, and a live United States and Iran security file. Define stop, escalation and re-entry rules before each Friday close while the ceasefire remains a 60-day framework rather than a settlement. The risk is gap risk on a weekend headline, not a directional view.</div>
+      </div>
+    </li>
+
+    <li class="action-item-watch">
+      <div class="action-priority">Watch</div>
+      <div class="action-content">
+        <div class="action-title">Keep the bear-case Hormuz scenario despite the lower oil price</div>
+        <div class="action-body">Oil fell this fortnight despite a cargo-vessel strike near Oman and a United States strike on Iran, because tankers kept moving. That is a fragile basis for relief: transit is below the pre-war average and the ceasefire is a clock. A re-escalation reopens the Dubai Platts premium within days, and because the pump price is already held flat, a crude spike would force a politically costly hike from a base that did not get the fall. Keep this in Q1 FY27 downside models.</div>
+      </div>
+    </li>
+
+    <li class="action-item-monitor">
+      <div class="action-priority">Monitor</div>
+      <div class="action-content">
+        <div class="action-title">Track the weather bulletins; the Kharif crop is the forward food-inflation risk</div>
+        <div class="action-body">The outlook for July to September is below-normal rainfall for most of the country with above-normal temperatures and El Ni&ntilde;o as a developing risk, against an active glacial-outburst-flood alert for KP and GB. Rice and sugarcane are being sown into that outlook, so a weak monsoon is a forward risk rather than a booked loss; cotton already carries a structural shortfall near 5.0 to 5.3 million bales. Update agricultural procurement assumptions with each bulletin, and keep the northern flood alert in upper-country logistics contingencies.</div>
+      </div>
+    </li>
+
+
+
+    <li class="action-item-monitor">
+      <div class="action-priority">Monitor</div>
+      <div class="action-content">
+        <div class="action-title">Use gold and the dollar as the external-conditions barometer</div>
+        <div class="action-body">Gold&rsquo;s fourth straight weekly loss and the firm dollar are the cleanest read on how tight external conditions are becoming. A continued gold slide and dollar strength tighten Pakistan&rsquo;s financing window and pressure the rupee, regardless of the oil relief. For any business with import exposure or external-currency liabilities, watch this complex as the leading signal on landed costs and financing, ahead of the next reserve and rate updates.</div>
+      </div>
+    </li>
+
+  </ul>
+</section>
+
+<div class="methodology">
+  <strong>Methodology</strong>
+  The Pulse synthesises official releases, market data, commodity benchmarks, regulatory updates, trade reporting, and independent editorial analysis. Material numerical claims are cross-checked against primary sources before publication. Forward-looking statements represent scenarios for planning purposes, not predictions. Indicators marked (est.) carry forward the prior edition's value pending fresh data.
+</div>
+
+</div>
+<nav class="side-nav" id="side-nav" aria-label="Site navigation">
+  <div class="side-nav-inner">
+    <div class="side-nav-heading">More from The Pulse Paper</div>
+    <div class="side-nav-group">
+      <div class="side-nav-label">Explore</div>
+      <div class="side-nav-group-links">
+        <a href="/markets" class="side-nav-page">Markets</a>
+        <a href="/signals" class="side-nav-page">Signals</a>
+        <a href="/specials" class="side-nav-page">Specials</a>
+        <a href="/glossary" class="side-nav-page">Glossary</a>
+      </div>
+    </div>
+    <span class="side-nav-divider"></span>
+    <div class="side-nav-group">
+      <div class="side-nav-label">Editions</div>
+      <div class="side-nav-group-links">
+    <a href="/editions/2026-05-24.html" class="side-nav-link"><span class="sn-no">03</span> The imported crisis&hellip;</a>
+    <a href="/editions/2026-05-31.html" class="side-nav-link"><span class="sn-no">04</span> The ceasefire trade&hellip;</a>
+    <a href="/editions/2026-06-08.html" class="side-nav-link"><span class="sn-no">05</span> The budget arrives&hellip;</a>
+    <a href="/editions/2026-06-22.html" class="side-nav-link"><span class="sn-no">06</span> The relief arrived&hellip;</a>
+        <a href="/editions" class="side-nav-page" style="color:var(--accent);font-weight:600;">All &rarr;</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<footer class="footer">
+  <div>The Pulse &middot; Edition 07 &middot; Week of 29 June &ndash; 5 July 2026</div>
+  <div style="margin-top: 8px; font-size: 10px; opacity: 0.5;">
+    Independent analysis for decision-support. Not for redistribution. This newsletter does not constitute financial, legal, or investment advice.
+  </div>
+</footer>
+<script>
+(function() {
+  var trail = document.getElementById('dotTrail');
+  if (!trail) return;
+  var links = trail.querySelectorAll('a');
+  var sections = [];
+  links.forEach(function(link) {
+    var id = link.getAttribute('href').replace('#', '');
+    var el = document.getElementById(id);
+    if (el) sections.push({ id: id, el: el, link: link });
+  });
+  function update() {
+    var scrollY = window.scrollY || window.pageYOffset;
+    var windowH = window.innerHeight;
+    if (scrollY > 400) { trail.classList.add('visible'); }
+    else { trail.classList.remove('visible'); }
+    var current = null;
+    for (var i = sections.length - 1; i >= 0; i--) {
+      var rect = sections[i].el.getBoundingClientRect();
+      if (rect.top <= windowH * 0.35) { current = sections[i].id; break; }
+    }
+    links.forEach(function(link) {
+      var id = link.getAttribute('href').replace('#', '');
+      if (id === current) { link.classList.add('active'); }
+      else { link.classList.remove('active'); }
+    });
+  }
+  links.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var id = this.getAttribute('href').replace('#', '');
+      var target = document.getElementById(id);
+      if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+</script>
+<div class="sf-bar" id="sf-bar" aria-label="Share options">
+  <button class="sf-btn" id="sf-copy" title="Copy link" aria-label="Copy link"><svg id="sf-copy-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+  <a class="sf-btn" id="sf-wa" href="#" target="_blank" rel="noopener noreferrer" title="Share on WhatsApp" aria-label="Share on WhatsApp"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>
+  <a class="sf-btn" id="sf-li" href="#" target="_blank" rel="noopener noreferrer" title="Share on LinkedIn" aria-label="Share on LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+  <a class="sf-btn" id="sf-x" href="#" target="_blank" rel="noopener noreferrer" title="Share on 𝕏" aria-label="Share on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+  <a class="sf-btn" id="sf-em" href="#" title="Share via email" aria-label="Share via email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></a>
+</div>
+<script>(function(){var bar=document.getElementById('sf-bar'),wa=document.getElementById('sf-wa'),li=document.getElementById('sf-li'),x=document.getElementById('sf-x'),em=document.getElementById('sf-em'),copy=document.getElementById('sf-copy');if(!bar)return;var url=window.location.href,title=document.title,enc=encodeURIComponent;if(wa)wa.href='https://wa.me/?text='+enc(title+' '+url);if(li)li.href='https://www.linkedin.com/sharing/share-offsite/?url='+enc(url);if(x)x.href='https://x.com/intent/tweet?url='+enc(url)+'&text='+enc(title);if(em)em.href='mailto:?subject='+enc(title)+'&body='+enc(url);if(copy)copy.addEventListener('click',function(){navigator.clipboard.writeText(url).then(function(){var icon=document.getElementById('sf-copy-icon');if(icon)icon.innerHTML='<polyline points="20 6 9 17 4 12"/>';setTimeout(function(){if(icon)icon.innerHTML='<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>';},2000);});});var sn=document.getElementById('side-nav');window.addEventListener('scroll',function(){var y=window.scrollY;if(y>320)bar.classList.add('sf-show');else bar.classList.remove('sf-show');if(sn){var h=document.documentElement.scrollHeight-window.innerHeight;var pct=h>0?y/h:0;if(pct<0.3){sn.style.opacity='0';sn.style.pointerEvents='none';}else if(pct<0.55){var o=(pct-0.3)/0.25;sn.style.opacity=o.toFixed(2);sn.style.pointerEvents=o>0.3?'auto':'none';}else{sn.style.opacity='1';sn.style.pointerEvents='auto';}}},{passive:true});})();</script>
+<script>
+(function(){
+var G={
+reer:["REER","A measure of the rupee’s value against a basket of trading-partner currencies, adjusted for inflation. A rising REER means the rupee is getting more expensive in real terms."],
+brent:["Brent Crude","The main global benchmark price for crude oil, based on oil from the North Sea. Most international oil is priced relative to it."],
+platts:["Dubai Platts","The crude oil price benchmark for the Middle East – the one most relevant to what Pakistan actually pays for imported crude."],
+cpi:["CPI","The standard measure of inflation – how much the prices of everyday goods and services have risen over a year."],
+spi:["SPI","A weekly Pakistani inflation gauge tracking prices of essential items like food, fuel and utilities. It moves faster than CPI and shows what households feel first."],
+sbp:["SBP","Pakistan’s central bank. It sets the policy rate, manages foreign exchange reserves, and oversees the banking system."],
+fbr:["FBR","Pakistan’s tax-collection authority. Its annual revenue target is one of the most-watched numbers in the budget."],
+mpc:["MPC","The SBP committee that meets roughly every six weeks to decide whether to raise, lower, or hold the policy rate."],
+kibor:["KIBOR","The rate at which Pakistani banks lend to each other. It tracks the SBP policy rate closely and benchmarks most corporate loans."],
+tbill:["T-bills","Short-term government debt securities with maturities of 3, 6, or 12 months. They benchmark short-term interest rates."],
+pib:["PIBs","Long-term government debt securities, typically 3, 5, or 10 years. The main instrument for government domestic borrowing at fixed rates."],
+imf:["IMF","A global financial institution that lends to countries facing balance-of-payments crises, in exchange for economic reform commitments."],
+psx:["PSX","Pakistan’s sole stock exchange, based in Karachi, where equities, debt instruments, and derivatives are traded."],
+kse:["KSE-100","The benchmark index of the Pakistan Stock Exchange, tracking the 100 largest companies by market capitalisation."],
+ogra:["OGRA","Pakistan’s regulator for the oil and gas sector. It recommends fuel price adjustments, usually on a fortnightly basis."],
+fmcg:["FMCG","Fast-Moving Consumer Goods – packaged food, beverages, toiletries. Supply chains are highly sensitive to fuel, currency, and commodity costs."],
+lc:["Letter of Credit","A bank guarantee used in international trade. LC financing costs track KIBOR and the policy rate."],
+cpo:["CPO","Crude Palm Oil – the unrefined oil from palm fruit, widely used in cooking oil, soaps, and processed food. Pakistan is a major importer."],
+hdpe:["HDPE","High-Density Polyethylene – a plastic resin used in flexible packaging. Its price tracks crude oil."],
+pet:["PET","Polyethylene Terephthalate – a plastic resin used in beverage bottles. Oil-linked; mostly imported from Southeast Asia."],
+hsd:["HSD","High Speed Diesel – the grade most widely used in Pakistan for transport, agriculture, and industry."],
+spr:["SPR","Strategic Petroleum Reserve – a government-held fuel stockpile to buffer against supply disruptions."],
+psdp:["PSDP","Public Sector Development Programme – the government’s annual allocation for development spending."],
+disco:["DISCO","Distribution Company – one of Pakistan’s regional electricity distribution companies. Central to the circular-debt problem."],
+irsa:["IRSA","Indus River System Authority – allocates water from the Indus system among provinces."],
+pmd:["PMD","Pakistan Meteorological Department – the national weather forecasting agency."],
+ndma:["NDMA","National Disaster Management Authority – Pakistan’s federal disaster response agency."],
+wapda:["WAPDA","Water and Power Development Authority – responsible for major dams and hydropower."],
+maf:["MAF","Million Acre Feet – the unit used to measure water storage in Pakistan’s reservoirs."],
+cbot:["CBOT","Chicago Board of Trade – where wheat, corn, and soybean futures set global reference prices."],
+b15:["B15","Malaysia’s mandate requiring diesel to contain 15% palm oil-based biodiesel. It structurally supports CPO prices."],
+mou:["MoU","Memorandum of Understanding – a formal but typically non-binding agreement outlining the framework of a deal."],
+mpoc:["MPOC","Malaysian Palm Oil Council – its price forecasts are closely watched by edible-oil importers."],
+fob:["FOB","Free On Board – the seller’s price includes delivery to the port of shipment. The buyer pays freight from there."],
+cif:["CIF","Cost, Insurance, Freight – the seller’s price includes goods, insurance, and freight to the destination port."],
+opec:["OPEC","Organisation of the Petroleum Exporting Countries – a cartel of oil producers that coordinates output to influence global crude prices."],
+"opec-plus":["OPEC+","The expanded alliance of oil producers including Russia and Kazakhstan. Its production decisions are the primary driver of international oil prices."],
+levy:["Petroleum Levy","A per-litre charge the government adds to fuel prices. A major revenue source."],
+hormuz:["Strait of Hormuz","A narrow waterway between Iran and Oman through which roughly 20% of the world’s traded oil passes daily."],
+yield:["Bond Yield","The effective return an investor earns on a bond. Rising yields signal that borrowing is getting more expensive."],
+"yield-curve":["Yield Curve","A line plotting bond yields across different maturities. Its shape signals market expectations for growth and interest rates."],
+reserves:["Foreign Exchange Reserves","The foreign currency a central bank holds – the country’s buffer for paying for imports and servicing external debt."],
+"current-account":["Current Account","A country’s balance of trade in goods and services plus income flows like remittances."],
+remittances:["Remittances","Money sent home by citizens working abroad. For Pakistan, a major and stable source of foreign currency."],
+gdp:["GDP","Gross Domestic Product – the total value of all goods and services produced in a country in a year."]
+};
+var tip=document.createElement('div');tip.className='g-tip';tip.innerHTML='<button class="g-tip-close">×</button><div class="g-tip-label"></div><div class="g-tip-def"></div>';document.body.appendChild(tip);
+var label=tip.querySelector('.g-tip-label'),def=tip.querySelector('.g-tip-def'),cls=tip.querySelector('.g-tip-close');
+function hide(){tip.classList.remove('g-show');}
+cls.addEventListener('click',hide);
+document.addEventListener('click',function(e){if(!tip.contains(e.target)&&!e.target.classList.contains('term'))hide();});
+document.addEventListener('click',function(e){
+  var t=e.target.closest('.term');if(!t)return;
+  var k=t.getAttribute('data-key');if(!k||!G[k])return;
+  e.preventDefault();e.stopPropagation();
+  label.textContent=G[k][0];def.textContent=G[k][1];
+  var r=t.getBoundingClientRect();
+  var top=r.bottom+8;if(top+200>window.innerHeight)top=r.top-200;
+  var left=Math.max(20,Math.min(r.left,window.innerWidth-360));
+  tip.style.top=top+'px';tip.style.left=left+'px';
+  tip.classList.add('g-show');
+});
+})();
+</script>
+</body>
+</html>

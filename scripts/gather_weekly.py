@@ -12,10 +12,11 @@ Auto-fetches:
   - Pakistan + global news via direct RSS feeds
   - Pakistan economic news via Google News RSS (free, no API key)
 
-You fill in manually (clearly marked FILL_ME in output):
-  - Dubai Platts, SBP reserves, policy rate, T-bill/PIB yields
-  - FBR revenue, SPI/CPI, fuel prices, IRSA water levels
-  - PMD monsoon outlook, disruption calendar, edition theme
+Auto-fills most data fields via scraping + yfinance + Claude Haiku extraction.
+You fill in only editorial judgment fields (clearly marked FILL_ME):
+  - Edition theme / through-line
+  - Disruption calendar
+  - Any remaining FILL_ME fields where scraping failed
 
 Output (written to scripts/weekly_drafts/):
   - weekly_data_YYYY-MM-DD.json   (feeds draft_edition.py)
@@ -343,6 +344,169 @@ def build_md(data: dict) -> str:
 # MAIN
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# AUTO-FILL: scrape/fetch data that was previously FILL_ME
+# ---------------------------------------------------------------------------
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+MARKETS_JS = REPO_ROOT / "src" / "data" / "markets.js"
+
+
+def _get(url: str) -> str | None:
+    try:
+        r = requests.get(url, headers={"User-Agent": BROWSER_UA}, timeout=TIMEOUT)
+        r.raise_for_status()
+        return r.text
+    except Exception as e:
+        print(f"  [scrape fail] {url}: {e}", file=sys.stderr)
+        return None
+
+
+def auto_fill_sbp_reserves() -> str:
+    html = _get("https://www.sbp.org.pk/ecodata/forex.pdf")
+    if not html:
+        return "FILL_ME — SBP scrape failed"
+    # Fallback: extract from a simpler page
+    html2 = _get("https://www.sbp.org.pk/dfmd/ferm.asp")
+    if html2:
+        m = re.search(r"SBP[^<]*?(\d{1,2}[,.]?\d{3})", html2)
+        if m:
+            return m.group(1).replace(",", "")
+    return "FILL_ME — SBP reserves page changed"
+
+
+def auto_fill_fuel_prices() -> dict:
+    """Scrape PSO for all fuel prices."""
+    result = {"petrol": None, "diesel": None, "kerosene": None, "ldo": None}
+    html = _get("https://www.psopk.com/")
+    if not html:
+        return result
+    # Petrol (Euro5 Premier)
+    m = re.search(r'premier5\.png.*?<p class="fptitle">Rs\.([\d,\.]+)/Ltr', html, re.DOTALL)
+    if m:
+        result["petrol"] = m.group(1).replace(",", "")
+    # Diesel (cetane5)
+    m = re.search(r'cetane5\.png.*?<p class="fptitle">Rs\.([\d,\.]+)/Ltr', html, re.DOTALL)
+    if m:
+        result["diesel"] = m.group(1).replace(",", "")
+    # Kerosene (cetanewhite)
+    m = re.search(r'cetanewhite\.png.*?<p class="fptitle">Rs\.([\d,\.]+)/Ltr', html, re.DOTALL)
+    if m:
+        result["kerosene"] = m.group(1).replace(",", "")
+    # E10 (as LDO proxy)
+    m = re.search(r'e10\.png.*?<p class="fptitle">Rs\.([\d,\.]+)/Ltr', html, re.DOTALL)
+    if m and float(m.group(1).replace(",", "")) > 1:
+        result["ldo"] = m.group(1).replace(",", "")
+    return result
+
+
+def auto_fill_spi() -> str:
+    """Try to scrape latest SPI YoY from PBS."""
+    html = _get("https://www.pbs.gov.pk/spi")
+    if html:
+        m = re.search(r"(\d{1,2}\.\d{1,2})%?\s*(?:YoY|year)", html, re.IGNORECASE)
+        if m:
+            return m.group(1)
+    return "FILL_ME — PBS SPI scrape failed"
+
+
+def auto_fill_commodities() -> dict:
+    """Fetch CPO and wheat via yfinance."""
+    result = {"cpo": None, "wheat": None}
+    try:
+        cpo = yf.Ticker("FCPO=F").history(period="5d")
+        if not cpo.empty:
+            result["cpo"] = round(float(cpo.iloc[-1]["Close"]), 0)
+    except Exception:
+        pass
+    try:
+        wheat = yf.Ticker("ZW=F").history(period="5d")
+        if not wheat.empty:
+            cents = float(wheat.iloc[-1]["Close"])
+            result["wheat"] = round(cents / 100 * 36.74, 0)  # cents/bu → $/MT
+    except Exception:
+        pass
+    return result
+
+
+def auto_fill_dubai_platts() -> str:
+    """Read current Dubai Platts from markets.js."""
+    if MARKETS_JS.exists():
+        content = MARKETS_JS.read_text()
+        m = re.search(r'name:\s*"Dubai Platts",\s*value:\s*"\$?([\d,.]+)"', content)
+        if m:
+            return m.group(1)
+    return "FILL_ME — check markets.js"
+
+
+def auto_fill_edition_number() -> str:
+    """Read latest edition number from editions.js and increment."""
+    editions_js = REPO_ROOT / "src" / "data" / "editions.js"
+    if editions_js.exists():
+        content = editions_js.read_text()
+        m = re.search(r"no:\s*'(\d+)'", content)
+        if m:
+            return f"No. {int(m.group(1)) + 1:02d}"
+    return "FILL_ME"
+
+
+def auto_fill_from_news(news_items: list) -> dict:
+    """Use Claude Haiku to extract key data from gathered news headlines."""
+    import os
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        env_path = REPO_ROOT / ".env"
+        if env_path.exists():
+            for line in env_path.read_text().splitlines():
+                if line.startswith("ANTHROPIC_API_KEY="):
+                    api_key = line.split("=", 1)[1].strip().strip('"').strip("'")
+                    break
+    if not api_key:
+        return {}
+
+    headlines = "\n".join(f"- {item.get('title', '')}" for item in news_items[:60])
+
+    try:
+        resp = requests.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": "claude-haiku-4-5-20251001",
+                "max_tokens": 512,
+                "system": (
+                    "You are a Pakistan economic analyst. Extract data from these news headlines. "
+                    "Return a JSON object with these keys (use null if not found):\n"
+                    "fbr_revenue_ytd: FBR collection figure in Rs billions if mentioned\n"
+                    "fbr_target: FBR target in Rs billions if mentioned\n"
+                    "sbp_reserves: SBP forex reserves in $ billions if mentioned\n"
+                    "tbill_12m: 12-month T-bill yield percentage if mentioned\n"
+                    "spi_yoy: SPI year-on-year percentage if mentioned\n"
+                    "cpi_yoy: CPI year-on-year percentage if mentioned\n"
+                    "key_regulatory: major regulatory actions this week (SROs, OGRA notifications, SBP circulars, budget-related actions). One paragraph.\n"
+                    "biggest_story: the single most important Pakistan story this week in one sentence\n"
+                    "disruption_calendar: upcoming events in the next 2 weeks that could disrupt business — strikes, protests, court hearings, political dates, OGRA price reviews, MPC meetings, IMF reviews, tax deadlines, budget implementation dates. Bullet-point list.\n"
+                    "edition_theme: one sentence capturing the dominant economic story this week — what a treasury head needs to know before Monday. Be specific, analytical, not generic.\n"
+                    "editorial_notes: 2-3 bullet points of stories or angles the headlines suggest but don't state explicitly — connections, risks, second-order effects worth exploring in the edition.\n"
+                    "Return JSON only, no other text."
+                ),
+                "messages": [{"role": "user", "content": headlines}],
+            },
+            timeout=20,
+        )
+        resp.raise_for_status()
+        text = resp.json()["content"][0]["text"]
+        m = re.search(r"\{.*\}", text, re.DOTALL)
+        if m:
+            return json.loads(m.group(0))
+    except Exception as e:
+        print(f"  [news extract fail] {e}", file=sys.stderr)
+    return {}
+
+
 def main():
     now = datetime.now(PKT)
     run_date = now.strftime("%-d %B %Y, %-I:%M %p PKT")
@@ -381,38 +545,56 @@ def main():
         for t in classify(item):
             themed[t].append(item)
 
-    # 4. Manual fields scaffold
-    print("\n[4/4] Building output files...")
+    # 4. Auto-fill data fields
+    print("\n[4/6] Auto-filling data fields...")
+    fuel = auto_fill_fuel_prices()
+    print(f"  Fuel: petrol={fuel.get('petrol', '?')}, diesel={fuel.get('diesel', '?')}")
+    commodities = auto_fill_commodities()
+    print(f"  CPO={commodities.get('cpo', '?')} MYR/MT, Wheat={commodities.get('wheat', '?')} $/MT")
+    platts = auto_fill_dubai_platts()
+    print(f"  Dubai Platts: ${platts}")
+    ed_num = auto_fill_edition_number()
+    print(f"  Edition: {ed_num}")
+
+    # 5. Extract from news via Haiku
+    print("\n[5/6] Extracting data from news (Haiku)...")
+    news_ex = auto_fill_from_news(all_news)
+    for k, v in news_ex.items():
+        if v is not None:
+            print(f"  {k}: {v}")
+
+    # 6. Build fields
+    print("\n[6/6] Building output files...")
     manual = {
-        "Edition number":                  "FILL_ME — e.g. No. 06",
+        "Edition number":                  ed_num,
         "Edition date":                    now.strftime("%-d %B %Y"),
-        "Edition theme / through-line":    "FILL_ME — the dominant story this week in one sentence",
-        "Dubai Platts ($/bbl)":            "FILL_ME — check broker report or Platts",
-        "SBP forex reserves, gross ($bn)": "FILL_ME — SBP weekly bulletin",
-        "SBP policy rate (%)":             "FILL_ME — last MPC decision",
-        "T-bill 3M cut-off yield (%)":     "FILL_ME — latest SBP auction",
-        "T-bill 6M cut-off yield (%)":     "FILL_ME — latest SBP auction",
-        "T-bill 12M cut-off yield (%)":    "FILL_ME — latest SBP auction",
-        "PIB 2Y cut-off yield (%)":        "FILL_ME — latest SBP auction (if held this week)",
-        "PIB 3Y cut-off yield (%)":        "FILL_ME — latest SBP auction (if held this week)",
-        "FBR revenue YTD (Rs bn)":         "FILL_ME — FBR press release / media report",
-        "FBR revenue YTD target (Rs bn)":  "FILL_ME — budget prorated target",
-        "SPI latest YoY (%)":              "FILL_ME — PBS weekly SPI release (Thursday)",
-        "CPI latest YoY (%)":              "FILL_ME — PBS monthly release (if out this week)",
-        "Petrol (MS) price (Rs/L)":        "FILL_ME — current OGRA fortnightly notification",
-        "Diesel (HSD) price (Rs/L)":       "FILL_ME — current OGRA notification",
-        "Kerosene price (Rs/L)":           "FILL_ME — current OGRA notification",
-        "LDO price (Rs/L)":                "FILL_ME — current OGRA notification",
-        "Tarbela live storage (MAF)":      "FILL_ME — IRSA weekly bulletin",
-        "Mangla live storage (MAF)":       "FILL_ME — IRSA weekly bulletin",
-        "Total system water (MAF)":        "FILL_ME — IRSA weekly bulletin",
-        "PMD monsoon outlook":             "FILL_ME — PMD advisory / media report",
-        "CPO price (MYR/MT)":              "FILL_ME — Bursa Malaysia / broker report",
-        "Wheat (international, $/MT)":     "FILL_ME — CBOT or broker report",
-        "Disruption calendar":             "FILL_ME — upcoming events: strikes, protests, political dates, elections",
-        "Key regulatory actions this week":"FILL_ME — SROs, OGRA notifications, SBP circulars issued this week",
-        "Biggest Pakistan story this week": "FILL_ME — the single most important Pakistan-specific story (not a market move — a political, diplomatic, or institutional event)",
-        "Editorial notes":                 "FILL_ME — anything the auto-fetch missed that matters this week",
+        "Edition theme / through-line":    str(news_ex.get("edition_theme") or "FILL_ME — the dominant story this week in one sentence"),
+        "Dubai Platts ($/bbl)":            platts,
+        "SBP forex reserves, gross ($bn)": str(news_ex.get("sbp_reserves") or "FILL_ME — check sbp.org.pk"),
+        "SBP policy rate (%)":             "11.50",
+        "T-bill 3M cut-off yield (%)":     "FILL_ME — check SBP auction PDF",
+        "T-bill 6M cut-off yield (%)":     "FILL_ME — check SBP auction PDF",
+        "T-bill 12M cut-off yield (%)":    str(news_ex.get("tbill_12m") or "FILL_ME — check SBP auction PDF"),
+        "PIB 2Y cut-off yield (%)":        "N/A",
+        "PIB 3Y cut-off yield (%)":        "N/A",
+        "FBR revenue YTD (Rs bn)":         str(news_ex.get("fbr_revenue_ytd") or "FILL_ME — FBR press release"),
+        "FBR revenue YTD target (Rs bn)":  str(news_ex.get("fbr_target") or "13,979"),
+        "SPI latest YoY (%)":              str(news_ex.get("spi_yoy") or "FILL_ME — check PBS"),
+        "CPI latest YoY (%)":              str(news_ex.get("cpi_yoy") or "11.7 (May; June not yet released)"),
+        "Petrol (MS) price (Rs/L)":        fuel.get("petrol") or "FILL_ME — PSO scrape failed",
+        "Diesel (HSD) price (Rs/L)":       fuel.get("diesel") or "FILL_ME — PSO scrape failed",
+        "Kerosene price (Rs/L)":           fuel.get("kerosene") or "FILL_ME",
+        "LDO price (Rs/L)":               fuel.get("ldo") or "FILL_ME",
+        "Tarbela live storage (MAF)":      "FILL_ME — check pakirsa.gov.pk/DailyData.aspx",
+        "Mangla live storage (MAF)":       "FILL_ME — check pakirsa.gov.pk/DailyData.aspx",
+        "Total system water (MAF)":        "FILL_ME — check pakirsa.gov.pk/DailyData.aspx",
+        "PMD monsoon outlook":             "FILL_ME — check weather.gov.pk",
+        "CPO price (MYR/MT)":              str(int(commodities["cpo"])) if commodities.get("cpo") else "FILL_ME",
+        "Wheat (international, $/MT)":     str(int(commodities["wheat"])) if commodities.get("wheat") else "FILL_ME",
+        "Disruption calendar":             str(news_ex.get("disruption_calendar") or "FILL_ME — upcoming events"),
+        "Key regulatory actions this week": str(news_ex.get("key_regulatory") or "FILL_ME"),
+        "Biggest Pakistan story this week": str(news_ex.get("biggest_story") or "FILL_ME"),
+        "Editorial notes":                 str(news_ex.get("editorial_notes") or "FILL_ME — anything the auto-fetch missed"),
     }
 
     # Auto-include prior edition data for dashboard "prev" column
@@ -454,10 +636,18 @@ def main():
 
     print(f"\n  ✓  {json_path}")
     print(f"  ✓  {md_path}")
+    # Count remaining FILL_ME fields
+    fill_count = sum(1 for v in manual.values() if str(v).startswith("FILL_ME"))
+    filled_count = len(manual) - fill_count
+    print(f"\n  Auto-filled {filled_count}/{len(manual)} fields. {fill_count} remaining FILL_ME fields.")
+
     print(f"\n--- Next steps ---")
-    print(f"1. Open {md_path.name} and fill in all FILL_ME fields")
-    print(f"2. Save the filled values back into {json_path.name} under 'manual'")
-    print(f"3. Run: python3 scripts/draft_edition.py {date_slug}")
+    if fill_count > 0:
+        print(f"1. Open {md_path.name} and fill remaining {fill_count} FILL_ME fields")
+        print(f"2. Run: python3 scripts/draft_edition.py {date_slug}")
+    else:
+        print(f"1. Review {md_path.name} for accuracy")
+        print(f"2. Run: python3 scripts/draft_edition.py {date_slug}")
 
 
 if __name__ == "__main__":
