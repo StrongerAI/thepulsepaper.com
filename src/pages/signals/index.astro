@@ -2,23 +2,40 @@
 import Base from '../../layouts/Base.astro';
 import SideNav from '../../components/SideNav.astro';
 import { getCollection } from 'astro:content';
-const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Interactive signals — standalone HTML built outside the markdown content
+// collection (scrollytelling charts, custom layouts). Served from
+// /public/signals/. Add new ones to the TOP of this list.
+const interactiveSignals = [
+  {
+    href: '/signals/real-rate-flipped.html',
+    title: "The year Pakistan's real rate flipped",
+    summary: 'FY26 opened with a real-rate cushion near seven points and, by May, the cushion was gone. Scroll through the policy rate against inflation, month by month, and watch the moment the Gulf war erased it.',
+    date: new Date('2026-06-30'),
+    tags: ['Rates', 'Inflation', 'FY26'],
+  },
+];
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .map((a) => ({ href: `/signals/${a.slug}`, title: a.data.title, summary: a.data.summary, date: a.data.date, tags: a.data.tags }));
+
+const signals = [...interactiveSignals, ...articles].sort((a, b) => b.date.valueOf() - a.date.valueOf());
 ---
 <Base title="Pakistan Economic Signals | The Pulse Paper" description="Short-form economic intelligence from The Pulse Paper — bite-sized reads on Pakistan's markets, policy, and macro forces.">
   <section class="wrap idx">
     <header class="idx-head"><h1>Signals</h1><p class="muted">Bite-sized reads on what's moving. Published when something is worth flagging.</p></header>
     <div class="list">
-      {articles.map((a) => {
-        const d = a.data.date.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+      {signals.map((s) => {
+        const d = s.date.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
         return (
-          <a class="row" href={`/signals/${a.slug}`}>
-            <div class="mono row-meta">{d}{a.data.tags.length ? ` · ${a.data.tags.join(' · ')}` : ''}</div>
-            <div class="row-title">{a.data.title}</div>
-            <div class="row-sum muted">{a.data.summary}</div>
+          <a class="row" href={s.href}>
+            <div class="mono row-meta">{d}{s.tags.length ? ` · ${s.tags.join(' · ')}` : ''}</div>
+            <div class="row-title">{s.title}</div>
+            <div class="row-sum muted">{s.summary}</div>
           </a>
         );
       })}
-      {articles.length === 0 && <p class="muted">No signals published yet.</p>}
+      {signals.length === 0 && <p class="muted">No signals published yet.</p>}
     </div>
   </section>
   <style>

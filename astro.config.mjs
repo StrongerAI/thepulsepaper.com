@@ -23,6 +23,7 @@ export default defineConfig({
       customPages: [
         ...publicHtmlPages('editions'),
         ...publicHtmlPages('specials'),
+        ...publicHtmlPages('signals'),
       ],
     }),
     mdx(),

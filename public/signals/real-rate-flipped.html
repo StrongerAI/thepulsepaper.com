@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FGP81EE698"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FGP81EE698');</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The year Pakistan's real rate flipped | The Pulse Paper</title>
+<meta name="description" content="FY26 opened with a real-rate cushion near seven points and, by May, the cushion was gone. Scroll through the policy rate against inflation, month by month, and watch the moment the Gulf war erased it." />
+<link rel="canonical" href="https://thepulsepaper.com/signals/real-rate-flipped.html" />
+<meta property="og:site_name" content="The Pulse Paper" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="The year Pakistan's real rate flipped | The Pulse Paper" />
+<meta property="og:description" content="FY26 opened with a real-rate cushion near seven points and, by May, the cushion was gone. Scroll through the policy rate against inflation, month by month, and watch the moment the Gulf war erased it." />
+<meta property="og:url" content="https://thepulsepaper.com/signals/real-rate-flipped.html" />
+<meta property="og:image" content="https://thepulsepaper.com/og-default.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The year Pakistan's real rate flipped | The Pulse Paper" />
+<meta name="twitter:description" content="FY26 opened with a real-rate cushion near seven points and, by May, the cushion was gone. Scroll through the policy rate against inflation, month by month, and watch the moment the Gulf war erased it." />
+<meta name="twitter:image" content="https://thepulsepaper.com/og-default.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Libre+Baskerville:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fafaf8;--ink:#1a1a1a;--mut:#6b6560;--grid:#e3ddd3;--card:#ffffff;--line:#d5cec6;
+    --accent:#c0392b;--rate:#1f4e8c;--infl:#b5650a;--neg:var(--accent);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased}
+  .header-bar{max-width:680px;margin:0 auto;padding:40px 24px 14px;display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink)}
+  .brand{font-family:'Libre Baskerville',Georgia,serif;font-size:24px;color:var(--accent);text-decoration:none;letter-spacing:-0.3px}
+  .crumb{font-family:'IBM Plex Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mut);text-decoration:none;font-weight:600}
+  .crumb:hover{color:var(--ink)}
+  .prose{max-width:680px;margin:0 auto;padding:0 24px}
+  .scrolly+.prose{margin-top:64px}
+  .dateline{color:var(--mut);font-size:13px;letter-spacing:.04em;margin:28px 0 14px}
+  h1{font-family:'Source Serif 4',Georgia,serif;font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.08;margin:0 0 20px;letter-spacing:-.01em}
+  .dek{font-size:19px;line-height:1.55;color:var(--mut);margin:0 0 26px;font-weight:500}
+  .prose p{font-size:18px;line-height:1.7;color:var(--ink);margin:0 0 22px}
+  .prose p b{color:var(--ink)}
+  .prose h2{font-family:'Source Serif 4',Georgia,serif;font-weight:700;font-size:22px;margin:36px 0 14px;letter-spacing:-.005em;color:var(--ink)}
+  .hint{color:var(--mut);font-size:14px;border:1px solid var(--line);border-radius:999px;display:inline-block;padding:8px 16px}
+
+  .legend{max-width:680px;margin:0 auto;padding:8px 24px 0;display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+
+  .scrolly{position:relative;margin-top:18px}
+  .stage{position:sticky;top:0;height:88vh;max-height:660px;overflow:hidden;
+    border-top:1px solid var(--grid);border-bottom:1px solid var(--grid)}
+  .axis{position:absolute;inset:0;pointer-events:none;z-index:2}
+  .axis .title{position:absolute;top:16px;left:20px;font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--mut)}
+  .gridline{position:absolute;left:0;right:0;height:1px;background:var(--grid)}
+  .gridlabel{position:absolute;left:18px;transform:translateY(-50%);font-size:13px;color:var(--mut)}
+  .chart-track{position:absolute;top:0;left:0;height:100%;will-change:transform;z-index:1}
+  .chart-track svg{display:block;height:100%}
+  .month{position:absolute;bottom:12px;transform:translateX(-50%);font-size:13px;font-weight:700;color:#c9c9c6;white-space:nowrap}
+  .month.month-year{color:var(--mut)}
+  .note{position:absolute;width:236px;background:var(--card);border:1px solid var(--line);border-radius:4px;
+    padding:13px 15px;box-shadow:0 4px 16px rgba(0,0,0,.12);opacity:0;transform:translateY(6px);transition:opacity .45s ease,transform .45s ease;z-index:3}
+  .note.show{opacity:1;transform:translateY(0)}
+  .note h3{margin:0 0 6px;font-size:15px;line-height:1.2;font-weight:700;color:var(--ink);font-family:'Source Serif 4',Georgia,serif}
+  .note p{margin:0;font-size:13.5px;line-height:1.45;color:var(--mut)}
+  .note .stem{position:absolute;width:1px;background:var(--line)}
+  .pt{position:absolute;font-size:12.5px;font-weight:700;transform:translateX(-50%);opacity:0;transition:opacity .4s}
+  .pt.show{opacity:1}
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:50}
+
+  .sig-footer{max-width:680px;margin:44px auto 0;padding:18px 24px;border-top:2px solid var(--ink);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:11px;color:var(--mut)}
+
+  .sf-bar{position:fixed;right:0;top:50%;transform:translateY(-50%) translateX(100%);z-index:90;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .28s ease,transform .28s ease}
+  .sf-bar.sf-show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
+  .sf-btn{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--line);border-right:none;color:var(--mut);text-decoration:none;cursor:pointer;transition:background .15s,color .15s,border-color .15s;box-shadow:-2px 2px 8px rgba(0,0,0,.07)}
+  .sf-btn+.sf-btn{border-top:none}
+  .sf-btn:first-child{border-radius:4px 0 0 0}
+  .sf-btn:last-child{border-radius:0 0 0 4px}
+  .sf-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .sf-btn svg{flex-shrink:0;pointer-events:none;width:15px!important;height:15px!important;display:block}
+  @media(max-width:640px){.sf-bar{top:auto;bottom:20px;right:0;transform:translateX(100%);flex-direction:row}.sf-bar.sf-show{transform:translateX(0)}.sf-btn{border:1px solid var(--line);border-right:none}.sf-btn+.sf-btn{border-top:none;border-left:none}.sf-btn:first-child{border-radius:4px 0 0 4px}.sf-btn:last-child{border-radius:0 4px 4px 0}}
+
+  @media (prefers-reduced-motion:reduce){.note{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="progress" id="bar"></div>
+
+<header class="header-bar">
+  <a class="brand" href="https://thepulsepaper.com">The Pulse</a>
+  <a class="crumb" href="https://thepulsepaper.com/signals">Signals</a>
+</header>
+
+<div class="prose">
+  <p class="dateline">30 June 2026 · Rates · Inflation · FY26</p>
+  <h1>The year Pakistan's real rate flipped</h1>
+  <p class="dek">FY26 opened with a real-rate cushion near seven points and, by May, the cushion was gone. Scroll through the policy rate against inflation, month by month, and watch the moment the Gulf war erased it.</p>
+  <p>A real interest rate is the policy rate minus inflation. For most of FY26 it stayed comfortably positive — the cushion that let the SBP call its stance tight. Then the Gulf war pushed energy costs through the economy, inflation climbed faster than the bank could move, and the cushion collapsed. The two lines below tell that story in sequence. Scroll to walk the year.</p>
+</div>
+
+<div class="legend">
+  <span><i style="background:var(--rate)"></i>Policy rate</span>
+  <span><i style="background:var(--infl)"></i>CPI inflation, year-on-year</span>
+  <span><i style="background:var(--neg);opacity:.5"></i>Real rate negative</span>
+</div>
+
+<section class="scrolly" id="scrolly">
+  <div class="stage" id="stage">
+    <div class="axis" id="axis"><div class="title">PERCENT</div></div>
+    <div class="chart-track" id="track"></div>
+  </div>
+</section>
+
+<div class="prose">
+  <p>By the most recent confirmed reading, the picture is the one the chart leaves you on: a policy rate held at 11.5%, inflation at 11.7% in May, and a real rate that has already turned negative. The SBP's own guidance points to inflation staying in double digits for months to come, which leaves little room for that gap to close. June was spent celebrating the other half of the story — the ceasefire and the oil crash, which helped extend the equity rally. Both are true at once. The oil relief is real, and it is flowing through the import bill now. The real-rate cushion is gone, or close to it, and that is what governs how fast the SBP can cut in FY27.</p>
+
+  <h2>Why this matters for you</h2>
+  <p>Three channels carry the year into FY27.</p>
+  <p><b>The stock rally is betting on a rate cut the bank may not be able to give.</b> Banks and other rate-sensitive stocks have climbed partly on the expectation of cuts in the second half of FY27. But the SBP has very little room to cut unless inflation falls fast — the cushion that would let it ease into a stubborn print is all but gone. If you hold banks or rate-sensitive stocks, you are betting on that one outcome, not spreading your risk.</p>
+  <p><b>Borrowing in FY27 will not get cheaper as fast as the market hopes.</b> With next to no cushion left, the SBP has little room to cut into a fresh oil or rupee shock without falling further behind. Do not plan next year's financing or budget around a smooth, steady drop in rates. Assume the first cut comes later, and is smaller, than what the rally is pricing in.</p>
+  <p><b>Cheap oil does not mean the rupee is safe.</b> The currency's defence now rests on reserves and capital inflows, not on a comfortable gap between local and global rates. If you carry dollar payables or import goods priced off Gulf oil benchmarks, the case for hedging has changed even though crude has gotten cheaper.</p>
+
+  <p>Treat cheap oil and the lost rate cushion as two separate facts, not one mood. One is helping the current account today. The other limits how much room the SBP has to cut in FY27. The cushion was already wide open at the start of FY26; the final quarter nearly wiped it out. Do not assume the next shock gets met the same way the last one was.</p>
+</div>
+
+<footer class="sig-footer">
+  <span>The Pulse Paper &middot; Signals</span>
+</footer>
+
+<div class="sf-bar" id="sf-bar" aria-label="Share options">
+  <button class="sf-btn" id="sf-copy" title="Copy link" aria-label="Copy link">
+    <svg id="sf-copy-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+  </button>
+  <a class="sf-btn" id="sf-wa" href="#" target="_blank" rel="noopener noreferrer" title="Share on WhatsApp" aria-label="Share on WhatsApp">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+  </a>
+  <a class="sf-btn" id="sf-li" href="#" target="_blank" rel="noopener noreferrer" title="Share on LinkedIn" aria-label="Share on LinkedIn">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+  <a class="sf-btn" id="sf-x" href="#" target="_blank" rel="noopener noreferrer" title="Share on 𝕏" aria-label="Share on X">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+  </a>
+  <a class="sf-btn" id="sf-em" href="#" title="Share via email" aria-label="Share via email">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+  </a>
+</div>
+
+<script>
+/* ---------- data ----------
+   Policy rate: confirmed SBP decisions (10.5% effective 16 Dec 2025; 11.5% effective 27/28 Apr 2026).
+   CPI: official PBS year-on-year national readings, Jul 2025 - May 2026.
+   June 2026 CPI is not yet released as of this writing — the inflation line
+   and the negative-real-rate band intentionally stop at May, the last
+   confirmed print. The policy rate continues through June because the
+   15 June SBP hold is itself confirmed. ---------- */
+const MON =['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'];
+const RATE=[11,11,11,11,11,10.5,10.5,10.5,10.5,11.5,11.5,11.5];
+const INFL=[4.1,3.0,5.6,6.2,6.1,5.6,5.8,7.0,7.3,10.9,11.7];
+const VMIN=3, VMAX=13;
+const EVENTS=[
+  {i:0, s:'infl', t:'FY26 opens below the band', b:"Rate at 11%, inflation at 4.1% — below the SBP's 5 to 7% target floor. The real-rate cushion opens near seven points."},
+  {i:5, s:'rate', t:'The last cut', b:'SBP trims to 10.5% in December with inflation at 5.6%. The final move of the easing cycle, though nobody calls it that yet.'},
+  {i:7, s:'infl', t:'The breakout', b:'Inflation hits the top of the band at 7.0% in February, then breaches it at 7.3% in March — the first breach of the upper bound since October 2024.'},
+  {i:8, s:'rate', t:'War in the Gulf', b:'Conflict disrupts energy supply chains and pressures the Strait of Hormuz. The bank pauses and watches oil.'},
+  {i:9, s:'rate', t:'The U-turn', b:'A surprise 100bps hike to 11.5%, the first increase since 2023, as transport costs surge and petrol runs about 48% above pre-war levels.'},
+  {i:10,s:'infl', t:'The cushion is gone', b:'Inflation hits 11.7%, the highest since June 2024, and climbs above the policy rate. The real rate is now negative.'},
+  {i:11,s:'rate', t:'Ceasefire, and a hold', b:'Oil falls back toward pre-war levels on the US-Iran framework. SBP holds at 11.5%, citing inflation likely to stay in double digits for months to come.'},
+];
+
+const SVGNS='http://www.w3.org/2000/svg';
+const TRACK_W=Math.max(2600,MON.length*230);
+const PAD={l:92,r:460,t:60,b:64};
+const scrolly=document.getElementById('scrolly'),stage=document.getElementById('stage'),
+      track=document.getElementById('track'),axis=document.getElementById('axis'),bar=document.getElementById('bar');
+let vw,vh,panDistance,notes=[],ptlabels=[];
+const X=i=>PAD.l+(i/(MON.length-1))*(TRACK_W-PAD.l-PAD.r);
+const Y=(v,h)=>PAD.t+(VMAX-v)/(VMAX-VMIN)*(h-PAD.t-PAD.b);
+const pp=(pts)=>pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+
+function build(){
+  vh=stage.clientHeight; vw=stage.clientWidth;
+  axis.querySelectorAll('.gridline,.gridlabel').forEach(n=>n.remove());
+  [4,6,8,10,12].forEach(v=>{const yy=Y(v,vh);
+    const l=document.createElement('div');l.className='gridline';l.style.top=yy+'px';axis.appendChild(l);
+    const t=document.createElement('div');t.className='gridlabel';t.style.top=yy+'px';t.textContent=v+'%';axis.appendChild(t);});
+
+  // step path for the policy rate
+  let rate='M '+X(0)+' '+Y(RATE[0],vh);
+  for(let i=1;i<MON.length;i++){rate+=' L '+X(i)+' '+Y(RATE[i-1],vh)+' L '+X(i)+' '+Y(RATE[i],vh);}
+  const inflPts=INFL.map((v,i)=>[X(i),Y(v,vh)]);
+
+  // crossover between Apr (9) and May (10): infl 10.9 -> 11.7 crosses rate 11.5
+  const t=(11.5-INFL[9])/(INFL[10]-INFL[9]);
+  const xcross=X(9)+t*(X(10)-X(9));
+
+  // band stops just past May (the last confirmed CPI print), not at June —
+  // June's reading isn't out yet, so the chart doesn't claim it
+  const bandEnd=X(10)+90;
+
+  let svg=`<svg width="${TRACK_W}" viewBox="0 0 ${TRACK_W} ${vh}" preserveAspectRatio="none">`;
+  // negative-real-rate band
+  svg+=`<rect x="${xcross}" y="${PAD.t}" width="${bandEnd-xcross}" height="${vh-PAD.b-PAD.t}" fill="var(--neg)" opacity="0.13"/>`;
+  svg+=`<text x="${(xcross+bandEnd)/2}" y="${PAD.t+16}" text-anchor="middle" fill="var(--neg)" font-size="12" font-weight="700">Real rate negative</text>`;
+  // month gridlines
+  MON.forEach((m,i)=>{svg+=`<line x1="${X(i)}" y1="${PAD.t-26}" x2="${X(i)}" y2="${vh-44}" stroke="var(--grid)" stroke-dasharray="2 6"/>`;});
+  // lines
+  svg+=`<path d="${rate}" fill="none" stroke="var(--rate)" stroke-width="3" stroke-linejoin="round"/>`;
+  svg+=`<path d="${pp(inflPts)}" fill="none" stroke="var(--infl)" stroke-width="3" stroke-linejoin="round"/>`;
+  svg+=`<text x="${X(11)+12}" y="${Y(RATE[11],vh)+4}" fill="var(--rate)" font-size="12" font-weight="700">Policy rate 11.5%</text>`;
+  svg+=`<text x="${X(10)+12}" y="${Y(INFL[10],vh)-12}" fill="var(--infl)" font-size="12" font-weight="700">Inflation 11.7% (May)</text>`;
+  svg+=`<text x="${X(11)+12}" y="${Y(RATE[11],vh)+22}" fill="var(--mut)" font-size="10.5">Jun CPI not yet released</text>`;
+  // event markers
+  EVENTS.forEach(e=>{const v=e.s==='rate'?RATE[e.i]:INFL[e.i];const col=e.s==='rate'?'var(--rate)':'var(--infl)';
+    svg+=`<circle cx="${X(e.i)}" cy="${Y(v,vh)}" r="5" fill="${col}" stroke="#fff" stroke-width="2"/>`;});
+  svg+=`</svg>`;
+  track.innerHTML=svg;
+
+  // FY26 runs Jul 2025 - Jun 2026, so the axis crosses a calendar-year
+  // boundary at Dec/Jan — label the year at the start and at the turn.
+  const YEAR_AT={0:'2025',6:'2026'};
+  MON.forEach((m,i)=>{const el=document.createElement('div');el.className='month'+(YEAR_AT[i]?' month-year':'');el.style.left=X(i)+'px';
+    el.textContent=YEAR_AT[i]?m+' '+YEAR_AT[i]:m;track.appendChild(el);});
+
+  notes=[];
+  EVENTS.forEach(e=>{const v=e.s==='rate'?RATE[e.i]:INFL[e.i];const px=X(e.i),py=Y(v,vh);
+    const above=py>vh*0.5;const cardY=above?Math.max(16,py-176):Math.min(vh-200,py+34);
+    const cardLeft=Math.min(Math.max(px-118,12),TRACK_W-236-12);
+    const card=document.createElement('div');card.className='note';card.style.left=cardLeft+'px';card.style.top=cardY+'px';
+    card.innerHTML=`<div class="stem"></div><h3>${e.t}</h3><p>${e.b}</p>`;
+    const stem=card.querySelector('.stem');
+    const stemLeft=px-cardLeft;
+    if(above){stem.style.top='100%';stem.style.left=stemLeft+'px';stem.style.height=(py-(cardY+176))+'px';}
+    else{stem.style.bottom='100%';stem.style.left=stemLeft+'px';stem.style.height=(cardY-py)+'px';}
+    track.appendChild(card);notes.push({el:card,anchor:px});});
+
+  panDistance=Math.max(1,TRACK_W-vw);
+  scrolly.style.height=(panDistance+vh)+'px';
+  onScroll();
+}
+
+let ticking=false;
+function onScroll(){
+  const top=scrolly.getBoundingClientRect().top;
+  const scrolled=Math.min(Math.max(-top,0),panDistance);
+  track.style.transform=`translate3d(${-scrolled}px,0,0)`;
+  bar.style.width=(scrolled/panDistance*100)+'%';
+  // Only the event nearest the active line is shown — cards are wide
+  // relative to the spacing between events, so showing more than one
+  // at a time causes them to overlap and clip each other's text.
+  const triggerX=vw*0.4;
+  let nearest=null,nearestDist=Infinity;
+  notes.forEach(n=>{const sx=n.anchor-scrolled,d=Math.abs(sx-triggerX);if(d<nearestDist){nearestDist=d;nearest=n;}});
+  notes.forEach(n=>n.el.classList.toggle('show',n===nearest));
+}
+function raf(){if(!ticking){ticking=true;requestAnimationFrame(()=>{onScroll();ticking=false;});}}
+window.addEventListener('scroll',raf,{passive:true});
+window.addEventListener('resize',build);
+build();
+</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('sf-bar'),wa=document.getElementById('sf-wa'),
+      li=document.getElementById('sf-li'),x=document.getElementById('sf-x'),
+      em=document.getElementById('sf-em'),copy=document.getElementById('sf-copy');
+  if(!bar) return;
+  var url=window.location.href,title=document.title,enc=encodeURIComponent;
+  if(wa) wa.href='https://wa.me/?text='+enc(title+' '+url);
+  if(li) li.href='https://www.linkedin.com/sharing/share-offsite/?url='+enc(url);
+  if(x)  x.href='https://x.com/intent/tweet?url='+enc(url)+'&text='+enc(title);
+  if(em) em.href='mailto:?subject='+enc(title)+'&body='+enc(url);
+  if(copy) copy.addEventListener('click',function(){
+    navigator.clipboard.writeText(url).then(function(){
+      var icon=document.getElementById('sf-copy-icon');
+      if(icon) icon.innerHTML='<polyline points="20 6 9 17 4 12"/>';
+      setTimeout(function(){if(icon) icon.innerHTML='<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>';},2000);
+    });
+  });
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>320) bar.classList.add('sf-show');
+    else bar.classList.remove('sf-show');
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
