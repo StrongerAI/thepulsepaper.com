@@ -95,7 +95,7 @@
 <div class="prose">
   <p class="dateline">30 June 2026 · Rates · Inflation · FY26</p>
   <h1>The year Pakistan's real rate flipped</h1>
-  <p class="dek">FY26 opened with a real-rate cushion near seven points and, by May, the cushion was gone. Scroll through the policy rate against inflation, month by month, and watch the moment the Gulf war erased it.</p>
+  <p class="dek">FY26 (July 2025–June 2026) opened with a real-rate cushion near seven points and, by May, the cushion was gone. Scroll through the policy rate against inflation, month by month, and watch the moment the Gulf war erased it.</p>
   <p>A real interest rate is the policy rate minus inflation. For most of FY26 it stayed comfortably positive — the cushion that let the SBP call its stance tight. Then the Gulf war pushed energy costs through the economy, inflation climbed faster than the bank could move, and the cushion collapsed. The two lines below tell that story in sequence. Scroll to walk the year.</p>
 </div>
 
@@ -216,23 +216,27 @@ function build(){
   svg+=`</svg>`;
   track.innerHTML=svg;
 
-  // FY26 runs Jul 2025 - Jun 2026, so the axis crosses a calendar-year
-  // boundary at Dec/Jan — label the year at the start and at the turn.
-  const YEAR_AT={0:'2025',6:'2026'};
-  MON.forEach((m,i)=>{const el=document.createElement('div');el.className='month'+(YEAR_AT[i]?' month-year':'');el.style.left=X(i)+'px';
-    el.textContent=YEAR_AT[i]?m+' '+YEAR_AT[i]:m;track.appendChild(el);});
+  // Only label the calendar year at Jan — where 2025 flips to 2026.
+  // The fiscal year (Jul 2025-Jun 2026) is explained in the dek text.
+  MON.forEach((m,i)=>{const el=document.createElement('div');el.className='month'+(i===6?' month-year':'');el.style.left=X(i)+'px';
+    el.textContent=i===6?m+' 2026':m;track.appendChild(el);});
 
   notes=[];
   EVENTS.forEach(e=>{const v=e.s==='rate'?RATE[e.i]:INFL[e.i];const px=X(e.i),py=Y(v,vh);
-    const above=py>vh*0.5;const cardY=above?Math.max(16,py-176):Math.min(vh-200,py+34);
-    const cardLeft=Math.min(Math.max(px-118,12),TRACK_W-236-12);
-    const card=document.createElement('div');card.className='note';card.style.left=cardLeft+'px';card.style.top=cardY+'px';
+    const above=py>vh*0.5;
+    const cardLeft=Math.min(Math.max(px-118,PAD.l+16),TRACK_W-236-12);
+    const card=document.createElement('div');card.className='note';card.style.left=cardLeft+'px';card.style.top='0px';
     card.innerHTML=`<div class="stem"></div><h3>${e.t}</h3><p>${e.b}</p>`;
+    // append before measuring so the browser can compute actual rendered height
+    track.appendChild(card);
+    const ch=card.offsetHeight;
+    const cardY=above?Math.max(16,py-ch-24):Math.min(vh-ch-16,py+34);
+    card.style.top=cardY+'px';
     const stem=card.querySelector('.stem');
     const stemLeft=px-cardLeft;
-    if(above){stem.style.top='100%';stem.style.left=stemLeft+'px';stem.style.height=(py-(cardY+176))+'px';}
-    else{stem.style.bottom='100%';stem.style.left=stemLeft+'px';stem.style.height=(cardY-py)+'px';}
-    track.appendChild(card);notes.push({el:card,anchor:px});});
+    if(above){stem.style.top='100%';stem.style.left=stemLeft+'px';stem.style.height=Math.max(0,py-(cardY+ch))+'px';}
+    else{stem.style.bottom='100%';stem.style.left=stemLeft+'px';stem.style.height=Math.max(0,cardY-py)+'px';}
+    notes.push({el:card,anchor:px});});
 
   panDistance=Math.max(1,TRACK_W-vw);
   scrolly.style.height=(panDistance+vh)+'px';
