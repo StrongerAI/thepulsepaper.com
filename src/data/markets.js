@@ -13,17 +13,17 @@
 export const marketsData = {
 
   // -- When this data was last refreshed (auto-updated by the cron) --
-  lastUpdated: "1 July 2026, 12:49 AM PKT",
+  lastUpdated: "1 July 2026, 9:45 AM PKT",
 
   // -- Ticker strip: the 6 headline numbers --
   ticker: [
     // -- AUTO:ticker --
-    { name: "KSE-100", value: "180,302", changePct: "+1.06%", direction: "up", spark: [170600.2, 171021.77, 170190.64, 171175.5, 170478.94, 168953.7, 170330.56, 169427.44, 169703.6, 172399.9, 177039.82, 180392.97, 180511.02, 181398.21, 178922.75, 178471.86, 177692.92, 179571.26, 178414.79, 180301.7] },
-    { name: "Brent", value: "$73.42", changePct: "+0.37%", direction: "up", spark: [72.71, 72.46, 72.63, 73.37, 72.71, 72.97, 72.94, 73.42, 73.18, 74.0, 74.27, 74.96, 75.03, 75.24, 75.73, 75.6, 75.0, 75.06, 75.17, 75.39, 74.83, 74.38, 74.22, 74.08, 74.55, 74.16, 73.46, 72.86, 72.65, 73.05, 73.47, 72.73, 72.81, 72.67, 72.4, 72.65, 72.64, 72.44, 72.8, 73.4, 72.6, 73.25, 73.03, 73.12, 73.19, 73.22, 73.29, 73.21, 72.72, 73.16, 72.73, 73.3, 73.72, 73.04, 73.15, 73.24, 73.29, 73.66, 73.8, 73.97, 74.04, 73.68, 73.75, 73.64, 73.56, 73.51, 73.51, 73.56, 73.89, 73.59, 73.49, 73.33, 73.41, 73.48, 73.69, 74.24, 73.95, 74.42, 74.22, 74.26, 73.94, 73.37, 73.35, 73.16, 73.36, 73.42] },
+    { name: "KSE-100", value: "181,052", changePct: "+0.42%", direction: "up", spark: [170600.2, 171021.77, 170190.64, 171175.5, 170478.94, 168953.7, 170330.56, 169427.44, 169703.6, 172399.9, 177039.82, 180392.97, 180511.02, 181398.21, 178922.75, 178471.86, 177692.92, 179571.26, 178414.79, 180301.7] },
+    { name: "Brent", value: "$73.20", changePct: "+0.38%", direction: "up", spark: [74.08, 74.55, 74.16, 73.46, 72.86, 72.65, 73.05, 73.47, 72.73, 72.81, 72.67, 72.4, 72.65, 72.64, 72.44, 72.8, 73.4, 72.6, 73.25, 73.03, 73.12, 73.19, 73.22, 73.29, 73.21, 72.72, 73.16, 72.73, 73.3, 73.72, 73.04, 73.15, 73.24, 73.29, 73.66, 73.8, 73.97, 74.04, 73.68, 73.75, 73.64, 73.56, 73.51, 73.51, 73.56, 73.89, 73.59, 73.49, 73.33, 73.41, 73.48, 73.69, 74.24, 73.95, 74.42, 74.22, 74.26, 73.94, 73.37, 73.35, 73.16, 73.36, 73.42, 73.37, 73.35, 73.48, 73.51, 73.2, 73.24, 73.26, 73.2] },
     { name: "Dubai Platts", value: "$79.52", changePct: "-22.9%", direction: "down", spark: [] },
-    { name: "Gold", value: "$4,037", changePct: "+0.36%", direction: "up", spark: [4011.8, 4001.6, 3992.7, 4003.5, 4004.9, 4003.4, 3999.5, 3995.3, 4028.2, 4017.5, 4027.6, 4057.5, 4044.0, 4050.2, 4050.4, 4041.6, 4041.6, 4041.4, 4030.2, 4035.1, 4035.9, 4006.0, 4018.6, 4026.8, 4023.2, 4047.2, 4046.4, 4046.1, 4062.8, 4069.8, 4061.0, 4074.0, 4088.7, 4095.7, 4106.3, 4099.9, 4089.6, 4082.2, 4086.2, 4096.3, 4080.8, 4076.7, 4083.9, 4075.8, 4080.8, 4083.2, 4065.7, 4069.0, 4077.0, 4076.3, 4060.9, 4045.8, 4051.1, 4053.3, 4057.8, 4046.4, 4039.5, 4041.5, 4038.4, 4035.3, 4027.8, 4030.4, 4030.5, 4028.4, 4029.4, 4001.3, 3982.7, 3975.8, 3983.8, 3999.2, 3991.1, 4043.5, 4046.3, 4029.0, 4038.0, 4043.9, 4047.5, 4023.9, 4043.9, 4052.0, 4044.2, 4040.3, 4045.5, 4043.6, 4036.4] },
-    { name: "USD/PKR", value: "277.92", changePct: "Flat", direction: "flat", spark: [277.93, 277.93, 277.93, 278.08, 277.89, 278.04, 278.04, 277.87, 277.89, 277.89, 278.04, 277.92, 277.92, 277.92, 277.92, 277.7, 277.92, 277.92, 277.92, 277.92, 278.05, 277.78, 277.78, 277.7, 277.61, 277.61, 277.61, 277.61, 277.92, 277.92, 277.92, 277.92, 277.92, 277.7, 277.92, 277.92, 277.92, 277.92, 277.92, 277.92, 277.92, 277.92, 277.92, 277.7, 277.87, 277.87, 277.9, 277.9, 277.97, 277.97, 278.04, 277.92, 277.92, 277.92, 277.92, 277.8, 277.92, 278.07, 277.93, 277.69, 277.9, 277.72, 277.73, 277.73, 277.73, 277.92, 277.92] },
-    { name: "S&P 500", value: "7,498", changePct: "+0.77%", direction: "up", spark: [7393.15, 7424.61, 7409.55, 7350.28, 7371.24, 7348.06, 7359.9, 7382.93, 7369.73, 7370.2, 7360.66, 7386.58, 7352.54, 7357.17, 7361.98, 7374.04, 7361.52, 7375.14, 7355.99, 7349.41, 7337.81, 7390.62, 7406.85, 7412.32, 7430.68, 7430.54, 7437.76, 7439.26, 7472.21, 7480.84, 7491.12, 7493.2, 7495.77, 7502.52, 7496.29] },
+    { name: "Gold", value: "$3,991", changePct: "-0.79%", direction: "down", spark: [4026.8, 4023.2, 4047.2, 4046.4, 4046.1, 4062.8, 4069.8, 4061.0, 4074.0, 4088.7, 4095.7, 4106.3, 4099.9, 4089.6, 4082.2, 4086.2, 4096.3, 4080.8, 4076.7, 4083.9, 4075.8, 4080.8, 4083.2, 4065.7, 4069.0, 4077.0, 4076.3, 4060.9, 4045.8, 4051.1, 4053.3, 4057.8, 4046.4, 4039.5, 4041.5, 4038.4, 4035.3, 4027.8, 4030.4, 4030.5, 4028.4, 4029.4, 4001.3, 3982.7, 3975.8, 3983.8, 3999.2, 3991.1, 4043.5, 4046.3, 4029.0, 4038.0, 4043.9, 4047.5, 4023.9, 4043.9, 4052.0, 4044.2, 4040.3, 4045.5, 4043.6, 4030.2, 4021.8, 4026.4, 4018.9, 4010.2, 3990.8, 3991.9, 3995.4, 3990.6] },
+    { name: "USD/PKR", value: "278.00", changePct: "Flat", direction: "flat", spark: [277.92, 277.92, 278.05, 277.78, 277.78, 277.7, 277.61, 277.61, 277.61, 277.61, 277.92, 277.92, 277.92, 277.92, 277.92, 277.7, 277.92, 277.92, 277.92, 277.92, 277.92, 277.92, 277.92, 277.92, 277.92, 277.7, 277.87, 277.87, 277.9, 277.9, 277.97, 277.97, 278.04, 277.92, 277.92, 277.92, 277.92, 277.8, 277.92, 278.07, 277.93, 277.69, 277.9, 277.72, 277.73, 277.73, 277.73, 277.92, 277.92, 277.92, 277.92, 277.92, 278.0, 278.0] },
+    { name: "S&P 500", value: "7,499", changePct: "+0.79%", direction: "up", spark: [7393.15, 7424.61, 7409.55, 7350.28, 7371.24, 7348.06, 7359.9, 7382.93, 7369.73, 7370.2, 7360.66, 7386.58, 7352.54, 7357.17, 7361.98, 7374.04, 7361.52, 7375.14, 7355.99, 7349.41, 7337.81, 7390.62, 7406.85, 7412.32, 7430.68, 7430.54, 7437.76, 7439.26, 7472.21, 7480.84, 7491.12, 7493.2, 7495.77, 7502.52, 7496.31] },
     // -- /AUTO:ticker --
   ],
 
@@ -54,7 +54,7 @@ export const marketsData = {
     { date: "12 Jun", value: 172400 },
     { date: "19 Jun", value: 178923 },
     { date: "28 Jun", value: 179571 },
-    { date: "1 Jul", value: 180302 },
+    { date: "1 Jul", value: 181052 },
     // -- /AUTO:kse-history --
   ],
   brentHistory: [
@@ -85,7 +85,7 @@ export const marketsData = {
     { date: "12 Jun", value: 79.55 },
     { date: "19 Jun", value: 80.59 },
     { date: "28 Jun", value: 71.99 },
-    { date: "1 Jul", value: 73.42 },
+    { date: "1 Jul", value: 73.2 },
     // -- /AUTO:brent-history --
   ],
   goldHistory: [
@@ -116,7 +116,7 @@ export const marketsData = {
     { date: "15 Jun", value: 4145.3 },
     { date: "22 Jun", value: 4015.1 },
     { date: "28 Jun", value: 4078.7 },
-    { date: "1 Jul", value: 4036.6 },
+    { date: "1 Jul", value: 3991.0 },
     // -- /AUTO:gold-history --
   ],
   goldLocalHistory: [
@@ -170,7 +170,7 @@ export const marketsData = {
     { date: "15 Jun", value: 278.0 },
     { date: "22 Jun", value: 277.92 },
     { date: "28 Jun", value: 277.92 },
-    { date: "1 Jul", value: 277.92 },
+    { date: "1 Jul", value: 278.0 },
     // -- /AUTO:pkr-history --
   ],
 
@@ -218,16 +218,16 @@ export const marketsData = {
   weekOverWeek: {
     rows: [
       // -- AUTO:wow-rows --
-      { name: "KSE-100", prev: "179,571", current: "180,302", change: "+0.41%", direction: "up" },
-      { name: "Brent crude", prev: "$71.99", current: "$73.42", change: "+1.99%", direction: "up" },
-      { name: "WTI crude", prev: "$69.23", current: "$70.12", change: "+1.29%", direction: "up" },
+      { name: "KSE-100", prev: "179,571", current: "181,052", change: "+0.82%", direction: "up" },
+      { name: "Brent crude", prev: "$71.99", current: "$73.20", change: "+1.68%", direction: "up" },
+      { name: "WTI crude", prev: "$69.23", current: "$69.73", change: "+0.72%", direction: "up" },
       { name: "Dubai Platts", prev: "$103.15", current: "$79.52", change: "-22.9%", direction: "down" },
-      { name: "Gold", prev: "$4,079", current: "$4,036", change: "-1.04%", direction: "down" },
-      { name: "Silver", prev: "$59.22", current: "$59.86", change: "+1.09%", direction: "up" },
-      { name: "Natural Gas", prev: "$3.23", current: "$3.26", change: "+0.87%", direction: "up" },
-      { name: "USD / PKR", prev: "277.70", current: "277.92", change: "+0.08%", direction: "up" },
-      { name: "EUR / USD", prev: "1.1395", current: "1.1421", change: "+0.23%", direction: "up" },
-      { name: "S&P 500", prev: "7,354", current: "7,496", change: "+1.93%", direction: "up" },
+      { name: "Gold", prev: "$4,079", current: "$3,991", change: "-2.16%", direction: "down" },
+      { name: "Silver", prev: "$59.22", current: "$58.21", change: "-1.71%", direction: "down" },
+      { name: "Natural Gas", prev: "$3.23", current: "$3.25", change: "+0.62%", direction: "up" },
+      { name: "USD / PKR", prev: "277.70", current: "278.00", change: "+0.11%", direction: "up" },
+      { name: "EUR / USD", prev: "1.1395", current: "1.1412", change: "+0.15%", direction: "up" },
+      { name: "S&P 500", prev: "7,354", current: "7,499", change: "+1.98%", direction: "up" },
       { name: "Petrol (MS)", prev: "Rs 373.78", current: "Rs 299.50", change: "-Rs 74.28", direction: "down" },
       { name: "Gold 24K (tola)", prev: "Rs 431,500", current: "Rs 431,500", change: "Flat", direction: "flat" },
       { name: "Silver (tola)", prev: "Rs 6,780", current: "Rs 6,780", change: "Flat", direction: "flat" },
@@ -244,29 +244,29 @@ export const marketsData = {
   psx: {
     headline: [
       // -- AUTO:psx-headline --
-      { name: "KSE-100", value: "180,302", change: "+1,887 (+1.06%)", high: "", low: "", direction: "up" },
-      { name: "KSE-30", value: "53,716", change: "+603 (+1.14%)", high: "", low: "", direction: "up" },
-      { name: "KMI-30", value: "257,327", change: "+3,127 (+1.23%)", high: "", low: "", direction: "up" },
-      { name: "All Share", value: "108,939", change: "+959 (+0.89%)", high: "", low: "", direction: "up" },
+      { name: "KSE-100", value: "181,052", change: "+751 (+0.42%)", high: "", low: "", direction: "up" },
+      { name: "KSE-30", value: "53,953", change: "+237 (+0.44%)", high: "", low: "", direction: "up" },
+      { name: "KMI-30", value: "258,484", change: "+1,157 (+0.45%)", high: "", low: "", direction: "up" },
+      { name: "All Share", value: "109,506", change: "+567 (+0.52%)", high: "", low: "", direction: "up" },
     // -- /AUTO:psx-headline --
     ],
     sector: [
       // -- AUTO:psx-sector --
-      { name: "BKTI (Banks)", value: "48,666", change: "+330 (+0.68%)", high: "", low: "", direction: "up" },
-      { name: "OGTI (Oil & Gas)", value: "36,899", change: "+143 (+0.39%)", high: "", low: "", direction: "up" },
-      { name: "ACI (Consumer)", value: "24,437", change: "+143 (+0.59%)", high: "", low: "", direction: "up" },
-      { name: "JSGBKTI", value: "73,348", change: "+329 (+0.45%)", high: "", low: "", direction: "up" },
+      { name: "BKTI (Banks)", value: "48,977", change: "+311 (+0.64%)", high: "", low: "", direction: "up" },
+      { name: "OGTI (Oil & Gas)", value: "36,996", change: "+97 (+0.26%)", high: "", low: "", direction: "up" },
+      { name: "ACI (Consumer)", value: "24,505", change: "+68 (+0.28%)", high: "", low: "", direction: "up" },
+      { name: "JSGBKTI", value: "73,881", change: "+533 (+0.73%)", high: "", low: "", direction: "up" },
     // -- /AUTO:psx-sector --
     ],
     thematic: [
       // -- AUTO:psx-thematic --
-      { name: "KMI All Share", value: "70,784", change: "+608 (+0.87%)", direction: "up" },
-      { name: "PSX Div 20", value: "82,833", change: "+567 (+0.69%)", direction: "up" },
-      { name: "Meezan Pak (MZNPI)", value: "31,762", change: "+431 (+1.38%)", direction: "up" },
-      { name: "MII-30 (Islamic)", value: "23,561", change: "+295 (+1.27%)", direction: "up" },
-      { name: "NIT Gateway", value: "47,702", change: "+684 (+1.45%)", direction: "up" },
-      { name: "NBP Growth", value: "51,679", change: "+573 (+1.12%)", direction: "up" },
-      { name: "JS Momentum", value: "43,147", change: "+373 (+0.87%)", direction: "up" },
+      { name: "KMI All Share", value: "70,998", change: "+214 (+0.30%)", direction: "up" },
+      { name: "PSX Div 20", value: "83,213", change: "+380 (+0.46%)", direction: "up" },
+      { name: "Meezan Pak (MZNPI)", value: "31,902", change: "+140 (+0.44%)", direction: "up" },
+      { name: "MII-30 (Islamic)", value: "23,643", change: "+82 (+0.35%)", direction: "up" },
+      { name: "NIT Gateway", value: "47,878", change: "+176 (+0.37%)", direction: "up" },
+      { name: "NBP Growth", value: "51,904", change: "+226 (+0.44%)", direction: "up" },
+      { name: "JS Momentum", value: "43,508", change: "+361 (+0.84%)", direction: "up" },
     // -- /AUTO:psx-thematic --
     ],
     // -- AUTO:commentary-psx --
@@ -278,11 +278,11 @@ export const marketsData = {
   commodities: {
     rows: [
       // -- AUTO:commodities-rows --
-      { name: "Brent Crude", value: "$73.42", unit: "/bbl", open: "73.65", high: "74.84", low: "72.67" },
-      { name: "WTI Crude Oil", value: "$70.12", unit: "/bbl", open: "70.43", high: "71.60", low: "69.22" },
-      { name: "Natural Gas", value: "$3.2590", unit: "/MMBtu", open: "3.1710", high: "3.3280", low: "3.1590" },
-      { name: "Gold", value: "$4,037", unit: "/oz", open: "4,032", high: "4,078", low: "3,955" },
-      { name: "Silver", value: "$59.86", unit: "/oz", open: "58.77", high: "60.91", low: "57.06" },
+      { name: "Brent Crude", value: "$73.20", unit: "/bbl", open: "73.38", high: "73.52", low: "73.07" },
+      { name: "WTI Crude Oil", value: "$69.72", unit: "/bbl", open: "69.98", high: "70.19", low: "69.67" },
+      { name: "Natural Gas", value: "$3.2510", unit: "/MMBtu", open: "3.2560", high: "3.2590", low: "3.2320" },
+      { name: "Gold", value: "$3,991", unit: "/oz", open: "4,025", high: "4,032", low: "3,983" },
+      { name: "Silver", value: "$58.21", unit: "/oz", open: "59.25", high: "59.34", low: "57.92" },
     // -- /AUTO:commodities-rows --
     ],
     // -- AUTO:commentary-commodities --
@@ -295,22 +295,22 @@ export const marketsData = {
   international: {
     rows: [
       // -- AUTO:international-rows --
-      { name: "Dow Jones", close: "52,286", open: "52,168", range: "52,033 – 52,387", region: "Americas" },
-      { name: "Nasdaq", close: "26,208", open: "25,824", range: "25,808 – 26,231", region: "Americas" },
-      { name: "S&P 500", close: "7,498", open: "7,441", range: "7,438 – 7,508", region: "Americas" },
+      { name: "Dow Jones", close: "52,319", open: "52,168", range: "52,033 – 52,387", region: "Americas" },
+      { name: "Nasdaq", close: "26,214", open: "25,824", range: "25,808 – 26,253", region: "Americas" },
+      { name: "S&P 500", close: "7,499", open: "7,441", range: "7,438 – 7,508", region: "Americas" },
       { name: "CAC 40", close: "8,404", open: "8,378", range: "8,363 – 8,421", region: "Europe" },
       { name: "DAX", close: "24,996", open: "24,815", range: "24,795 – 25,024", region: "Europe" },
       { name: "FTSE 100", close: "10,497", open: "10,484", range: "10,484 – 10,613", region: "Europe" },
       { name: "Stoxx 600", close: "641.73", open: "638.28", range: "638.28 – 643.55", region: "Europe" },
-      { name: "Hang Seng", close: "23,027", open: "22,828", range: "22,784 – 23,183", region: "Asia" },
-      { name: "KOSPI", close: "8,395", open: "8,395", range: "8,395 – 8,395", region: "Asia" },
-      { name: "Nikkei 225", close: "69,468", open: "69,610", range: "67,998 – 69,610", region: "Asia" },
-      { name: "Sensex", close: "76,728", open: "77,055", range: "76,622 – 77,253", region: "Asia" },
-      { name: "Shanghai Comp.", close: "4,074", open: "4,027", range: "3,993 – 4,075", region: "Asia" },
-      { name: "EUR / USD", close: "1.1422", open: "1.1430", range: "1.1387 – 1.1436", region: "Currencies" },
-      { name: "GBP / USD", close: "1.3257", open: "1.3258", range: "1.3214 – 1.3276", region: "Currencies" },
-      { name: "USD / CNY", close: "6.7846", open: "6.7868", range: "6.7702 – 6.7926", region: "Currencies" },
-      { name: "USD / PKR", close: "277.92", open: "", range: "SBP interbank", region: "Currencies", muted: true },
+      { name: "Hang Seng", close: "22,881", open: "23,008", range: "22,685 – 23,087", region: "Asia" },
+      { name: "KOSPI", close: "8,361", open: "8,592", range: "8,143 – 8,620", region: "Asia" },
+      { name: "Nikkei 225", close: "70,640", open: "70,774", range: "70,126 – 71,962", region: "Asia" },
+      { name: "Sensex", close: "76,874", open: "76,545", range: "76,538 – 76,876", region: "Asia" },
+      { name: "Shanghai Comp.", close: "4,139", open: "4,091", range: "4,088 – 4,143", region: "Asia" },
+      { name: "EUR / USD", close: "1.1412", open: "1.1427", range: "1.1405 – 1.1429", region: "Currencies" },
+      { name: "GBP / USD", close: "1.3240", open: "1.3262", range: "1.3232 – 1.3263", region: "Currencies" },
+      { name: "USD / CNY", close: "6.7925", open: "6.7783", range: "6.7765 – 6.7942", region: "Currencies" },
+      { name: "USD / PKR", close: "278.00", open: "", range: "SBP interbank", region: "Currencies", muted: true },
     // -- /AUTO:international-rows --
     ],
     // -- AUTO:commentary-international --
